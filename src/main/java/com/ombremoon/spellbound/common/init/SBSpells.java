@@ -1,18 +1,18 @@
 package com.ombremoon.spellbound.common.init;
 
-import com.ombremoon.spellbound.common.content.spell.deception.PurgeMagicSpell;
-import com.ombremoon.spellbound.common.content.spell.deception.ShadowbondSpell;
-import com.ombremoon.spellbound.common.content.spell.divine.HealingBlossomSpell;
-import com.ombremoon.spellbound.common.content.spell.divine.HealingTouchSpell;
-import com.ombremoon.spellbound.common.content.spell.ruin.fire.SolarRaySpell;
-import com.ombremoon.spellbound.common.content.spell.ruin.ice.ShatteringCrystalSpell;
-import com.ombremoon.spellbound.common.content.spell.ruin.shock.ElectricChargeSpell;
-import com.ombremoon.spellbound.common.content.spell.ruin.shock.StormRiftSpell;
-import com.ombremoon.spellbound.common.content.spell.ruin.shock.StormstrikeSpell;
-import com.ombremoon.spellbound.common.content.spell.summon.WildMushroomSpell;
-import com.ombremoon.spellbound.common.content.spell.transfiguration.MysticArmorSpell;
-import com.ombremoon.spellbound.common.content.spell.transfiguration.ShadowGateSpell;
-import com.ombremoon.spellbound.common.content.spell.transfiguration.StrideSpell;
+import com.ombremoon.spellbound.common.world.spell.deception.PurgeMagicSpell;
+import com.ombremoon.spellbound.common.world.spell.deception.ShadowbondSpell;
+import com.ombremoon.spellbound.common.world.spell.divine.HealingBlossomSpell;
+import com.ombremoon.spellbound.common.world.spell.divine.HealingTouchSpell;
+import com.ombremoon.spellbound.common.world.spell.ruin.fire.SolarRaySpell;
+import com.ombremoon.spellbound.common.world.spell.ruin.ice.ShatteringCrystalSpell;
+import com.ombremoon.spellbound.common.world.spell.ruin.shock.ElectricChargeSpell;
+import com.ombremoon.spellbound.common.world.spell.ruin.shock.StormRiftSpell;
+import com.ombremoon.spellbound.common.world.spell.ruin.shock.StormstrikeSpell;
+import com.ombremoon.spellbound.common.world.spell.summon.WildMushroomSpell;
+import com.ombremoon.spellbound.common.world.spell.transfiguration.MysticArmorSpell;
+import com.ombremoon.spellbound.common.world.spell.transfiguration.ShadowGateSpell;
+import com.ombremoon.spellbound.common.world.spell.transfiguration.StrideSpell;
 import com.ombremoon.spellbound.common.magic.SpellPath;
 import com.ombremoon.spellbound.common.magic.acquisition.bosses.BossFight;
 import com.ombremoon.spellbound.common.magic.acquisition.bosses.BossFights;
@@ -25,7 +25,6 @@ import net.minecraft.resources.ResourceKey;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegistryBuilder;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 

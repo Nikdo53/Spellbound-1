@@ -1,7 +1,6 @@
 package com.ombremoon.spellbound.common.magic.acquisition.transfiguration;
 
-import com.ombremoon.spellbound.common.content.world.multiblock.type.TransfigurationMultiblock;
-import com.ombremoon.spellbound.main.Constants;
+import com.ombremoon.spellbound.common.world.multiblock.type.TransfigurationMultiblock;
 import com.ombremoon.spellbound.main.Keys;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;

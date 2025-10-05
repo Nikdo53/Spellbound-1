@@ -1,6 +1,6 @@
 package com.ombremoon.spellbound.main;
 
-import com.ombremoon.spellbound.common.content.world.multiblock.Multiblock;
+import com.ombremoon.spellbound.common.world.multiblock.Multiblock;
 import com.ombremoon.spellbound.common.magic.acquisition.transfiguration.TransfigurationRitual;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;

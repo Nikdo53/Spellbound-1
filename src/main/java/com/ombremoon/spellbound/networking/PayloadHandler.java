@@ -1,6 +1,6 @@
 package com.ombremoon.spellbound.networking;
 
-import com.ombremoon.spellbound.common.content.world.multiblock.MultiblockHolder;
+import com.ombremoon.spellbound.common.world.multiblock.MultiblockHolder;
 import com.ombremoon.spellbound.common.init.SBData;
 import com.ombremoon.spellbound.common.magic.SpellContext;
 import com.ombremoon.spellbound.common.magic.api.SpellType;

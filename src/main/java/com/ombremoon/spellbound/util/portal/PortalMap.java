@@ -1,12 +1,11 @@
 package com.ombremoon.spellbound.util.portal;
 
-import com.ombremoon.spellbound.common.content.entity.PortalEntity;
+import com.ombremoon.spellbound.common.world.entity.PortalEntity;
 import com.ombremoon.spellbound.networking.PayloadHandler;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;

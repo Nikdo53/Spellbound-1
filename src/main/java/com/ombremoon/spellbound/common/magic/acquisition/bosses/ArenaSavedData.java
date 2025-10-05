@@ -3,13 +3,12 @@ package com.ombremoon.spellbound.common.magic.acquisition.bosses;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.mojang.serialization.Dynamic;
-import com.ombremoon.spellbound.common.content.world.dimension.DimensionCreator;
-import com.ombremoon.spellbound.common.content.world.dimension.DynamicDimensionFactory;
+import com.ombremoon.spellbound.common.world.dimension.DimensionCreator;
+import com.ombremoon.spellbound.common.world.dimension.DynamicDimensionFactory;
 import com.ombremoon.spellbound.main.CommonClass;
 import com.ombremoon.spellbound.main.Constants;
 import com.ombremoon.spellbound.util.SpellUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -39,8 +38,8 @@ public class ArenaSavedData extends SavedData {
 
     //For arena levels
     private final PortalCache portalCache = new PortalCache();
-    public boolean spawnedArena;
-    public boolean fightStarted;
+    private boolean spawnedArena;
+    private boolean fightStarted;
     private ResourceLocation spellLocation;
     private BossFightInstance<?, ?> currentBossFight;
 
@@ -95,7 +94,10 @@ public class ArenaSavedData extends SavedData {
     }
 
     public void spawnArena(ServerLevel level) {
-        DynamicDimensionFactory.spawnArena(level, this.spellLocation);
+        if (DynamicDimensionFactory.spawnArena(level, this.spellLocation)) {
+            this.spawnedArena = true;
+            this.setDirty();
+        }
     }
 
     public void spawnInArena(ServerLevel level, Entity entity) {
@@ -104,8 +106,17 @@ public class ArenaSavedData extends SavedData {
             if (!this.fightStarted) {
                 this.currentBossFight.start(level);
                 this.fightStarted = true;
+                this.setDirty();
             }
         }
+    }
+
+    public boolean spawnedArena() {
+        return this.spawnedArena;
+    }
+
+    public boolean hasFightStarted() {
+        return this.fightStarted;
     }
 
     public void handleBossFightLogic(ServerLevel level) {
@@ -115,6 +126,7 @@ public class ArenaSavedData extends SavedData {
 
     public void endFight() {
         this.currentBossFight = null;
+        this.setDirty();
     }
 
     public void initializeArena(ServerLevel level, Player player, int arenaId, BlockPos portalPos, ResourceKey<Level> portalLevel, ResourceLocation spellLocation, BossFight bossFight) {
@@ -140,6 +152,7 @@ public class ArenaSavedData extends SavedData {
 
     public void cacheClosedArena(UUID owner, int id) {
         this.closedArenas.put(owner, id);
+        this.setDirty();
     }
 
     public void closeCachedArenas(Player player) {
@@ -149,13 +162,16 @@ public class ArenaSavedData extends SavedData {
                 var handler = SpellUtil.getSpellHandler(player);
                 if (entry.getKey().equals(player.getUUID())) {
                     handler.closeArena(id);
+                    this.setDirty();
                     return true;
                 }
                 return false;
             });
 
-            if (arenas.isEmpty())
+            if (arenas.isEmpty()) {
                 this.closedArenas.removeAll(entry.getKey());
+                this.setDirty();
+            }
         }
     }
 
@@ -181,8 +197,8 @@ public class ArenaSavedData extends SavedData {
         tag.putInt("CurrentArenaId", this.arenaId);
 
         tag.putBoolean("SpawnedArena", this.spawnedArena);
-        tag.put("PortalCache", this.portalCache.serializeNBT());
         tag.putBoolean("FightStarted", this.fightStarted);
+        tag.put("PortalCache", this.portalCache.serializeNBT());
         if (this.spellLocation != null) {
             ResourceLocation.CODEC
                     .encodeStart(NbtOps.INSTANCE, this.spellLocation)
@@ -222,8 +238,8 @@ public class ArenaSavedData extends SavedData {
         this.arenaId = nbt.getInt("CurrentArenaId");
 
         this.spawnedArena = nbt.getBoolean("SpawnedArena");
-        this.portalCache.deserializeNBT(nbt);
         this.fightStarted = nbt.getBoolean("FightStarted");
+        this.portalCache.deserializeNBT(nbt);
         if (nbt.contains("ArenaSpell", 10)) {
             ResourceLocation.CODEC
                     .parse(new Dynamic<>(NbtOps.INSTANCE, nbt.get("ArenaSpell")))

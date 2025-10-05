@@ -2,9 +2,9 @@ package com.ombremoon.spellbound.networking.clientbound;
 
 import com.ombremoon.spellbound.client.AnimationHelper;
 import com.ombremoon.spellbound.client.KeyBinds;
-import com.ombremoon.spellbound.common.content.world.hailstorm.HailstormData;
-import com.ombremoon.spellbound.common.content.world.hailstorm.HailstormSavedData;
-import com.ombremoon.spellbound.common.content.world.multiblock.MultiblockManager;
+import com.ombremoon.spellbound.common.world.weather.HailstormData;
+import com.ombremoon.spellbound.common.world.weather.HailstormSavedData;
+import com.ombremoon.spellbound.common.world.multiblock.MultiblockManager;
 import com.ombremoon.spellbound.common.init.SBData;
 import com.ombremoon.spellbound.common.magic.SpellHandler;
 import com.ombremoon.spellbound.common.magic.api.AbstractSpell;

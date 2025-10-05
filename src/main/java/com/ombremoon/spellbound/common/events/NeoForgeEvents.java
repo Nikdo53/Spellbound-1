@@ -3,21 +3,19 @@ package com.ombremoon.spellbound.common.events;
 import com.mojang.brigadier.CommandDispatcher;
 import com.ombremoon.sentinellib.common.event.RegisterPlayerSentinelBoxEvent;
 import com.ombremoon.spellbound.client.event.SpellCastEvents;
-import com.ombremoon.spellbound.common.content.commands.LearnSkillsCommand;
-import com.ombremoon.spellbound.common.content.commands.LearnSpellCommand;
-import com.ombremoon.spellbound.common.content.commands.SpellboundCommand;
-import com.ombremoon.spellbound.common.content.entity.ISpellEntity;
-import com.ombremoon.spellbound.common.content.spell.ruin.fire.SolarRaySpell;
-import com.ombremoon.spellbound.common.content.world.dimension.DimensionCreator;
-import com.ombremoon.spellbound.common.content.world.effect.SBEffect;
-import com.ombremoon.spellbound.common.content.world.effect.SBEffectInstance;
-import com.ombremoon.spellbound.common.content.world.hailstorm.HailstormData;
-import com.ombremoon.spellbound.common.content.world.hailstorm.HailstormSavedData;
-import com.ombremoon.spellbound.common.content.world.multiblock.MultiblockManager;
+import com.ombremoon.spellbound.common.world.commands.LearnSkillsCommand;
+import com.ombremoon.spellbound.common.world.commands.LearnSpellCommand;
+import com.ombremoon.spellbound.common.world.commands.SpellboundCommand;
+import com.ombremoon.spellbound.common.world.entity.ISpellEntity;
+import com.ombremoon.spellbound.common.world.spell.ruin.fire.SolarRaySpell;
+import com.ombremoon.spellbound.common.world.effect.SBEffect;
+import com.ombremoon.spellbound.common.world.effect.SBEffectInstance;
+import com.ombremoon.spellbound.common.world.weather.HailstormData;
+import com.ombremoon.spellbound.common.world.weather.HailstormSavedData;
+import com.ombremoon.spellbound.common.world.multiblock.MultiblockManager;
 import com.ombremoon.spellbound.common.events.custom.MobEffectEvent;
 import com.ombremoon.spellbound.common.init.*;
 import com.ombremoon.spellbound.common.magic.EffectManager;
-import com.ombremoon.spellbound.common.magic.acquisition.bosses.PortalCache;
 import com.ombremoon.spellbound.common.magic.acquisition.bosses.ArenaSavedData;
 import com.ombremoon.spellbound.common.magic.acquisition.transfiguration.RitualSavedData;
 import com.ombremoon.spellbound.common.magic.api.AbstractSpell;
@@ -199,9 +197,9 @@ public class NeoForgeEvents {
             if (ArenaSavedData.isArena(serverLevel)) {
                 ArenaSavedData arenaData = ArenaSavedData.get(serverLevel);
                 var bossFight = arenaData.getCurrentBossFight();
-                if (!arenaData.spawnedArena) {
+                if (!arenaData.spawnedArena()) {
                     arenaData.spawnArena(serverLevel);
-                } else if (bossFight != null && arenaData.fightStarted) {
+                } else if (bossFight != null && arenaData.hasFightStarted()) {
                     arenaData.handleBossFightLogic(serverLevel);
                 }
             }

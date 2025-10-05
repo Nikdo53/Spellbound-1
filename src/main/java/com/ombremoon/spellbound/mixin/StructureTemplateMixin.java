@@ -2,7 +2,7 @@ package com.ombremoon.spellbound.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
-import com.ombremoon.spellbound.common.content.block.ExtendedBlock;
+import com.ombremoon.spellbound.common.world.block.ExtendedBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ServerLevelAccessor;

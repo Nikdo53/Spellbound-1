@@ -7,8 +7,8 @@ import com.ombremoon.spellbound.client.particle.EffectCache;
 import com.ombremoon.spellbound.client.renderer.layer.GenericSpellLayer;
 import com.ombremoon.spellbound.client.renderer.layer.SpellLayerModel;
 import com.ombremoon.spellbound.client.renderer.layer.SpellLayerRenderer;
-import com.ombremoon.spellbound.common.content.entity.FXEmitter;
-import com.ombremoon.spellbound.common.content.entity.ISpellEntity;
+import com.ombremoon.spellbound.common.world.entity.FXEmitter;
+import com.ombremoon.spellbound.common.world.entity.ISpellEntity;
 import com.ombremoon.spellbound.common.events.EventFactory;
 import com.ombremoon.spellbound.common.init.*;
 import com.ombremoon.spellbound.common.magic.SpellContext;
@@ -342,7 +342,7 @@ public abstract class AbstractSpell implements GeoAnimatable, SpellDataHolder, F
      * Returns the {@link SpellContext} for the spell
      * @return The casting specific spells context
      */
-    public final @Nullable SpellContext getContext() {
+    public final SpellContext getContext() {
         return this.context;
     }
 
@@ -977,7 +977,7 @@ public abstract class AbstractSpell implements GeoAnimatable, SpellDataHolder, F
      * @param entity The entity
      * @return If the living entity is the caster
      */
-    protected boolean isCaster(@NotNull Entity entity) {
+    public boolean isCaster(@NotNull Entity entity) {
         return entity.is(this.caster);
     }
 
