@@ -8,13 +8,16 @@ import com.ombremoon.spellbound.common.events.custom.ModifySpellTradesEvent;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.Util;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.Brain;
@@ -23,6 +26,7 @@ import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.portal.DimensionTransition;
 import net.neoforged.neoforge.common.NeoForge;
 import net.tslat.smartbrainlib.api.SmartBrainOwner;
 import net.tslat.smartbrainlib.api.core.SmartBrainProvider;
@@ -113,6 +117,17 @@ public abstract class SBMerchant extends SBLivingEntity implements Merchant {
     }
 
     @Override
+    public boolean canBeLeashed() {
+        return false;
+    }
+
+    @Override
+    public @Nullable Entity changeDimension(DimensionTransition transition) {
+        this.stopTrading();
+        return super.changeDimension(transition);
+    }
+
+    @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         postTradesEvent();
@@ -159,7 +174,7 @@ public abstract class SBMerchant extends SBLivingEntity implements Merchant {
      * Check for if the merchant is currently trading with a player
      * @return true if actively trading, false otherwise
      */
-    private boolean isTrading() {
+    public boolean isTrading() {
         return tradingPlayer != null;
     }
 
@@ -172,10 +187,14 @@ public abstract class SBMerchant extends SBLivingEntity implements Merchant {
         this.openTradingScreen(player, this.getDisplayName(), 1);
     }
 
+    protected void stopTrading() {
+        this.setTradingPlayer(null);
+    }
+
     @Override
     public void die(DamageSource damageSource) {
         super.die(damageSource);
-        this.setTradingPlayer(null);
+        this.stopTrading();
     }
 
     @Override
@@ -206,6 +225,15 @@ public abstract class SBMerchant extends SBLivingEntity implements Merchant {
     @Override
     public void overrideXp(int i) {
     }
+
+    @Override
+    public void notifyTrade(MerchantOffer merchantOffer) {
+        merchantOffer.increaseUses();
+        this.ambientSoundTime = -this.getAmbientSoundInterval();
+        this.rewardTradeXp(merchantOffer);
+    }
+
+    protected abstract void rewardTradeXp(MerchantOffer offer);
 
     @Override
     public boolean showProgressBar() {

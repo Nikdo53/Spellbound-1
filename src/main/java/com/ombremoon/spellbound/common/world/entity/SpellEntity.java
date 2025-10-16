@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -38,6 +39,7 @@ public abstract class SpellEntity<T extends AbstractSpell> extends Entity implem
     protected T spell;
     protected SpellHandler handler;
     protected SkillHolder skills;
+    private boolean isSpellCast;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final EffectCache effectCache = new EffectCache();
 
@@ -51,7 +53,8 @@ public abstract class SpellEntity<T extends AbstractSpell> extends Entity implem
     }
 
     protected boolean isOwner(LivingEntity entity) {
-        return getOwner() != null && getOwner().is(entity);
+        Entity owner = this.getOwner();
+        return owner != null && owner.is(entity);
     }
 
     @Override
@@ -64,20 +67,20 @@ public abstract class SpellEntity<T extends AbstractSpell> extends Entity implem
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag compound) {
-
+    protected void addAdditionalSaveData(CompoundTag compound) {
+        compound.putBoolean("isSpellCast", this.isSpellCast);
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag compound) {
-
+    protected void readAdditionalSaveData(CompoundTag compound) {
+        this.isSpellCast = compound.getBoolean("isSpellCast");
     }
 
     @Override
     public void tick() {
         super.tick();
         if (!this.level().isClientSide) {
-            if (!this.hasOwner() || (this.isEnding() && this.tickCount >= this.getEndTick())/* || (this.isInitialized() && this.spell != null && this.spell.isInactive)*/)
+            if (this.getOwner() != null && !this.hasOwner() || this.isEnding() && this.tickCount >= this.getEndTick() || this.isSpellCast() && this.requiresSpellToPersist() && (this.spell == null || this.spell.isInactive))
                 discard();
 
             if (this.spell != null)
@@ -105,14 +108,14 @@ public abstract class SpellEntity<T extends AbstractSpell> extends Entity implem
 
     @Override
     public boolean isSpellCast() {
-        return this.handler != null;
+        return this.isSpellCast;
     }
 
     @Override
     public void onAddedToLevel() {
-        if (this.getOwner() instanceof LivingEntity livingEntity ) {
-            this.handler = SpellUtil.getSpellHandler(livingEntity);
-            this.skills = SpellUtil.getSkills(livingEntity);
+        if (this.getOwner() instanceof Player player /*or instanceof SpellCaster*/) {
+            this.handler = SpellUtil.getSpellHandler(player);
+            this.skills = SpellUtil.getSkills(player);
         }
         super.onAddedToLevel();
     }
@@ -136,6 +139,7 @@ public abstract class SpellEntity<T extends AbstractSpell> extends Entity implem
         this.spell = (T) spell;
         this.setSpellType(spell.spellType());
         this.setSpellId(spell.getId());
+        this.isSpellCast = true;
     }
 
     public SpellType<T> getSpellType(){

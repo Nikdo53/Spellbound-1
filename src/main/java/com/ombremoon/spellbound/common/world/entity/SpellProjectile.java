@@ -7,6 +7,7 @@ import com.ombremoon.spellbound.common.magic.api.SpellType;
 import com.ombremoon.spellbound.common.magic.api.AbstractSpell;
 import com.ombremoon.spellbound.common.magic.skills.SkillHolder;
 import com.ombremoon.spellbound.util.SpellUtil;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -38,6 +39,7 @@ public abstract class SpellProjectile<T extends AbstractSpell> extends Projectil
     protected T spell;
     protected SpellHandler handler;
     protected SkillHolder skills;
+    private boolean isSpellCast;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final EffectCache effectCache = new EffectCache();
 
@@ -48,6 +50,18 @@ public abstract class SpellProjectile<T extends AbstractSpell> extends Projectil
     @Override
     protected double getDefaultGravity() {
         return 0.06;
+    }
+
+    @Override
+    protected void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putBoolean("isSpellCast", this.isSpellCast);
+    }
+
+    @Override
+    protected void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.isSpellCast = compound.getBoolean("isSpellCast");
     }
 
     @Override
@@ -105,7 +119,7 @@ public abstract class SpellProjectile<T extends AbstractSpell> extends Projectil
 
     @Override
     public boolean isSpellCast() {
-        return this.handler != null;
+        return this.isSpellCast;
     }
 
     @Override
@@ -136,6 +150,7 @@ public abstract class SpellProjectile<T extends AbstractSpell> extends Projectil
         this.spell = (T) spell;
         this.setSpellType(spell.spellType());
         this.setSpellId(spell.getId());
+        this.isSpellCast = true;
     }
 
     public SpellType<T> getSpellType(){

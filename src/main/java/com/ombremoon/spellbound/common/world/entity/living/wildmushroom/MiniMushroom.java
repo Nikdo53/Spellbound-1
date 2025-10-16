@@ -2,6 +2,7 @@ package com.ombremoon.spellbound.common.world.entity.living.wildmushroom;
 
 import com.ombremoon.spellbound.client.particle.EffectBuilder;
 import com.ombremoon.spellbound.common.init.SBTags;
+import com.ombremoon.spellbound.common.magic.api.AbstractSpell;
 import com.ombremoon.spellbound.common.world.entity.SBLivingEntity;
 import com.ombremoon.spellbound.common.world.entity.behavior.attack.MushroomExplosion;
 import com.ombremoon.spellbound.common.world.entity.behavior.move.FollowSummoner;
@@ -20,10 +21,12 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -124,6 +127,11 @@ public class MiniMushroom extends LivingMushroom {
     }
 
     @Override
+    public boolean hurt(DamageSource source, float amount) {
+        return this.isDazed() && source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) || super.hurt(source, amount);
+    }
+
+    @Override
     protected void tickDeath() {
         if (!this.level().isClientSide() && !this.isRemoved()) {
             this.level().broadcastEntityEvent(this, (byte) 60);
@@ -137,7 +145,7 @@ public class MiniMushroom extends LivingMushroom {
             if (!this.isSpellCast()
                     && this.getOwner() instanceof GiantMushroom mushroom
                     && mushroom.getPhase() == 2
-                    && damageSource.is(SBTags.DamageTypes.SPELL_DAMAGE)) {
+                    && AbstractSpell.isSpellDamage(damageSource)) {
                 this.setDazed(true);
                 this.setHealth(4.0F);
                 return;
@@ -214,7 +222,7 @@ public class MiniMushroom extends LivingMushroom {
     @Override
     public BrainActivityGroup<? extends SBLivingEntity> getFightTasks() {
         return BrainActivityGroup.fightTasks(
-                new ExtendedInvalidateAttackTarget<MiniMushroom>()
+                new InvalidateAttackTarget<MiniMushroom>()
                         .invalidateIf((miniMushroom, livingEntity) -> miniMushroom.isDazed()),
                 new SetWalkTargetToAttackTarget<>()
                         .speedMod((miniMushroom, livingEntity) -> 1.5F),

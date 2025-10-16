@@ -1,19 +1,24 @@
 package com.ombremoon.spellbound.common.world.entity;
 
 import com.ombremoon.spellbound.client.particle.EffectCache;
+import com.ombremoon.spellbound.common.init.SBAttributes;
 import com.ombremoon.spellbound.common.magic.SpellMastery;
+import com.ombremoon.spellbound.util.EntityUtil;
 import com.ombremoon.spellbound.util.Loggable;
 import com.ombremoon.spellbound.util.SpellUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.Tags;
 import net.tslat.smartbrainlib.api.SmartBrainOwner;
 import net.tslat.smartbrainlib.api.core.SmartBrainProvider;
@@ -36,12 +41,28 @@ public abstract class SBLivingEntity extends PathfinderMob implements SmartBrain
     }
 
     public static AttributeSupplier.Builder createBossAttributes() {
-        return Mob.createMobAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
+        return createMagicEntityAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
+    }
+
+    public static AttributeSupplier.Builder createMagicEntityAttributes() {
+        return Mob.createMobAttributes()
+                .add(SBAttributes.MAGIC_RESIST, 0.1)
+                .add(SBAttributes.FIRE_SPELL_RESIST)
+                .add(SBAttributes.FROST_SPELL_RESIST)
+                .add(SBAttributes.SHOCK_SPELL_RESIST);
     }
 
     @Override
     protected Brain.Provider<?> brainProvider() {
         return new SmartBrainProvider<>(this);
+    }
+
+    public boolean isFacingTarget(Entity target) {
+        Vec3 sourceLocation = target.position();
+        Vec3 viewVector = this.getViewVector(1.0F);
+        viewVector = viewVector.subtract(0.0, viewVector.y, 0.0).normalize();
+        Vec3 toSourceLocation = sourceLocation.subtract(this.position()).normalize();
+        return toSourceLocation.dot(viewVector) > 0.0;
     }
 
     @Override
@@ -103,7 +124,7 @@ public abstract class SBLivingEntity extends PathfinderMob implements SmartBrain
     }
 
     protected boolean isBoss() {
-        return this.getType().is(Tags.EntityTypes.BOSSES);
+        return EntityUtil.isBoss(this);
     }
 
     protected SpellMastery getBossLevel() {

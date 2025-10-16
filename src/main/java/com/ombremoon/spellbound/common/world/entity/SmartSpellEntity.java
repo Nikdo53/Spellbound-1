@@ -8,6 +8,7 @@ import com.ombremoon.spellbound.common.magic.api.SpellType;
 import com.ombremoon.spellbound.common.magic.api.AbstractSpell;
 import com.ombremoon.spellbound.common.magic.skills.SkillHolder;
 import com.ombremoon.spellbound.util.SpellUtil;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -38,6 +39,7 @@ public abstract class SmartSpellEntity<T extends AbstractSpell> extends SBLiving
     protected T spell;
     protected SpellHandler handler;
     protected SkillHolder skills;
+    private boolean isSpellCast;
 
     protected SmartSpellEntity(EntityType<? extends PathfinderMob> entityType, Level level) {
         super(entityType, level);
@@ -56,6 +58,18 @@ public abstract class SmartSpellEntity<T extends AbstractSpell> extends SBLiving
     }
 
     @Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putBoolean("isSpellCast", this.isSpellCast);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.isSpellCast = compound.getBoolean("isSpellCast");
+    }
+
+    @Override
     protected void customServerAiStep() {
         tickBrain(this);
     }
@@ -70,6 +84,12 @@ public abstract class SmartSpellEntity<T extends AbstractSpell> extends SBLiving
         return BrainUtils.hasMemory(this, SBMemoryTypes.SUMMON_OWNER.get());
     }
 
+    //Each level above novice, add 20% phy resistance
+    //Novice - mid tier
+    //Apprentice - Needs netherite
+    //Adept - Magic puzzle mechanic
+    //Expert - Requires spell damage
+    //Master - Soulslike
     @Override
     public void tick() {
         super.tick();
@@ -128,7 +148,7 @@ public abstract class SmartSpellEntity<T extends AbstractSpell> extends SBLiving
 
     @Override
     protected float getDamageAfterArmorAbsorb(DamageSource damageSource, float damageAmount) {
-        if (this.isBoss()) {
+        if (this.isBoss() && !AbstractSpell.isSpellDamage(damageSource)) {
             int i = (this.getBossLevel().ordinal() + 1) * 5;
             int j = 25 - i;
             float f = damageAmount * (float)j;
@@ -144,7 +164,7 @@ public abstract class SmartSpellEntity<T extends AbstractSpell> extends SBLiving
 
     @Override
     public boolean isSpellCast() {
-        return this.handler != null;
+        return this.isSpellCast;
     }
 
     @Override
@@ -170,6 +190,7 @@ public abstract class SmartSpellEntity<T extends AbstractSpell> extends SBLiving
         this.spell = (T) spell;
         this.setSpellType(spell.spellType());
         this.setSpellId(spell.getId());
+        this.isSpellCast = true;
     }
 
     public SpellType<T> getSpellType(){

@@ -12,6 +12,7 @@ import com.ombremoon.spellbound.common.magic.api.buff.SpellEventListener;
 import com.ombremoon.spellbound.common.magic.sync.SpellDataKey;
 import com.ombremoon.spellbound.common.magic.sync.SyncedSpellData;
 import com.ombremoon.spellbound.main.CommonClass;
+import com.ombremoon.spellbound.util.EntityUtil;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.core.particles.ParticleTypes;
@@ -49,7 +50,7 @@ public class ShadowbondSpell extends AnimatedSpell {
                             return true;
                         }
                     }
-                    return !context.isRecast() && context.getTarget() instanceof LivingEntity target && !spell.checkForCounterMagic(target) && !target.getType().is(Tags.EntityTypes.BOSSES);
+                    return !context.isRecast() && context.getTarget() instanceof LivingEntity target && !spell.checkForCounterMagic(target) && !EntityUtil.isBoss(target);
                 })
                 .instantCast()
                 .fullRecast()

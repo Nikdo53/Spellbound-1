@@ -9,6 +9,7 @@ import com.ombremoon.spellbound.common.world.spell.summon.WildMushroomSpell;
 import com.ombremoon.spellbound.common.init.SBEntities;
 import com.ombremoon.spellbound.main.CommonClass;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -41,9 +42,14 @@ public class WildMushroom extends SpellEntity<WildMushroomSpell> {
     }
 
     @Override
+    public boolean requiresSpellToPersist() {
+        return false;
+    }
+
+    @Override
     public void tick() {
         super.tick();
-        if (this.spell == null) {
+        if (!this.isSpellCast()) {
             Level level = this.level();
             Entity owner = this.getOwner();
             int phase = this.getPhase();
@@ -64,13 +70,15 @@ public class WildMushroom extends SpellEntity<WildMushroomSpell> {
                 }
             }
 
-            if (!level.isClientSide && this.tickCount % 240 == 0) {
-                if (owner instanceof GiantMushroom mushroom && this.getPhase() >= 2) {
-                    MiniMushroom miniMushroom = new MiniMushroom(level, mushroom);
-                    miniMushroom.setPos(this.position());
-                    level.addFreshEntity(miniMushroom);
+            if (this.tickCount % 240 == 0) {
+                if (!level.isClientSide) {
+                    if (owner instanceof GiantMushroom mushroom && this.getPhase() >= 2) {
+                        MiniMushroom miniMushroom = new MiniMushroom(level, mushroom);
+                        miniMushroom.setPos(this.position());
+                        level.addFreshEntity(miniMushroom);
+                    }
+                    this.discard();
                 }
-                this.discard();
             }
         }
     }

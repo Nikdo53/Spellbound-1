@@ -625,7 +625,7 @@ public abstract class AbstractSpell implements GeoAnimatable, SpellDataHolder, F
         if (!SpellUtil.CAN_ATTACK_ENTITY.test(ownerEntity, targetEntity))
             return false;
 
-        float damageAfterResistance = this.getDamageAfterResistances(ownerEntity, targetEntity, hurtAmount);
+        float damageAfterResistance = this.getDamageAfterResistances(ownerEntity, targetEntity, damageType, hurtAmount);
         boolean flag = targetEntity.hurt(SpellUtil.damageSource(ownerEntity.level(), damageType, ownerEntity, attackEntity), damageAfterResistance);
         if (flag && !ownerEntity.level().isClientSide) {
             targetEntity.setLastHurtByMob(attackEntity instanceof LivingEntity livingEntity ? livingEntity : ownerEntity);
@@ -710,9 +710,11 @@ public abstract class AbstractSpell implements GeoAnimatable, SpellDataHolder, F
      * @param damageAmount The damage amount
      * @return The total damage taken
      */
-    private float getDamageAfterResistances(LivingEntity ownerEntity, LivingEntity targetEntity, float damageAmount) {
-        var effect = SpellUtil.getSpellEffects(targetEntity);
-        return (float) (this.getModifiedDamage(ownerEntity, damageAmount) * (1.0F - effect.getMagicResistance()));
+    private float getDamageAfterResistances(LivingEntity ownerEntity, LivingEntity targetEntity, ResourceKey<DamageType> damageType, float damageAmount) {
+        var effects = SpellUtil.getSpellEffects(targetEntity);
+        float f = (float) (this.getModifiedDamage(ownerEntity, damageAmount) * (1.0F - effects.getMagicResistance()));
+        var effect = effects.getEffectFromDamageType(damageType);
+        return effect != null ? f * (1.0F - effect.getEntityResistance(targetEntity)) : f;
     }
 
     /**

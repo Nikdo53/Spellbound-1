@@ -31,6 +31,11 @@ public class IceMist extends SpellEntity<ShatteringCrystalSpell> {
     }
 
     @Override
+    public boolean requiresSpellToPersist() {
+        return false;
+    }
+
+    @Override
     public void tick() {
         super.tick();
         this.refreshDimensions();

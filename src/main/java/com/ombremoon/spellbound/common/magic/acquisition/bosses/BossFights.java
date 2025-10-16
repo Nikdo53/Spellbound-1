@@ -9,5 +9,5 @@ public class BossFights {
             .spell(CommonClass.customLocation("wild_mushroom"))
             .withBoss(SBEntities.GIANT_MUSHROOM)
             .scanTo(-100, 70, 100)
-            .spawnAt(-35, 65, 35);
+            .spawnAt(-36, 65, 23);
 }

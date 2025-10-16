@@ -23,6 +23,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
+import net.tslat.smartbrainlib.util.RandomUtil;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
@@ -30,6 +31,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class MushroomProjectile extends Projectile implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private boolean primaryProjectile;
 
     public MushroomProjectile(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
@@ -60,9 +62,7 @@ public class MushroomProjectile extends Projectile implements GeoEntity {
         double d1 = this.getY() + vec3.y;
         double d2 = this.getZ() + vec3.z;
         this.updateRotation();
-        if (this.level().getBlockStates(this.getBoundingBox()).noneMatch(BlockBehaviour.BlockStateBase::isAir)) {
-            this.discard();
-        } else if (this.isInWaterOrBubble()) {
+        if (this.isInWaterOrBubble()) {
             this.discard();
         } else {
             this.setDeltaMovement(vec3.scale(0.99F));
@@ -76,15 +76,17 @@ public class MushroomProjectile extends Projectile implements GeoEntity {
         super.onHitEntity(result);
         Level level = this.level();
         if (!level.isClientSide) {
-            if (this.getOwner() instanceof GiantMushroom mushroom) {
-                Entity entity = result.getEntity();
-                DamageSource damagesource = mushroom.spellDamageSource(level);
-                if (entity instanceof LivingEntity livingEntity && mushroom.hurtTarget(livingEntity, damagesource, 6.0F * mushroom.getPhase())) {
-                    livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 60, mushroom.getPhase()));
+            Entity entity = result.getEntity();
+            if (!(entity instanceof MushroomProjectile || entity instanceof WildMushroom)) {
+                if (this.getOwner() instanceof GiantMushroom mushroom) {
+                    DamageSource damagesource = mushroom.spellDamageSource(level);
+                    if (entity instanceof LivingEntity livingEntity && mushroom.hurtTarget(livingEntity, damagesource, 8.0F * mushroom.getPhase())) {
+                        livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 60, mushroom.getPhase()));
+                    }
                 }
-            }
 
-            this.discard();
+                this.discard();
+            }
         }
     }
 
@@ -95,13 +97,36 @@ public class MushroomProjectile extends Projectile implements GeoEntity {
         if (!level.isClientSide) {
             Entity entity = this.getOwner();
             if (entity instanceof GiantMushroom mushroom && result.getDirection() == Direction.UP) {
-                WildMushroom wildMushroom = new WildMushroom(level, mushroom);
-                wildMushroom.setPos(result.getLocation());
-                level.addFreshEntity(wildMushroom);
+                if (mushroom.getPhase() >= 2 && this.isPrimaryProjectile()) {
+                    int numMushrooms = RandomUtil.randomNumberBetween(4, 6);
+                    float x = (float) Math.toDegrees(-2 * Mth.PI / 3);
+                    for (int i = 0; i < numMushrooms; i++) {
+                        MushroomProjectile mushroomProjectile = new MushroomProjectile(level, mushroom);
+                        mushroomProjectile.setPos(result.getLocation());
+                        float y = (float) Math.toDegrees(i * Mth.TWO_PI / numMushrooms);
+                        float f = -Mth.sin(y * 0.017453292F) * Mth.cos(x * 0.017453292F);
+                        float f1 = -Mth.sin(x * 0.017453292F);
+                        float f2 = Mth.cos(y * 0.017453292F) * Mth.cos(x * 0.017453292F);
+                        mushroomProjectile.shoot(f, f1, f2, (float) RandomUtil.randomValueBetween(0.5, 0.75), 1.0F);
+                        level.addFreshEntity(mushroomProjectile);
+                    }
+                } else {
+                    WildMushroom wildMushroom = new WildMushroom(level, mushroom);
+                    wildMushroom.setPos(result.getLocation());
+                    level.addFreshEntity(wildMushroom);
+                }
             }
 
             this.discard();
         }
+    }
+
+    public boolean isPrimaryProjectile() {
+        return this.primaryProjectile;
+    }
+
+    public void setPrimaryProjectile(boolean primaryProjectile) {
+        this.primaryProjectile = primaryProjectile;
     }
 
     @Override

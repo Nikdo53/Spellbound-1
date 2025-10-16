@@ -2,6 +2,7 @@ package com.ombremoon.spellbound.common.world.entity.behavior.target;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.player.Player;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.target.InvalidateAttackTarget;
 import net.tslat.smartbrainlib.util.BrainUtils;
 
@@ -19,5 +20,10 @@ public class ExtendedInvalidateAttackTarget<E extends LivingEntity> extends Inva
             BrainUtils.clearMemory(entity, MemoryModuleType.ATTACK_TARGET);
             BrainUtils.clearMemory(entity, MemoryModuleType.LOOK_TARGET);
         }
+    }
+
+    @Override
+    protected boolean isTargetInvalid(E entity, LivingEntity target) {
+        return super.isTargetInvalid(entity, target) || target instanceof Player player && player.getAbilities().instabuild;
     }
 }

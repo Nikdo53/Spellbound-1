@@ -80,7 +80,7 @@ public class HealingTouchSpell extends AnimatedSpell {
             this.heal(caster, heal);
 
             if (skills.hasSkill(SBSkills.ACCELERATED_GROWTH.value()) && caster instanceof Player player) {
-                player.getFoodData().eat(2, 1.0F);
+                player.getFoodData().eat(1, 1.0F);
             }
 
             if (skills.hasSkill(SBSkills.OVERGROWTH.value()) && this.overgrowthStacks <= 5 && caster.getHealth() >= caster.getMaxHealth()) {
@@ -121,7 +121,8 @@ public class HealingTouchSpell extends AnimatedSpell {
 
     @Override
     protected boolean shouldTickSpellEffect(SpellContext context) {
-        int i = 100 >> context.getSpellLevel() - 1;
+        int level = 5 - context.getSpellLevel();
+        int i = 20 + (level * 5);
         return this.tickCount % i == 0;
     }
 

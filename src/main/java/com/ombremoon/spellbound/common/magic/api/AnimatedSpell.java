@@ -20,7 +20,6 @@ import java.util.function.Predicate;
  * The main class most spells will extend from. Primary utility is to handle spells casting animations.
  */
 public abstract class AnimatedSpell extends AbstractSpell {
-    private static final ResourceLocation HURT_CAST_FAIL = CommonClass.customLocation("hurt_cast_fail");
     private final Function<SpellContext, String> castAnimation;
     private final Function<SpellContext, String> failAnimation;
 
@@ -39,21 +38,10 @@ public abstract class AnimatedSpell extends AbstractSpell {
         super.onCastStart(context);
         Level level = context.getLevel();
         LivingEntity caster = context.getCaster();
-        var handler = context.getSpellHandler();
         String animation = this.castAnimation.apply(context);
         if (!level.isClientSide) {
             if (!animation.isEmpty() && caster instanceof Player player)
                 this.playAnimation(player, animation);
-
-            handler.getListener().addListener(
-                    SpellEventListener.Events.POST_DAMAGE,
-                    HURT_CAST_FAIL,
-                    post -> {
-                        this.resetCast(handler);
-                        if (!animation.isEmpty() && caster instanceof Player player)
-                            this.stopAnimation(player, animation);
-                    }
-            );
         }
     }
 
@@ -62,11 +50,6 @@ public abstract class AnimatedSpell extends AbstractSpell {
         super.onCastReset(context);
         Level level = context.getLevel();
         var handler = context.getSpellHandler();
-        if (!level.isClientSide) {
-            handler.getListener().removeListener(
-                    SpellEventListener.Events.POST_DAMAGE,
-                    HURT_CAST_FAIL);
-        }
 //        context.getSpellHandler().setStationaryTicks(this.getCastTime());
 //        String animation = this.failAnimation.apply(context);
 //        if (!context.getLevel().isClientSide && !animation.isEmpty() && context.getCaster() instanceof Player player)

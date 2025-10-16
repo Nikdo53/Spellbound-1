@@ -178,7 +178,7 @@ public class SBSkills {
     public static final Holder<Skill> SYNTHESIS = registerSkill("synthesis", 50, 200, preReqs(POISON_ESSENCE));
     public static final Holder<Skill> FUNGAL_HARVEST = registerSkill("fungal_harvest", 0, 150, preReqs(NATURES_DOMINANCE));
     public static final Holder<Skill> LIVING_FUNGUS = registerSkill("living_fungus", 0, 200, preReqs(FUNGAL_HARVEST));
-    public static final Holder<Skill> PROLIFERATION = registerSkill("proliferation", 50, 250, preReqs(LIVING_FUNGUS));
+    public static final Holder<Skill> PROLIFERATION = registerSkill("proliferation", 0, 250, preReqs(LIVING_FUNGUS));
 
 
     //Healing Touch

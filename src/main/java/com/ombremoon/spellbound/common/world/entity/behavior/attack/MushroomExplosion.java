@@ -100,11 +100,14 @@ public class MushroomExplosion<E extends LivingMushroom> extends DelayedBehaviou
 
     @Override
     protected void doDelayedAction(E entity) {
+        if (this.target == null)
+            return;
+
         AbstractSpell spell = entity.getSpell();
         boolean flag = spell != null;
         float radius = this.explosionRadius.apply(entity);
         for (LivingEntity target : EntityRetrievalUtil.getEntities(entity, radius, radius, radius, LivingEntity.class, livingEntity -> !livingEntity.isAlliedTo(entity))) {
-            if (flag && spell.hurt(entity, target) || entity.hurtTarget(target, this.explosionDamage.apply(entity))) {
+            if (flag && spell.hurt(entity, target) || entity.hurtTarget(target, entity.spellDamageSource(entity.level()), this.explosionDamage.apply(entity))) {
                 target.addEffect(new MobEffectInstance(MobEffects.POISON, 60));
             }
         }

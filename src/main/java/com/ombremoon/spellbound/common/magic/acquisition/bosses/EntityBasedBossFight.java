@@ -123,7 +123,6 @@ public class EntityBasedBossFight extends BossFight {
         }
 
         public List<Entity> getBosses(ServerLevel level) {
-            Constants.LOG.info("{}", this.bosses);
             return this.bosses.stream().map(level::getEntity).filter(Objects::nonNull).toList();
         }
 

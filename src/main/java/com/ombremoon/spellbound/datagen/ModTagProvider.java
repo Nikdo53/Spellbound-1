@@ -1,10 +1,7 @@
 package com.ombremoon.spellbound.datagen;
 
-import com.ombremoon.spellbound.common.init.SBEntities;
+import com.ombremoon.spellbound.common.init.*;
 import com.ombremoon.spellbound.common.world.multiblock.type.TransfigurationMultiblock;
-import com.ombremoon.spellbound.common.init.SBBlocks;
-import com.ombremoon.spellbound.common.init.SBItems;
-import com.ombremoon.spellbound.common.init.SBTags;
 import com.ombremoon.spellbound.main.Constants;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -13,8 +10,10 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -25,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
+@SuppressWarnings("unchecked")
 public class ModTagProvider {
 
     public static class Items extends TagsProvider<Item> {
@@ -76,6 +76,25 @@ public class ModTagProvider {
         protected void addTags(HolderLookup.Provider provider) {
             this.tag(Tags.EntityTypes.BOSSES)
                     .add(SBEntities.GIANT_MUSHROOM.get());
+        }
+    }
+
+    public static class DamageTypes extends TagsProvider<DamageType> {
+        public DamageTypes(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, @Nullable ExistingFileHelper existingFileHelper) {
+            super(output, Registries.DAMAGE_TYPE, provider, Constants.MOD_ID, existingFileHelper);
+        }
+
+        @Override
+        protected void addTags(HolderLookup.Provider provider) {
+            this.tag(SBTags.DamageTypes.SPELL_DAMAGE)
+                    .add(SBDamageTypes.SB_GENERIC)
+                    .add(SBDamageTypes.RUIN_FIRE)
+                    .add(SBDamageTypes.RUIN_FROST)
+                    .add(SBDamageTypes.RUIN_SHOCK);
+
+            this.tag(SBTags.DamageTypes.SPELL_DAMAGE)
+                    .addTags(Tags.DamageTypes.IS_MAGIC);
+
         }
     }
 }
