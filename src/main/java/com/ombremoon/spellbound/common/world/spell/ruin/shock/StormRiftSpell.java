@@ -13,6 +13,7 @@ import com.ombremoon.spellbound.common.magic.api.buff.ModifierData;
 import com.ombremoon.spellbound.common.magic.api.buff.SkillBuff;
 import com.ombremoon.spellbound.main.CommonClass;
 import com.ombremoon.spellbound.util.EntityUtil;
+import com.ombremoon.spellbound.util.SpellUtil;
 import com.ombremoon.spellbound.util.portal.PortalInfo;
 import com.ombremoon.spellbound.util.portal.PortalMap;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
@@ -42,28 +43,24 @@ public class StormRiftSpell extends AnimatedSpell {
         return createSimpleSpellBuilder(StormRiftSpell.class)
                 .mastery(SpellMastery.MASTER)
                 .manaCost(50)
-                .duration(400)
+                .duration(500)
                 .baseDamage(8)
                 .castCondition((context, spell) -> {
                     Entity entity = context.getTarget();
-                    if (context.hasSkill(SBSkills.IMPLOSION) && entity instanceof StormRift stormRift && stormRift.tickCount >= 100 && context.hasCatalyst(SBItems.STORM_SHARD.get()) && spell.portalMap.containsKey(stormRift.getId()))
+                    if ((context.hasSkill(SBSkills.IMPLOSION) || context.hasSkill(SBSkills.ORBITAL_SHELL)) && entity instanceof StormRift stormRift && stormRift.tickCount >= 100 && context.hasCatalyst(SBItems.STORM_SHARD.get()) && spell.portalMap.containsKey(stormRift.getId()))
                         return true;
-
-                    if (context.hasSkill(SBSkills.ORBITAL_SHELL) && entity instanceof StormRift stormRift && context.hasCatalyst(SBItems.STORM_SHARD.get()) && spell.portalMap.containsKey(stormRift.getId()))
-                        return true;
-
+                    
                     int activePortals = spell.portalMap.size();
-                    BlockPos blockPos = spell.getSpawnPos(50);
-                    if (blockPos == null) return false;
+                    double range = SpellUtil.getCastRange(context.getCaster());
+                    BlockPos blockPos = spell.getSpawnPos(range);
 
-                    if (!context.getLevel().getBlockState(blockPos).isAir()) return false;
                     if (activePortals > 1) {
                         PortalInfo info = spell.portalMap.get(spell.portalMap.getPreviousPortal());
                         double distance = info.position().distanceToSqr(blockPos.getCenter());
-                        return !(distance > 2500);
+                        return distance <= 2500 && spell.hasValidSpawnPos();
                     }
 
-                    return true;
+                    return spell.hasValidSpawnPos();
                 })
                 .fullRecast()
                 .skipEndOnRecast();
@@ -86,18 +83,20 @@ public class StormRiftSpell extends AnimatedSpell {
         Level level = context.getLevel();
         if (!level.isClientSide) {
             Entity entity = context.getTarget();
-            if (context.hasSkill(SBSkills.IMPLOSION) && entity instanceof StormRift stormRift && stormRift.tickCount >= 100 && context.hasCatalyst(SBItems.STORM_SHARD.get()) && this.portalMap.containsKey(stormRift.getId())) {
-                stormRift.implode();
-                context.useCatalyst(SBItems.STORM_SHARD.get());
-                this.portalMap.remove(stormRift.getId());
-                if (portalMap.isEmpty())
-                    endSpell();
-            } else if (context.hasSkill(SBSkills.ORBITAL_SHELL) && entity instanceof StormRift stormRift && context.hasCatalyst(SBItems.STORM_SHARD.get()) && this.portalMap.containsKey(stormRift.getId())) {
-                context.useCatalyst(SBItems.STORM_SHARD.get());
-                stormRift.setCenter(stormRift.getOnPos());
-                stormRift.allowRotation();
-            } else if (!(entity instanceof StormRift)) {
-                StormRift stormRift = this.summonEntity(context, SBEntities.STORM_RIFT.get(), 20, rift -> {
+            if (entity instanceof StormRift stormRift && stormRift.tickCount >= 100 && context.hasCatalyst(SBItems.STORM_SHARD.get()) && this.portalMap.containsKey(stormRift.getId())) {
+                if (context.hasSkill(SBSkills.IMPLOSION)) {
+                    stormRift.implode();
+                    context.useCatalyst(SBItems.STORM_SHARD.get());
+                    this.portalMap.remove(stormRift.getId());
+                    if (portalMap.isEmpty())
+                        endSpell();
+                } else if (context.hasSkill(SBSkills.ORBITAL_SHELL)) {
+                    context.useCatalyst(SBItems.STORM_SHARD.get());
+                    stormRift.setCenter(stormRift.getOnPos());
+                    stormRift.allowRotation();
+                }
+            } else {
+                StormRift stormRift = this.summonEntity(context, SBEntities.STORM_RIFT.get(), rift -> {
                     this.portalMap.createOrShiftPortal(rift, 2, 0, portal -> {
                         if (portal instanceof StormRift shiftedRift) {
                             Entity entity1 = level.getEntity(shiftedRift.getCloudId());

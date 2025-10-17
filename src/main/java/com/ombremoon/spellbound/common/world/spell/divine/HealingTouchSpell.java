@@ -67,23 +67,22 @@ public class HealingTouchSpell extends AnimatedSpell {
     @Override
     protected void onSpellTick(SpellContext context) {
         super.onSpellTick(context);
-        SkillHolder skills = context.getSkills();
         LivingEntity caster = context.getCaster();
         var handler = context.getSpellHandler();
         if (!context.getLevel().isClientSide) {
             double maxMana = caster.getAttribute(SBAttributes.MAX_MANA).getValue();
 
             float heal = 2;
-            if (skills.hasSkill(SBSkills.HEALING_STREAM.value()))
+            if (context.hasSkill(SBSkills.HEALING_STREAM))
                 heal += (float) (maxMana - handler.getMana()) * 0.02f;
 
             this.heal(caster, heal);
 
-            if (skills.hasSkill(SBSkills.ACCELERATED_GROWTH.value()) && caster instanceof Player player) {
+            if (context.hasSkill(SBSkills.ACCELERATED_GROWTH) && caster instanceof Player player) {
                 player.getFoodData().eat(1, 1.0F);
             }
 
-            if (skills.hasSkill(SBSkills.OVERGROWTH.value()) && this.overgrowthStacks <= 5 && caster.getHealth() >= caster.getMaxHealth()) {
+            if (context.hasSkill(SBSkills.OVERGROWTH) && this.overgrowthStacks <= 5 && caster.getHealth() >= caster.getMaxHealth()) {
                 this.removeSkillBuff(caster, SBSkills.OVERGROWTH);
                 this.addSkillBuff(
                         caster,
@@ -96,7 +95,7 @@ public class HealingTouchSpell extends AnimatedSpell {
                 this.overgrowthStacks++;
             }
 
-            if (caster.getHealth() < caster.getMaxHealth() * 0.3) {
+            if (context.hasSkill(SBSkills.OAK_BLESSING) && caster.getHealth() < caster.getMaxHealth() * 0.3) {
                 this.addSkillBuff(
                         caster,
                         SBSkills.OAK_BLESSING,

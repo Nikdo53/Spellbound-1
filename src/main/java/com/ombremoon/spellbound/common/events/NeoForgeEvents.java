@@ -92,7 +92,7 @@ public class NeoForgeEvents {
                     holder.sync();
 
                     var tree = player.getData(SBData.UPGRADE_TREE);
-                    tree.update(player, tree.getUnlockedSkills());
+                    tree.refreshTree(player);
 
                     ArenaSavedData data = ArenaSavedData.get((ServerLevel) level);
                     data.closeCachedArenas(player);

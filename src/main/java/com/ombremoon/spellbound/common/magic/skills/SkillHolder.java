@@ -246,7 +246,7 @@ public class SkillHolder implements INBTSerializable<CompoundTag> {
             for (Skill skill : unlockedSkills.get(spellType)) {
                 if (skill == null) continue;
                 CompoundTag newSkillTag = new CompoundTag();
-                newSkillTag.putString("Skill", skill.getResourceLocation().toString());
+                newSkillTag.putString("Skill", skill.location().toString());
                 savedSkills.add(newSkillTag);
             }
             newTag.put("Skills", savedSkills);

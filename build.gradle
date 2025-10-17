@@ -165,8 +165,8 @@ dependencies {
     runtimeOnly "mezz.jei:jei-1.21.1-neoforge:19.22.1.316"
     compileOnly "dev.emi:emi-neoforge:1.1.22+1.21.1:api"
     runtimeOnly "dev.emi:emi-neoforge:1.1.22+1.21.1"
-    jarJar(implementation("com.lowdragmc.photon:photon-neoforge-1.21.1:2.0.5"))
-    jarJar(implementation("com.lowdragmc.ldlib2:ldlib2-neoforge-1.21.1:2.0.3"))
+    jarJar(implementation("com.lowdragmc.photon:photon-neoforge-1.21.1:2.0.6"))
+    jarJar(implementation("com.lowdragmc.ldlib2:ldlib2-neoforge-1.21.1:2.0.4"))
 }
 
 jarJar.enabled(true)
