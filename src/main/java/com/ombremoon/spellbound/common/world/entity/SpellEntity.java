@@ -69,11 +69,15 @@ public abstract class SpellEntity<T extends AbstractSpell> extends Entity implem
     @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
         compound.putBoolean("isSpellCast", this.isSpellCast);
+        compound.putInt("StartTick", this.getStartTick());
+        compound.putInt("EndTick", this.getEndTick());
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compound) {
         this.isSpellCast = compound.getBoolean("isSpellCast");
+        this.setStartTick(compound.getInt("StartTick"));
+        this.setEndTick(compound.getInt("EndTick"));
     }
 
     @Override

@@ -20,6 +20,10 @@ public class HealingBlossom extends SpellEntity<HealingBlossomSpell> {
     private static final EntityDataAccessor<Boolean> FAST_BLOOMING = SynchedEntityData.defineId(HealingBlossom.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> EMPOWERED = SynchedEntityData.defineId(HealingBlossom.class, EntityDataSerializers.BOOLEAN);
 
+    public HealingBlossom(EntityType<?> entityType, Level level) {
+        super(entityType, level);
+    }
+
     @Override
     public void tick() {
         super.tick();
@@ -51,10 +55,6 @@ public class HealingBlossom extends SpellEntity<HealingBlossomSpell> {
                 );
             }
         }
-    }
-
-    public HealingBlossom(EntityType<?> entityType, Level level) {
-        super(entityType, level);
     }
 
     public void teleportToAroundBlockPos(BlockPos pos) {
