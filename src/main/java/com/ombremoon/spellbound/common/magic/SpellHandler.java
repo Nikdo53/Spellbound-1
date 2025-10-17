@@ -146,8 +146,6 @@ public class SpellHandler implements INBTSerializable<CompoundTag>, Loggable {
         if (this.stationaryTicks > 0)
             this.stationaryTicks--;
 
-        if (!this.isClientSide() && !this.skillBuffs.isEmpty())
-            log(this.skillBuffs);
         this.tickSkillBuffs();
         this.skillHolder.getCooldowns().tick();
     }
@@ -336,6 +334,14 @@ public class SpellHandler implements INBTSerializable<CompoundTag>, Loggable {
      */
     public Collection<AbstractSpell> getActiveSpells() {
         return this.activeSpells.values();
+    }
+
+    /**
+     * Returns a set of all active spell types.
+     * @return The set of active spell types
+     */
+    public Set<SpellType<?>> getActiveSpellTypes() {
+        return this.activeSpells.keySet();
     }
 
     /**
