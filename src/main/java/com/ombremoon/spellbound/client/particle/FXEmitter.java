@@ -18,7 +18,7 @@ public interface FXEmitter {
     }
 
     default void removeFX(ResourceLocation location) {
-        removeFX(location, true);
+        removeFX(location, false);
     }
 
     default void removeFX(ResourceLocation location, boolean removeObjects) {

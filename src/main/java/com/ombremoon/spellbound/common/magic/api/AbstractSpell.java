@@ -34,6 +34,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
@@ -42,10 +43,7 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -904,7 +902,7 @@ public abstract class AbstractSpell implements GeoAnimatable, SpellDataHolder, F
      * @param <T> The type of entity
      */
     public <T extends Entity> T summonEntity(SpellContext context, EntityType<T> entityType, Vec3 spawnPos, Consumer<T> extraData) {
-        Level level = context.getLevel();
+        ServerLevel level = (ServerLevel) context.getLevel();
         LivingEntity caster = context.getCaster();
 
         T summon = entityType.create(level);
@@ -914,6 +912,9 @@ public abstract class AbstractSpell implements GeoAnimatable, SpellDataHolder, F
             summon.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
             summon.setYRot(caster.getYRot());
             extraData.accept(summon);
+            if (summon instanceof Mob mob)
+                mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.MOB_SUMMONED, null);
+
             level.addFreshEntity(summon);
             return summon;
         }

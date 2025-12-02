@@ -32,6 +32,18 @@ public class EffectCache {
         return this.cache.isEmpty();
     }
 
+    public static <T> FXEffectExecutor getFX(T object, ResourceLocation location, Map<T, ? extends List<? extends FXEffectExecutor>> cache) {
+        var list = cache.get(object);
+        if (list != null && !list.isEmpty()) {
+            for (var effect : list) {
+                if (location.equals(effect.getFx().getFxLocation()))
+                    return effect;
+            }
+        }
+
+        return null;
+    }
+
     public void handleFXRemoval() {
         for (var effect : this.cache.values()) {
             removeFX(effect, false);

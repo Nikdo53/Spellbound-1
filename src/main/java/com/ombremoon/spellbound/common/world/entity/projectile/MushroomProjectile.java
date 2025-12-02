@@ -8,10 +8,14 @@ import com.ombremoon.spellbound.common.world.entity.living.wildmushroom.GiantMus
 import com.ombremoon.spellbound.common.world.entity.spell.WildMushroom;
 import com.ombremoon.spellbound.common.world.spell.summon.WildMushroomSpell;
 import com.ombremoon.spellbound.main.CommonClass;
+import com.ombremoon.spellbound.util.SpellUtil;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -21,6 +25,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import net.tslat.smartbrainlib.util.RandomUtil;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -60,7 +65,7 @@ public class MushroomProjectile extends SpellProjectile<WildMushroomSpell> {
 
     @Override
     public void onClientRemoval() {
-        this.removeFX(CommonClass.customLocation("toxic_projectile"), false);
+        this.removeFX(CommonClass.customLocation("toxic_projectile"));
     }
 
     protected double getDefaultGravity() {
@@ -87,12 +92,16 @@ public class MushroomProjectile extends SpellProjectile<WildMushroomSpell> {
                     if (entity instanceof LivingEntity livingEntity && mushroom.hurtTarget(livingEntity, damagesource, 8.0F * mushroom.getPhase())) {
                         livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 60, mushroom.getPhase()));
                     }
+                } else if (entity instanceof LivingEntity livingEntity) {
+                    var reg = level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);
+                    var poison = reg.getHolder(NeoForgeMod.POISON_DAMAGE).orElse(reg.getHolderOrThrow(DamageTypes.MAGIC));
+                    if (livingEntity.hurt(new DamageSource(poison), 4.0F)) {
+                        livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 60));
+                    }
                 }
 
                 this.discard();
             }
-        } else {
-            this.removeFX(CommonClass.customLocation("toxic_projectile"), false);
         }
     }
 
@@ -119,11 +128,13 @@ public class MushroomProjectile extends SpellProjectile<WildMushroomSpell> {
                 } else {
                     WildMushroom wildMushroom = new WildMushroom(level, mushroom);
                     wildMushroom.setPos(result.getLocation());
+                    WildMushroomSpell spell = mushroom.getSpell();
+                    if (spell != null)
+                        wildMushroom.setSpell(mushroom.getSpell());
+
                     level.addFreshEntity(wildMushroom);
                 }
             }
-        } else {
-            this.removeFX(CommonClass.customLocation("toxic_projectile"));
         }
 
         this.discard();

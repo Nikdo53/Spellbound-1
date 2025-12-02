@@ -1,8 +1,11 @@
 package com.ombremoon.spellbound.client.event;
 
+import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
 import com.ombremoon.spellbound.client.AnimationHelper;
+import com.ombremoon.spellbound.client.particle.EffectCache;
 import com.ombremoon.spellbound.common.magic.SpellHandler;
 import com.ombremoon.spellbound.common.magic.api.SpellType;
+import com.ombremoon.spellbound.main.CommonClass;
 import com.ombremoon.spellbound.main.Constants;
 import com.ombremoon.spellbound.client.KeyBinds;
 import com.ombremoon.spellbound.common.magic.EffectManager;
@@ -52,7 +55,7 @@ public class SpellCastEvents {
         Entity entity = event.getEntity();
         if (!(entity instanceof Player player)) return;
 
-        AnimationHelper.tick();
+        AnimationHelper.tick(player);
         var handler = SpellUtil.getSpellHandler(player);
 
         if (!isAbleToSpellCast()) return;

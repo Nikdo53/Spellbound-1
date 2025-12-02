@@ -30,7 +30,7 @@ import java.util.Set;
 import java.util.function.BiPredicate;
 
 public class SpellUtil {
-    public static final BiPredicate<Entity, LivingEntity> CAN_ATTACK_ENTITY = (entity, livingEntity) -> (!livingEntity.isAlliedTo(entity) || livingEntity.is(entity)) && !livingEntity.hasEffect(SBEffects.COUNTER_MAGIC) && !(livingEntity instanceof OwnableEntity ownable && ownable.getOwner() == (entity));
+    public static final BiPredicate<Entity, LivingEntity> CAN_ATTACK_ENTITY = (entity, livingEntity) -> !livingEntity.isAlliedTo(entity) && !livingEntity.is(entity) && !livingEntity.hasEffect(SBEffects.COUNTER_MAGIC) && !(livingEntity instanceof OwnableEntity ownable && ownable.getOwner() == (entity));
     public static final BiPredicate<Entity, LivingEntity> IS_ALLIED = (entity, livingEntity) -> entity != null && livingEntity.isAlliedTo(entity) || (livingEntity instanceof OwnableEntity ownable && ownable.getOwner() == entity);
 
     public static DamageSource damageSource(Level level, ResourceKey<DamageType> damageType, Entity ownerEntity, Entity attackEntity) {

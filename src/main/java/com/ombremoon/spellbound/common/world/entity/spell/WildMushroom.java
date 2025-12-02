@@ -18,6 +18,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -49,16 +50,16 @@ public class WildMushroom extends SpellEntity<WildMushroomSpell> {
     @Override
     public void tick() {
         super.tick();
-        if (!this.isSpellCast()) {
-            Level level = this.level();
-            Entity owner = this.getOwner();
+        Level level = this.level();
+        Entity owner = this.getOwner();
+        if (owner instanceof GiantMushroom mushroom) {
             int phase = this.getPhase();
             int interval = phase == 1 ? 60 : 40;
             if (this.tickCount % interval == 0) {
                 if (!level.isClientSide) {
                     List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(3), livingEntity -> !(livingEntity instanceof MiniMushroom || livingEntity instanceof GiantMushroom));
                     for (LivingEntity livingEntity : entities) {
-                        if (livingEntity.hurt(this.spellDamageSource(level), 8.0F * this.getPhase()) && (phase > 2 || owner instanceof GiantMushroom mush && mush.hasOwner())) {
+                        if (mushroom.hurtTarget(livingEntity, mushroom.spellDamageSource(level), 8.0F * this.getPhase()) && (phase > 2 ||  mushroom.hasOwner())) {
                             livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 60, this.getPhase()));
                         }
                     }
@@ -72,7 +73,7 @@ public class WildMushroom extends SpellEntity<WildMushroomSpell> {
 
             if (this.tickCount % 240 == 0) {
                 if (!level.isClientSide) {
-                    if (owner instanceof GiantMushroom mushroom && this.getPhase() >= 2) {
+                    if (this.getPhase() >= 2) {
                         MiniMushroom miniMushroom = new MiniMushroom(level, mushroom);
                         miniMushroom.setPos(this.position());
                         level.addFreshEntity(miniMushroom);

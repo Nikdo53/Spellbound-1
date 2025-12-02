@@ -8,6 +8,7 @@ import com.ombremoon.spellbound.common.world.entity.SBLivingEntity;
 import com.ombremoon.spellbound.common.world.entity.behavior.attack.MushroomExplosion;
 import com.ombremoon.spellbound.common.world.entity.behavior.sensor.HurtOwnerSensor;
 import com.ombremoon.spellbound.common.world.entity.behavior.sensor.OwnerAttackSenor;
+import com.ombremoon.spellbound.common.world.entity.behavior.target.ExtendedTargetOrRetaliate;
 import com.ombremoon.spellbound.common.world.entity.projectile.MushroomProjectile;
 import com.ombremoon.spellbound.common.world.entity.spell.WildMushroom;
 import com.ombremoon.spellbound.main.CommonClass;
@@ -31,6 +32,7 @@ import net.minecraft.world.BossEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
@@ -280,6 +282,11 @@ public class GiantMushroom extends LivingMushroom implements RangedAttackMob {
     @Override
     public @org.jetbrains.annotations.Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData spawnGroupData) {
         this.setStartPos(this.blockPosition());
+        if (this.hasOwner()) {
+            AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
+            if (health != null)
+                health.setBaseValue(60);
+        }
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
     }
 
@@ -336,16 +343,14 @@ public class GiantMushroom extends LivingMushroom implements RangedAttackMob {
                 new BounceToTarget()
                         .jumpToBlock(GiantMushroom::getStartPos)
                         .startCondition(giantMushroom -> giantMushroom.getPhase() == 2 && !giantMushroom.backAtOrigin)
-                        .whenStopping(giantMushroom -> {
-                            giantMushroom.backAtOrigin = true;
-                        })
+                        .whenStopping(giantMushroom -> giantMushroom.backAtOrigin = true)
         );
     }
 
     @Override
     public BrainActivityGroup<? extends SBLivingEntity> getIdleTasks() {
         return BrainActivityGroup.idleTasks(
-                new TargetOrRetaliate<>()
+                new ExtendedTargetOrRetaliate<>()
                         .useMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER)
 
         );
@@ -446,7 +451,7 @@ public class GiantMushroom extends LivingMushroom implements RangedAttackMob {
     private ExtendedBehaviour<GiantMushroom> newMushroomBounceAttack(ExtendedBehaviour<GiantMushroom> behaviour, Predicate<GiantMushroom> additionalCondition, int attackTicks, int cooldownTicks) {
         return behaviour
                 .stopIf(giantMushroom -> giantMushroom.getPhase() == 2)
-                .startCondition(giantMushroom -> !giantMushroom.isBouncing() && !giantMushroom.isAttacking() && giantMushroom.getPhase() != 2 && additionalCondition.test(giantMushroom))
+                .startCondition(giantMushroom -> !giantMushroom.wasSummoned() && !giantMushroom.isBouncing() && !giantMushroom.isAttacking() && giantMushroom.getPhase() != 2 && additionalCondition.test(giantMushroom))
                 .whenStarting(giantMushroom -> giantMushroom.startAttack(attackTicks))
                 .cooldownFor(giantMushroom -> cooldownTicks);
     }
@@ -682,7 +687,6 @@ public class GiantMushroom extends LivingMushroom implements RangedAttackMob {
         protected void tick(ServerLevel level, GiantMushroom entity, long gameTime) {
             if (!entity.isBouncingAndAirborne()) {
                 super.tick(level, entity, gameTime);
-//                entity.log(gameTime - this.prepareJumpStart > this.jumpTime.apply(entity));
             } else {
                 if (entity.shouldDiscardFriction()) {
                     entity.setDiscardFriction(false);
@@ -713,7 +717,7 @@ public class GiantMushroom extends LivingMushroom implements RangedAttackMob {
 
     static class SurroundTargetWithMushrooms extends DelayedBehaviour<GiantMushroom> {
         private static final MemoryTest MEMORY_REQUIREMENTS = MemoryTest.builder(2).hasMemory(MemoryModuleType.ATTACK_TARGET).noMemory(MemoryModuleType.ATTACK_COOLING_DOWN);
-        private Function<GiantMushroom, UniformInt> numMushroomsSupplier = giantMushroom -> UniformInt.of(5, 8);
+        private Function<GiantMushroom, UniformInt> numMushroomsSupplier = giantMushroom -> UniformInt.of(4, 6);
         private int maxMushrooms;
 
         @Nullable
