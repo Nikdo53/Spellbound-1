@@ -209,7 +209,7 @@ public class SolarRaySpell extends ChanneledSpell {
         super.onSpellStop(context);
         LivingEntity caster = context.getCaster();
         var handler = context.getSpellHandler();
-        handler.setStationaryTicks(20);
+        handler.setStationaryTicks(27);
         removeSkillBuff(caster, SBSkills.OVERPOWER);
         for (SentinelBox box : BOXES) {
             ((ISentinel) caster).removeSentinelInstance(box);

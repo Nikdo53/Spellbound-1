@@ -110,14 +110,14 @@ public abstract class AnimatedSpell extends AbstractSpell {
         public Builder<T> instantCast() {
             this.castAnimation = context -> "instant_cast";
             this.castTime = 5;
-            this.stationaryTicks = 11;
+            this.stationaryTicks = 16;
             return this;
         }
 
         public Builder<T> summonCast() {
             this.castAnimation = context -> "summon";
             this.castTime = 30;
-            this.stationaryTicks = 62;
+            this.stationaryTicks = 60;
             return this;
         }
 

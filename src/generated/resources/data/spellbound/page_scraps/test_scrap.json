@@ -1,0 +1,22 @@
+{
+  "criteria": {
+    "learn_spell": {
+      "conditions": {
+        "spell": {
+          "spell": "spellbound:healing_blossom"
+        }
+      },
+      "trigger": "spellbound:learn_spell"
+    }
+  },
+  "requirements": [
+    [
+      "learn_spell"
+    ]
+  ],
+  "rewards": {
+    "book_scraps": [
+      "spellbound:test_scrap"
+    ]
+  }
+}

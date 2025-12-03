@@ -31,6 +31,9 @@ public abstract class SBLivingEntity extends PathfinderMob implements SmartBrain
     protected static final String MOVEMENT = "Movement";
     private static final EntityDataAccessor<Integer> OWNER_ID = SynchedEntityData.defineId(SBLivingEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BOSS_PHASE = SynchedEntityData.defineId(SBLivingEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> END_TICK = SynchedEntityData.defineId(SBLivingEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> START_TICK = SynchedEntityData.defineId(SBLivingEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> SPAWNED = SynchedEntityData.defineId(SBLivingEntity.class, EntityDataSerializers.BOOLEAN);
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final EffectCache effectCache = new EffectCache();
 
@@ -67,6 +70,10 @@ public abstract class SBLivingEntity extends PathfinderMob implements SmartBrain
     public void aiStep() {
         super.aiStep();
         if (!this.level().isClientSide) {
+            if (!this.hasSpawned() && this.tickCount >= this.getStartTick()) {
+                this.spawn();
+            }
+
             if (this.isBoss()) {
 
             }
@@ -174,6 +181,9 @@ public abstract class SBLivingEntity extends PathfinderMob implements SmartBrain
         super.defineSynchedData(builder);
         builder.define(OWNER_ID, 0);
         builder.define(BOSS_PHASE, 1);
+        builder.define(START_TICK, 0);
+        builder.define(END_TICK, 0);
+        builder.define(SPAWNED, false);
     }
 
     @Override
@@ -201,6 +211,38 @@ public abstract class SBLivingEntity extends PathfinderMob implements SmartBrain
     @Override
     public void onClientRemoval() {
         this.handleFXRemoval();
+    }
+
+    public boolean isStarting() {
+        return this.tickCount <= getStartTick();
+    }
+
+    public int getStartTick() {
+        return this.entityData.get(START_TICK);
+    }
+
+    public void setStartTick(int startTick) {
+        this.entityData.set(START_TICK, startTick);
+    }
+
+    public boolean isEnding() {
+        return getEndTick() > 0;
+    }
+
+    public int getEndTick() {
+        return this.entityData.get(END_TICK);
+    }
+
+    public void setEndTick(int endTick) {
+        this.entityData.set(END_TICK, this.tickCount + endTick);
+    }
+
+    public boolean hasSpawned() {
+        return this.entityData.get(SPAWNED);
+    }
+
+    public void spawn() {
+        this.entityData.set(SPAWNED, true);
     }
 
     public EntityType<?> entityType() {

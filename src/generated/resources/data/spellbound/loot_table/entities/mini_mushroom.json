@@ -37,27 +37,6 @@
             }
           ],
           "name": "minecraft:bone_meal"
-        },
-        {
-          "type": "minecraft:item",
-          "conditions": [
-            {
-              "chance": 1.0,
-              "condition": "minecraft:random_chance"
-            }
-          ],
-          "functions": [
-            {
-              "add": false,
-              "count": 1.0,
-              "function": "minecraft:set_count"
-            },
-            {
-              "function": "spellbound:set_spell",
-              "spellType": "spellbound:wild_mushroom"
-            }
-          ],
-          "name": "spellbound:spell_tome"
         }
       ],
       "rolls": 1.0
