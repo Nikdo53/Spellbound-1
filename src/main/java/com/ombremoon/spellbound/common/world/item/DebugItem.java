@@ -29,7 +29,7 @@ public class DebugItem extends Item implements Loggable {
         var handler = SpellUtil.getSpellHandler(player);
         var skillHandler = SpellUtil.getSkills(player);
         duckDebug(level, player, usedHand, handler, skillHandler);
-        ombreDebug(level, player, usedHand, handler, skillHandler);
+        //ombreDebug(level, player, usedHand, handler, skillHandler);
         return InteractionResultHolder.sidedSuccess(player.getItemInHand(usedHand), level.isClientSide);
     }
 

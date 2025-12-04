@@ -1,6 +1,7 @@
 package com.ombremoon.spellbound.datagen;
 
 import com.ombremoon.spellbound.common.init.SBEntities;
+import com.ombremoon.spellbound.common.init.SBPageScraps;
 import com.ombremoon.spellbound.common.init.SBSpells;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookPage;
 import com.ombremoon.spellbound.datagen.provider.GuideBookProvider;
@@ -98,6 +99,7 @@ public class ModGuideBookProvider extends GuideBookProvider {
                                 .position(20, 40).build(),
                         PageBuilder.Text
                                 .of("guide.ruin.solar_ray.spell_lore")
+                                .setRequiredScrap(SBPageScraps.UNLOCKED_SOLAR_RAY)
                                 .position(0, 60)
                                 .build(),
                         PageBuilder.SpellInfo
