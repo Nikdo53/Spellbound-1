@@ -57,7 +57,7 @@ public class GuideBookScreen extends Screen {
         guiGraphics.blit(this.bookTexture, this.leftPos, this.topPos, 0, 0, WIDTH, HEIGHT, WIDTH, HEIGHT);
 
         for (IPageElement element : pages.get(currentPage).elements()) {
-            ElementRenderDispatcher.renderElement(element, guiGraphics, this.leftPos + 47, this.topPos + 36, mouseX, mouseY, partialTick);
+            ElementRenderDispatcher.renderElement(element, guiGraphics, this.leftPos + 46, this.topPos + 36, mouseX, mouseY, partialTick);
         }
     }
 
