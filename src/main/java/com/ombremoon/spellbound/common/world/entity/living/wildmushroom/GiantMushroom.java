@@ -12,6 +12,7 @@ import com.ombremoon.spellbound.common.world.entity.behavior.target.ExtendedTarg
 import com.ombremoon.spellbound.common.world.entity.projectile.MushroomProjectile;
 import com.ombremoon.spellbound.common.world.entity.spell.WildMushroom;
 import com.ombremoon.spellbound.main.CommonClass;
+import com.ombremoon.spellbound.main.Constants;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -74,7 +75,8 @@ import java.util.function.Predicate;
 //TODO: Make partial recast spells overlap in gui when active OR put a number
 
 public class GiantMushroom extends LivingMushroom implements RangedAttackMob {
-    protected static final String TOSS = "toss";
+    protected static final String ATTACK = "attack";
+    protected static final String BOUNCE = "bounce";
     private static final EntityDataAccessor<BlockPos> START_POS = SynchedEntityData.defineId(GiantMushroom.class, EntityDataSerializers.BLOCK_POS);
     private static final EntityDataAccessor<Boolean> INVINCIBLE = SynchedEntityData.defineId(GiantMushroom.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> BOUNCING = SynchedEntityData.defineId(GiantMushroom.class, EntityDataSerializers.BOOLEAN);
@@ -123,8 +125,10 @@ public class GiantMushroom extends LivingMushroom implements RangedAttackMob {
         Level level = this.level();
         if (!level.isClientSide) {
             if (!this.onGround()) {
-                log(this.tickCount);
                 this.jumpMultiplier = Mth.clamp(this.fallDistance * 0.35F, 3.0F, 22.0F);
+                if (this.isBouncing() && this.getY() - this.yo < -0.4000000059604645F) {
+                    triggerAnim(BOUNCE, "fall");
+                }
             } else if (this.isBouncingAndAirborne() && this.onGround()) {
                 float bounceRadius = 4.0F + 20.0F * this.bounceMultiplier();
                 List<LivingEntity> collidingEntities = level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBox(), livingEntity -> !livingEntity.is(this) && !this.isAlliedTo(livingEntity));
@@ -138,6 +142,7 @@ public class GiantMushroom extends LivingMushroom implements RangedAttackMob {
                 this.setBouncing(false);
                 this.jumpMultiplier = 0.0F;
 
+                triggerAnim(BOUNCE, "land");
                 if (!this.isAttacking())
                     BrainUtils.setForgettableMemory(this, MemoryModuleType.ATTACK_COOLING_DOWN, true, 20);
             }
@@ -147,7 +152,6 @@ public class GiantMushroom extends LivingMushroom implements RangedAttackMob {
                     Vec3 position = this.position();
                     this.addFX(
                             EffectBuilder.Block.of(CommonClass.customLocation("boss_mushroom_explosion"), BlockPos.containing(position.x, position.y, position.z))
-                                    .setScale(3, 3, 3)
                     );
                     this.explosionTimer = 24;
                     this.setExploding(false);
@@ -415,7 +419,7 @@ public class GiantMushroom extends LivingMushroom implements RangedAttackMob {
                                     @Override
                                     protected void start(GiantMushroom entity) {
                                         super.start(entity);
-                                        entity.triggerAnim(TOSS, "shroom_toss");
+                                        entity.triggerAnim(ATTACK, "shroom_toss");
                                     }
                                 }
                                         .attackInterval(giantMushroom -> 37)
@@ -470,18 +474,26 @@ public class GiantMushroom extends LivingMushroom implements RangedAttackMob {
         controllers.add(new AnimationController<>(this, MOVEMENT, 7, this::giantMushroomController));
         controllers.add(new AnimationController<>(this, EXPLOSION, 0, state -> PlayState.STOP)
                 .triggerableAnim("explode", RawAnimation.begin().thenPlay("explode")));
-        controllers.add(new AnimationController<>(this, TOSS, 0, state -> PlayState.STOP)
-                .triggerableAnim("shroom_toss", RawAnimation.begin().thenPlay("shroom_toss")));
+        controllers.add(new AnimationController<>(this, BOUNCE, 0, state -> PlayState.STOP)
+                .triggerableAnim("jump", RawAnimation.begin().thenPlayAndHold("jump_start"))
+                .triggerableAnim("fall", RawAnimation.begin().thenPlay("jump_fall_transition").thenLoop("falling_idle"))
+                .triggerableAnim("land", RawAnimation.begin().thenPlay("jump_land")));
+        controllers.add(new AnimationController<>(this, ATTACK, 0, state -> PlayState.STOP)
+                .triggerableAnim("shroom_toss", RawAnimation.begin().thenPlay("shroom_toss"))
+                .triggerableAnim("raise", RawAnimation.begin().thenPlay("root_raise")));
     }
 
     protected <T extends GeoAnimatable> PlayState giantMushroomController(AnimationState<T> data) {
-        if (this.isStarting() && !this.hasSpawned()) {
-            data.setAnimation(RawAnimation.begin().thenPlay("spawn"));
-        } else if (this.isBouncing()) {
-            data.setAnimation(RawAnimation.begin().thenPlay("jump_attack"));
-        } else {
-            data.setAnimation(RawAnimation.begin().thenLoop("idle"));
+        if (!this.isBouncing()) {
+            if (this.isStarting() && !this.hasSpawned()) {
+                data.setAnimation(RawAnimation.begin().thenPlay("spawn"));
+            } else if (this.isDeadOrDying()) {
+                data.setAnimation(RawAnimation.begin().thenPlay("death"));
+            } else {
+                data.setAnimation(RawAnimation.begin().thenLoop("idle"));
+            }
         }
+
         return PlayState.CONTINUE;
     }
 
@@ -580,6 +592,10 @@ public class GiantMushroom extends LivingMushroom implements RangedAttackMob {
                     entity.aboutToBounce = false;
                 } else {
                     this.pickCandidate(entity, gameTime);
+                }
+
+                if (gameTime - this.prepareJumpStart == 23) {
+                    entity.triggerAnim(BOUNCE, "jump");
                 }
             }
         }
@@ -704,6 +720,9 @@ public class GiantMushroom extends LivingMushroom implements RangedAttackMob {
         protected void tick(ServerLevel level, GiantMushroom entity, long gameTime) {
             if (!entity.isBouncingAndAirborne()) {
                 super.tick(level, entity, gameTime);
+                if (gameTime - this.prepareJumpStart == 3) {
+                    entity.triggerAnim(BOUNCE, "jump");
+                }
             } else {
                 if (entity.shouldDiscardFriction()) {
                     entity.setDiscardFriction(false);
@@ -766,6 +785,7 @@ public class GiantMushroom extends LivingMushroom implements RangedAttackMob {
         protected void start(GiantMushroom entity) {
             super.start(entity);
             this.maxMushrooms = this.numMushroomsSupplier.apply(entity).sample(entity.random);
+            entity.triggerAnim(ATTACK, "raise");
         }
 
         @Override

@@ -194,6 +194,7 @@ public abstract class SBLivingEntity extends PathfinderMob implements SmartBrain
             compound.putInt("SpellboundOwner", this.getOwner().getId());
 
         compound.putInt("BossPhase", this.getPhase());
+        compound.putBoolean("Spawned", this.hasSpawned());
     }
 
     @Override
@@ -201,6 +202,7 @@ public abstract class SBLivingEntity extends PathfinderMob implements SmartBrain
         super.readAdditionalSaveData(compound);
         this.setOwner(compound.getInt("SpellboundOwner"));
         this.setPhase(compound.getInt("BossPhase"));
+        this.entityData.set(SPAWNED, compound.getBoolean("Spawned"));
     }
 
     @Override
