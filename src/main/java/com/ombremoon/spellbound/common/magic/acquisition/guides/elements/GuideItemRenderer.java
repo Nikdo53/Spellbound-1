@@ -5,11 +5,14 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.elements.extras.ElementPosition;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.elements.extras.ItemRendererExtras;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;
 
-public record GuideItemRenderer(ResourceLocation itemLoc, ElementPosition position, ItemRendererExtras extras) implements IPageElement {
+import java.util.List;
+
+public record GuideItemRenderer(List<Ingredient> items, ElementPosition position, ItemRendererExtras extras) implements IPageElement {
     public static final MapCodec<GuideItemRenderer> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
-            ResourceLocation.CODEC.fieldOf("item").forGetter(GuideItemRenderer::itemLoc),
+            Ingredient.CODEC.listOf().fieldOf("items").forGetter(GuideItemRenderer::items),
             ElementPosition.CODEC.optionalFieldOf("position", ElementPosition.getDefault()).forGetter(GuideItemRenderer::position),
             ItemRendererExtras.CODEC.optionalFieldOf("extras", ItemRendererExtras.getDefault()).forGetter(GuideItemRenderer::extras)
     ).apply(inst, GuideItemRenderer::new));

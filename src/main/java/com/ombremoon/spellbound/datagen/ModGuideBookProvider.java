@@ -98,7 +98,7 @@ public class ModGuideBookProvider extends GuideBookProvider {
                                 .position(PAGE_TWO_START, 5)
                                 .build(),
                         PageBuilder.Recipe
-                                .of(ResourceLocation.withDefaultNamespace("anvil"))
+                                .of(ResourceLocation.withDefaultNamespace("crafting_table"))
                                 .gridName(PageBuilder.Recipe.SpellboundGrids.GRIMOIRE)
                                 .position(195, 125)
                                 .build()

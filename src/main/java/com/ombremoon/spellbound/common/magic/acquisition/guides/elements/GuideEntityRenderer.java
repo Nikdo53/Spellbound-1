@@ -15,9 +15,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
-public record GuideEntityRenderer(ResourceLocation entityLoc, EntityRendererExtras extras, ElementPosition position) implements IPageElement {
+import java.util.List;
+
+public record GuideEntityRenderer(List<ResourceLocation> entityLoc, EntityRendererExtras extras, ElementPosition position) implements IPageElement {
     public static final MapCodec<GuideEntityRenderer> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
-            ResourceLocation.CODEC.fieldOf("entity").forGetter(GuideEntityRenderer::entityLoc),
+            ResourceLocation.CODEC.listOf().fieldOf("entities").forGetter(GuideEntityRenderer::entityLoc),
             EntityRendererExtras.CODEC.optionalFieldOf("extras", EntityRendererExtras.getDefault()).forGetter(GuideEntityRenderer::extras),
             ElementPosition.CODEC.optionalFieldOf("position", ElementPosition.getDefault()).forGetter(GuideEntityRenderer::position)
     ).apply(inst, GuideEntityRenderer::new));

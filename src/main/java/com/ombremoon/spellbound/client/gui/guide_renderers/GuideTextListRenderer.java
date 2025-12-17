@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 public class GuideTextListRenderer implements IPageElementRenderer<GuideTextList> {
 
     @Override
-    public void render(GuideTextList element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick) {
+    public void render(GuideTextList element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick, int tickCount) {
         for (int i = 0; i < element.list().size(); i++) {
 
             int maxRows = element.extras().maxRows();

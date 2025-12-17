@@ -8,7 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 public class GuideImageRenderer implements IPageElementRenderer<GuideImage> {
 
     @Override
-    public void render(GuideImage element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick) {
+    public void render(GuideImage element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick, int tickCount) {
 
 
 

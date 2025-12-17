@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.contents.PlainTextContents;
@@ -26,7 +27,7 @@ public class GuideTextRenderer implements IPageElementRenderer<GuideText> {
     private int height = 0;
 
     @Override
-    public void render(GuideText element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick) {
+    public void render(GuideText element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick, int tickCount) {
         Font font = Minecraft.getInstance().font;
 
         boolean visible = isVisible(element.extras().pageScrap());
@@ -34,6 +35,7 @@ public class GuideTextRenderer implements IPageElementRenderer<GuideText> {
         if (!visible) style = style.applyFormat(ChatFormatting.OBFUSCATED);
 
         style = style.withBold(element.extras().bold());
+        style = style.withItalic(element.extras().italic());
         style = style.withUnderlined(element.extras().underline());
 
         List<FormattedCharSequence> lines = font.split(
@@ -51,7 +53,7 @@ public class GuideTextRenderer implements IPageElementRenderer<GuideText> {
     }
 
     @Override
-    public void handleClick(GuideText element) {
+    public void handleClick(GuideText element, Screen screen) {
         if (element.extras().link().isBlank()) return;
         Minecraft minecraft = Minecraft.getInstance();
         String url = element.extras().link();
@@ -64,7 +66,7 @@ public class GuideTextRenderer implements IPageElementRenderer<GuideText> {
                         Util.getPlatform().openUri(uri);
                     }
 
-                    minecraft.setScreen(null);
+                    minecraft.setScreen(screen);
                 }, url, true));
             } else {
                 Util.getPlatform().openUri(uri);

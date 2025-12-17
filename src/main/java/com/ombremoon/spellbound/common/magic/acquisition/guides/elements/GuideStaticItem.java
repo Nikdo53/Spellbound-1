@@ -6,11 +6,14 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.elements.extras.ElementPosition;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.elements.extras.StaticItemExtras;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;
 
-public record GuideStaticItem(ResourceLocation itemLoc, String tileName, ElementPosition position, StaticItemExtras extras) implements IPageElement {
+import java.util.List;
+
+public record GuideStaticItem(List<Ingredient> item, String tileName, ElementPosition position, StaticItemExtras extras) implements IPageElement {
     public static final MapCodec<GuideStaticItem> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
-            ResourceLocation.CODEC.fieldOf("item").forGetter(GuideStaticItem::itemLoc),
+            Ingredient.CODEC.listOf().fieldOf("item").forGetter(GuideStaticItem::item),
             Codec.STRING.optionalFieldOf("tileName", "basic").forGetter(GuideStaticItem::tileName),
             ElementPosition.CODEC.optionalFieldOf("position", ElementPosition.getDefault()).forGetter(GuideStaticItem::position),
             StaticItemExtras.CODEC.optionalFieldOf("extras", StaticItemExtras.getDefault()).forGetter(GuideStaticItem::extras)

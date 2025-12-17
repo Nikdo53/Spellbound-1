@@ -25,7 +25,7 @@ public class GuideSpellInfoRenderer implements IPageElementRenderer<GuideSpellIn
     private static final Component HIDDEN = Component.literal("???").withStyle(ChatFormatting.OBFUSCATED);
 
     @Override
-    public void render(GuideSpellInfo element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick) {
+    public void render(GuideSpellInfo element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick, int tickCount) {
         Registry<SpellType<?>> spellRegistry = Minecraft.getInstance().level.registryAccess().registry(SBSpells.SPELL_TYPE_REGISTRY_KEY).get();
         SpellType<?> spellType = spellRegistry.get(element.spellLoc());
         if (spellType == null) {

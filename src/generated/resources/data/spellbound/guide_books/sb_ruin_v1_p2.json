@@ -28,7 +28,7 @@
         "xOffset": 195,
         "yOffset": 125
       },
-      "recipe": "minecraft:anvil"
+      "recipe": "minecraft:crafting_table"
     }
   ],
   "id": "spellbound:grimoire_of_annihilation",

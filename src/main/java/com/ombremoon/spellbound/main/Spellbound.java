@@ -101,5 +101,6 @@ public class Spellbound {
         ElementRenderDispatcher.register(GuideText.class, new GuideTextRenderer());
         ElementRenderDispatcher.register(GuideTextList.class, new GuideTextListRenderer());
         ElementRenderDispatcher.register(GuideItemRenderer.class, new GuideItemRendererRenderer());
+        ElementRenderDispatcher.register(GuideSpellBorder.class, new GuideSpellBorderRenderer());
     }
 }

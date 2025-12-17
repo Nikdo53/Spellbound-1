@@ -5,6 +5,7 @@ import com.ombremoon.spellbound.datagen.provider.guide_builders.PageBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
@@ -16,19 +17,16 @@ public class GuideItemRendererRenderer implements IPageElementRenderer<GuideItem
     ItemEntity entity;
 
     @Override
-    public void render(GuideItemRenderer element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick) {
-        Item item = BuiltInRegistries.ITEM.get(element.itemLoc());
-        if (item.equals(Items.AIR)) return;
+    public void render(GuideItemRenderer element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick, int tickCount) {
+        GuideRecipeRenderer.SBGhostItem ghostItem = new GuideRecipeRenderer.SBGhostItem(GuideUtil.buildIngredient(element.items()), 0, 0);
 
-        if (entity == null) {
-            ItemStack stack = item.getDefaultInstance();
-            this.entity = EntityType.ITEM.create(Minecraft.getInstance().level);
-            this.entity.setItem(stack);
-        }
+        ItemStack stack = ghostItem.getItem(tickCount);
+        ItemEntity entity = EntityType.ITEM.create(Minecraft.getInstance().level);
+        entity.setItem(stack);
 
-        entity.tickCount++;
+        entity.tickCount = tickCount;
 
-        GuideEntityRendererRenderer.renderEntityInInventory(
+        GuideUtil.renderEntityInInventory(
                 graphics,
                 leftPos + element.position().xOffset()+100,
                 topPos + element.position().yOffset()+100,

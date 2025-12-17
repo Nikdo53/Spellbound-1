@@ -9,19 +9,24 @@ import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.recipebook.GhostRecipe;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.NonNullList;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class GuideRecipeRenderer implements IPageElementRenderer<GuideRecipe> {
 
     @Override
-    public void render(GuideRecipe element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick) {
+    public void render(GuideRecipe element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick, int tickCount) {
         RecipeManager manager = Minecraft.getInstance().player.connection.getRecipeManager();
         Optional<RecipeHolder<?>> recipeOpt = manager.byKey(element.recipeLoc());
         if (recipeOpt.isEmpty()) return;
@@ -31,8 +36,7 @@ public class GuideRecipeRenderer implements IPageElementRenderer<GuideRecipe> {
         if (recipe.getType() != RecipeType.CRAFTING) return;
 
         if (recipe instanceof ShapedRecipe shapedRecipe) {
-            GhostRecipe ghostRecipe = new GhostRecipe();
-            ghostRecipe.setRecipe(recipeHolder);
+            List<SBGhostItem> ghostRecipe = new ArrayList<>();
 
             boolean largeGrid = shapedRecipe.getWidth() > 2 || shapedRecipe.getHeight() > 2;
             if (largeGrid) {
@@ -54,7 +58,7 @@ public class GuideRecipeRenderer implements IPageElementRenderer<GuideRecipe> {
                     if (i > 3) slotYOffset += (int) (23 * element.scale());
                     if (i > 6) slotYOffset += (int) (23 * element.scale());
 
-                    ghostRecipe.addIngredient(recipe.getIngredients().get(i-1), slotXOffset, slotYOffset);
+                    ghostRecipe.add(new SBGhostItem(recipe.getIngredients().get(i-1), slotXOffset, slotYOffset));
                 }
             }
             else {
@@ -74,22 +78,21 @@ public class GuideRecipeRenderer implements IPageElementRenderer<GuideRecipe> {
                     int slotXOffset = (i+1)%2 * ( (int) (23 * element.scale()));
                     int slotYOffset = i > 2 ? ( int)(23 * element.scale()) : 0;
 
-                    ghostRecipe.addIngredient(recipe.getIngredients().get(i-1), slotXOffset, slotYOffset);
+                    ghostRecipe.add(new SBGhostItem(recipe.getIngredients().get(i-1), slotXOffset, slotYOffset));
                 }
             }
 
-            renderRecipe(graphics, leftPos + element.position().xOffset(), topPos + element.position().yOffset(), ghostRecipe, element.scale());
+            renderRecipe(graphics, leftPos + element.position().xOffset(), topPos + element.position().yOffset(), ghostRecipe, element.scale(), tickCount);
         }
     }
 
-    public void renderRecipe(GuiGraphics guiGraphics, int leftPos, int topPos, GhostRecipe recipe, float scale) {
+    public void renderRecipe(GuiGraphics guiGraphics, int leftPos, int topPos, List<SBGhostItem> recipe, float scale, int tickCount) {
 
-        for(int i = 0; i < recipe.size(); ++i) {
-            GhostRecipe.GhostIngredient ghostrecipe$ghostingredient = recipe.get(i);
-            int j = ghostrecipe$ghostingredient.getX() + leftPos;
-            int k = ghostrecipe$ghostingredient.getY() + topPos;
+        for (SBGhostItem ghostItem : recipe) {
+            int j = ghostItem.getX() + leftPos;
+            int k = ghostItem.getY() + topPos;
 
-            ItemStack itemstack = ghostrecipe$ghostingredient.getItem();
+            ItemStack itemstack = ghostItem.getItem(tickCount);
             renderItem(guiGraphics, itemstack, j, k, scale);
         }
 
@@ -126,6 +129,31 @@ public class GuideRecipeRenderer implements IPageElementRenderer<GuideRecipe> {
             }
 
             pose.popPose();
+        }
+    }
+
+    public static class SBGhostItem {
+        private final Ingredient ingredient;
+        private final int x;
+        private final int y;
+
+        public SBGhostItem(Ingredient ingredient, int x, int y) {
+            this.ingredient = ingredient;
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public ItemStack getItem(int tickCount) {
+            ItemStack[] itemstack = this.ingredient.getItems();
+            return itemstack.length == 0 ? ItemStack.EMPTY : itemstack[Mth.floor(tickCount / 30.0F) % itemstack.length];
         }
     }
 }

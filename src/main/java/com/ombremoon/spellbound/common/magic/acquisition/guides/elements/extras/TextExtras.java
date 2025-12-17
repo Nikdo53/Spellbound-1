@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.Optional;
 
-public record TextExtras(ResourceLocation pageScrap, int colour, int maxLineLength, int lineGap, boolean dropShadow, boolean textWrapping, String link, boolean requireUnlockForLink, boolean underline, boolean bold, String hoverText) implements IElementExtra {
+public record TextExtras(ResourceLocation pageScrap, int colour, int maxLineLength, int lineGap, boolean dropShadow, boolean textWrapping, String link, boolean requireUnlockForLink, boolean underline, boolean bold, String hoverText, boolean italic) implements IElementExtra {
     public static final Codec<TextExtras> CODEC = RecordCodecBuilder.create(inst -> inst.group(
             ResourceLocation.CODEC.optionalFieldOf("pageScrap", CommonClass.customLocation("default")).forGetter(TextExtras::pageScrap),
             Codec.INT.optionalFieldOf("colour", 0).forGetter(TextExtras::colour),
@@ -24,11 +24,12 @@ public record TextExtras(ResourceLocation pageScrap, int colour, int maxLineLeng
             Codec.BOOL.optionalFieldOf("unlock_for_link", true).forGetter(TextExtras::requireUnlockForLink),
             Codec.BOOL.optionalFieldOf("underline", false).forGetter(TextExtras::underline),
             Codec.BOOL.optionalFieldOf("bold", false).forGetter(TextExtras::bold),
-            Codec.STRING.optionalFieldOf("hoverText", "").forGetter(TextExtras::hoverText)
+            Codec.STRING.optionalFieldOf("hoverText", "").forGetter(TextExtras::hoverText),
+            Codec.BOOL.optionalFieldOf("italic", false).forGetter(TextExtras::italic)
     ).apply(inst, TextExtras::new));
 
     public static TextExtras getDefault() {
-        return new TextExtras(CommonClass.customLocation("default"), 0, 150, 9, false, true, "", true, false, false, "");
+        return new TextExtras(CommonClass.customLocation("default"), 0, 150, 9, false, true, "", true, false, false, "", false);
     }
 
 

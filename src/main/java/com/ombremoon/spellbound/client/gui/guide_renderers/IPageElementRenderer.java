@@ -8,6 +8,7 @@ import com.ombremoon.spellbound.main.Constants;
 import com.ombremoon.spellbound.util.SpellUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 
@@ -27,17 +28,18 @@ public interface IPageElementRenderer<T extends IPageElement> {
      * @param mouseY the y position of the mouse
      * @param partialTick the current partial tick value
      */
-    void render(T element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick);
+    void render(T element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick, int tickCount);
 
     default boolean isVisible(ResourceLocation scrap) {
         return scrap.equals(CommonClass.customLocation("default")) || Minecraft.getInstance().player.isCreative() || SpellUtil.hasScrap(Minecraft.getInstance().player, scrap);
     }
 
-    default void handleClick(T element) {}
+    default void handleClick(T element, Screen screen) {}
 
     default void handleHover(T element, GuiGraphics guiGraphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick) {}
 
     default boolean isHovering(int mouseX, int mouseY, int leftPos, int topPos, T element) {
         return false;
     }
+
 }
