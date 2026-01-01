@@ -70,7 +70,7 @@ public abstract class ChanneledSpell extends AnimatedSpell {
         LivingEntity caster = context.getCaster();
         var handler = SpellUtil.getSpellHandler(caster);
         if (!caster.level().isClientSide) {
-            if ((this.tickCount > 0 && this.tickCount % 20 == 0 && !handler.consumeMana(this.manaTickCost, true)) || !handler.isChargingOrChannelling()) {
+            if ((this.tickCount > 0 && this.tickCount % 20 == 0 && !handler.consumeMana(this.manaTickCost, true))) {
                 this.endSpell();
             }
         }
@@ -82,6 +82,7 @@ public abstract class ChanneledSpell extends AnimatedSpell {
         var handler = SpellUtil.getSpellHandler(caster);
         handler.setChargingOrChannelling(false);
         if (!caster.level().isClientSide) {
+            handler.getListener().removeListener(SpellEventListener.Events.POST_DAMAGE, CHANNEL_FAIL);
             if (context.getCaster() instanceof Player player) {
                 if (!this.channelStopAnimation.isEmpty() && !this.channelInterrupted) {
                     playAnimation(player, this.channelStopAnimation);

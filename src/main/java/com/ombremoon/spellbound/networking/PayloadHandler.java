@@ -68,6 +68,10 @@ public class PayloadHandler {
         PacketDistributor.sendToServer(new CastResetPayload(spellType, recast));
     }
 
+    public static void stopChannel(SpellType<?> spellType) {
+        PacketDistributor.sendToServer(new StopChanneledSpellPayload(spellType));
+    }
+
     public static void updateChoice(SpellType<?> spellType, Skill skill) {
         PacketDistributor.sendToServer(new UpdateChoicePayload(spellType, skill));
     }
@@ -304,6 +308,11 @@ public class PayloadHandler {
                 CastResetPayload.TYPE,
                 CastResetPayload.STREAM_CODEC,
                 ServerPayloadHandler::handleNetworkCastReset
+        );
+        registrar.playToServer(
+                StopChanneledSpellPayload.TYPE,
+                StopChanneledSpellPayload.STREAM_CODEC,
+                ServerPayloadHandler::handleNetworkStopChanneledSpell
         );
         registrar.playToServer(
                 UpdateChoicePayload.TYPE,

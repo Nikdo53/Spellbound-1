@@ -32,6 +32,11 @@ public class SolarRay extends SpellEntity<SolarRaySpell> {
     }
 
     @Override
+    public boolean requiresSpellToPersist() {
+        return false;
+    }
+
+    @Override
     public void tick() {
         super.tick();
         if (this.getOwner() != null)

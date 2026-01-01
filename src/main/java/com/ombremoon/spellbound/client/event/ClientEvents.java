@@ -166,6 +166,9 @@ public class ClientEvents {
                 }
                 if (handler.inCastMode()) {
                     if (KeyBinds.SELECT_SPELL_BINDING.consumeClick()) {
+                        if (handler.isChargingOrChannelling())
+                            return;
+
                         Screen screen = minecraft.screen;
                         if (!handler.getEquippedSpells().isEmpty()) {
                             minecraft.setScreen(new SpellSelectScreen());
@@ -178,6 +181,9 @@ public class ClientEvents {
                             AbstractSpell spell = handler.getCurrentlyCastSpell();
                             spell.resetCast(handler);
                         }
+
+                        if (handler.isChargingOrChannelling())
+                            return;
 
                         KeyBinds.getSpellCastMapping().setDown(false);
                         SpellUtil.cycle(handler, handler.getSelectedSpell());

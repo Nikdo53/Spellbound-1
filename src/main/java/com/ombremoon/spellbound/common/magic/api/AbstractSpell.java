@@ -233,7 +233,7 @@ public abstract class AbstractSpell implements GeoAnimatable, SpellDataHolder, F
     }
 
     public boolean isCasting() {
-        return /*!this.init*/this.castTime > 0 && this.context == null;
+        return !this.init && this.context == null;
     }
 
     /**

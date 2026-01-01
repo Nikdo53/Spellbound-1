@@ -58,7 +58,9 @@ public class AnimationHelper {
                 PayloadHandler.updateRotation(player.yBodyRot);
                 var handler = SpellUtil.getSpellHandler(player);
                 AbstractSpell spell = handler.getCurrentlyCastSpell();
-                if (spell != null && spell.isCasting() && spell.isStationaryCast(spell.getCastContext()))
+
+                //Band-aid
+                if (spell != null && spell.isCasting() && spell.isStationaryCast(spell.getCastContext()) && !handler.isChargingOrChannelling())
                     handler.setStationaryTicks(1);
             }
         }

@@ -56,8 +56,6 @@ public class ClientPayloadHandler {
         var handler = SpellUtil.getSpellHandler(context.player());
         boolean charging = payload.isChargingOrChannelling();
         handler.setChargingOrChannelling(charging);
-        if (charging)
-            KeyBinds.getSpellCastMapping().setDown(true);
     }
 
     public static void handleClientUpdateSpells(UpdateSpellsPayload payload, IPayloadContext context) {

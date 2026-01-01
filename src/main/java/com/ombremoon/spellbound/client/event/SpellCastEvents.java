@@ -1,16 +1,13 @@
 package com.ombremoon.spellbound.client.event;
 
-import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
 import com.ombremoon.spellbound.client.AnimationHelper;
-import com.ombremoon.spellbound.client.particle.EffectCache;
-import com.ombremoon.spellbound.common.magic.SpellHandler;
-import com.ombremoon.spellbound.common.magic.api.SpellType;
-import com.ombremoon.spellbound.main.CommonClass;
-import com.ombremoon.spellbound.main.Constants;
 import com.ombremoon.spellbound.client.KeyBinds;
 import com.ombremoon.spellbound.common.magic.EffectManager;
-import com.ombremoon.spellbound.common.magic.api.AbstractSpell;
 import com.ombremoon.spellbound.common.magic.SpellContext;
+import com.ombremoon.spellbound.common.magic.SpellHandler;
+import com.ombremoon.spellbound.common.magic.api.AbstractSpell;
+import com.ombremoon.spellbound.common.magic.api.SpellType;
+import com.ombremoon.spellbound.main.Constants;
 import com.ombremoon.spellbound.networking.PayloadHandler;
 import com.ombremoon.spellbound.util.SpellUtil;
 import net.minecraft.client.Minecraft;
@@ -22,8 +19,11 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
+import java.util.List;
+
 @EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT)
 public class SpellCastEvents {
+    private static boolean wasCastKeyPressed = false;
 
     @SubscribeEvent
     public static void onSpellMode(InputEvent.InteractionKeyMappingTriggered event) {
@@ -71,29 +71,34 @@ public class SpellCastEvents {
                 spell.resetCast(handler, spellContext);
             }
 
-            boolean flag = KeyBinds.getSpellCastMapping().isDown();
-            if (flag) {
-                int castTime = spell.getCastTime();
-                if (handler.castTick >= castTime && !handler.isChargingOrChannelling()) {
-                    if (spell.getCastType() == AbstractSpell.CastType.INSTANT)
-                        KeyBinds.getSpellCastMapping().setDown(false);
+            boolean isCastKeyPressed = KeyBinds.getSpellCastMapping().isDown();
+            boolean castKeyJustPressed = isCastKeyPressed && !wasCastKeyPressed;
 
+            if (castKeyJustPressed) {
+                if (handler.isChargingOrChannelling()) {
+                    handler.setChargingOrChannelling(false);
+                    PayloadHandler.setChargeOrChannel(false);
+                    handler.castTick = 0;
+                    PayloadHandler.stopChannel(spell.spellType());
+                } else if (handler.castTick == 0) {
+                    SpellContext spellContext = createContext(player, handler, spell);
+                    spell.onCastStart(spellContext);
+                    PayloadHandler.castStart();
+                    handler.castTick = 1;
+                }
+            }
+
+            if (handler.castTick > 0 && !handler.isChargingOrChannelling()) {
+                int castTime = spell.getCastTime();
+                if (handler.castTick >= castTime) {
                     castSpell(player);
                     handler.castTick = 0;
-                } else if (!handler.isChargingOrChannelling()) {
+                } else {
                     handler.castTick++;
-                    if (handler.castTick == 1) {
-                        SpellContext spellContext = createContext(player, handler, spell);
-                        spell.onCastStart(spellContext);
-                        PayloadHandler.castStart();
-                    }
                 }
-            } else if (!KeyBinds.getSpellCastMapping().isDown() && handler.castTick > 0) {
-                spell.resetCast(handler);
-            } else if (handler.isChargingOrChannelling()) {
-                handler.setChargingOrChannelling(false);
-                PayloadHandler.setChargeOrChannel(false);
             }
+
+            wasCastKeyPressed = isCastKeyPressed;
         } else {
             spell = spellType.createSpell();
             handler.setCurrentlyCastingSpell(spell);
