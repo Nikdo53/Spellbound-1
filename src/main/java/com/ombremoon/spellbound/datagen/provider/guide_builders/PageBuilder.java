@@ -9,7 +9,7 @@ import com.ombremoon.spellbound.common.magic.api.SpellType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,7 +115,7 @@ public class PageBuilder {
          * Creates a new GuideRecipe builder for the given recipe
          * @param recipe The recipe to display
          * @return new GuideRecipe builder
-         * @see GuideRecipe
+         * @see GuideRecipeElement
          */
         public static Recipe of(ResourceLocation recipe) {
             return new Recipe(recipe);
@@ -177,8 +177,8 @@ public class PageBuilder {
          * Turns the given data into a GuideRecipe element
          * @return constructed GuideRecipe
          */
-        public GuideRecipe build() {
-            return new GuideRecipe(recipe, gridName, scale, position, new RecipeExtras(pageScrap));
+        public GuideRecipeElement build() {
+            return new GuideRecipeElement(recipe, gridName, scale, position, new RecipeExtras(pageScrap));
         }
 
         /**
@@ -196,7 +196,7 @@ public class PageBuilder {
 
     //Builder for a GuideEntityRenderer
     public static class EntityRenderer {
-        private ResourceLocation entity;
+        private List<ResourceLocation> entity;
         private ElementPosition position;
         private boolean followMouse;
         private int scale;
@@ -204,23 +204,24 @@ public class PageBuilder {
         private int xRot;
         private int yRot;
         private int zRot;
+        private boolean animated;
 
-        private EntityRenderer(EntityType<?> entity) {
-            this.entity = BuiltInRegistries.ENTITY_TYPE.getKey(entity);
+        private EntityRenderer() {
+            this.entity = new ArrayList<>();
             this.position = ElementPosition.getDefault();
             this.followMouse = false;
             this.scale = 25;
             this.pageScrap = GuideBookManager.FIRST_PAGE;
+            this.animated = false;
         }
 
         /**
          * Creates a new EntityRenderer builder using a given entity
-         * @param entity the entity to render
          * @return new GuideEntityRenderer builder
-         * @see GuideEntityRenderer
+         * @see GuideEntityElement
          */
-        public static EntityRenderer of(EntityType<?> entity) {
-            return new EntityRenderer(entity);
+        public static EntityRenderer of() {
+            return new EntityRenderer();
         }
 
         /**
@@ -229,6 +230,25 @@ public class PageBuilder {
          */
         public EntityRenderer followsMouse() {
             this.followMouse = true;
+            return this;
+        }
+
+        /**
+         * Only works with GeoEntities but will tick them so they will play animations when viewed
+         * @return this
+         */
+        public EntityRenderer animated() {
+            this.animated = true;
+            return this;
+        }
+
+        /**
+         * Adds an entity to be displayed. If multiple are added then it cycles through them
+         * @param entityType The entity to add
+         * @return this
+         */
+        public EntityRenderer addEntity(EntityType<?> entityType) {
+            this.entity.add(BuiltInRegistries.ENTITY_TYPE.getKey(entityType));
             return this;
         }
 
@@ -277,8 +297,8 @@ public class PageBuilder {
             return this;
         }
 
-        public GuideEntityRenderer build() {
-            return new GuideEntityRenderer(
+        public GuideEntityElement build() {
+            return new GuideEntityElement(
                     entity,
                     new EntityRendererExtras(
                             pageScrap,
@@ -286,7 +306,8 @@ public class PageBuilder {
                             scale,
                             xRot,
                             yRot,
-                            zRot
+                            zRot,
+                            animated
                     ), position
             );
         }
@@ -294,7 +315,7 @@ public class PageBuilder {
 
     //Builder for a GuideItemList
     public static class ItemList {
-        private List<GuideItemList.ItemListEntry> entries;
+        private List<GuideItemListElement.ItemListEntry> entries;
         private ElementPosition position;
         private ResourceLocation pageScrap;
         private int maxRows;
@@ -326,13 +347,25 @@ public class PageBuilder {
 
         /**
          * Adds a new entry to the item list
-         * @param item The item to add to the list
+         * @param ingredient The ingredient to add to the list
          * @param count the number of the item to add
          * @return this
          */
-        public ItemList addEntry(net.minecraft.world.item.Item item, int count) {
-            this.entries.add(new GuideItemList.ItemListEntry(
-                    BuiltInRegistries.ITEM.getKey(item), count));
+        public ItemList addEntry(Ingredient ingredient, int count) {
+            this.entries.add(new GuideItemListElement.ItemListEntry(
+                    List.of(ingredient), count));
+            return this;
+        }
+
+        /**
+         * Adds a new entry to the item list
+         * @param ingredient The ingredient to add to the list
+         * @param count the number of the item to add
+         * @return this
+         */
+        public ItemList addEntry(List<Ingredient> ingredient, int count) {
+            this.entries.add(new GuideItemListElement.ItemListEntry(
+                    ingredient, count));
             return this;
         }
 
@@ -341,7 +374,16 @@ public class PageBuilder {
          * @param item The item to add
          * @return this
          */
-        public ItemList addEntry(net.minecraft.world.item.Item item) {
+        public ItemList addEntry(Ingredient item) {
+            return addEntry(item, 1);
+        }
+
+        /**
+         * Adds a single item to the item list
+         * @param item The item to add
+         * @return this
+         */
+        public ItemList addEntry(List<Ingredient> item) {
             return addEntry(item, 1);
         }
 
@@ -425,8 +467,8 @@ public class PageBuilder {
             return this;
         }
 
-        public GuideItemList build() {
-            return new GuideItemList(
+        public GuideItemListElement build() {
+            return new GuideItemListElement(
                     entries,
                     new ItemListExtras(
                             pageScrap,
@@ -585,8 +627,8 @@ public class PageBuilder {
             return this;
         }
 
-        public GuideSpellInfo build() {
-            return new GuideSpellInfo(
+        public GuideSpellInfoElement build() {
+            return new GuideSpellInfoElement(
                     spell,
                     new SpellInfoExtras(
                             textColour,
@@ -635,11 +677,13 @@ public class PageBuilder {
         private int height;
         private ElementPosition position;
         private ResourceLocation pageScrap;
+        private boolean enableCorners;
 
         private Image(ResourceLocation image) {
             this.image = image;
             this.position = ElementPosition.getDefault();
             this.pageScrap = GuideBookManager.FIRST_PAGE;
+            this.enableCorners = true;
         }
 
         /**
@@ -649,6 +693,15 @@ public class PageBuilder {
          */
         public static Image of(ResourceLocation image) {
             return new Image(image);
+        }
+
+        /**
+         * Disables the corners that are placed on corner of the image
+         * @return this
+         */
+        public Image disableCorners() {
+            this.enableCorners = false;
+            return this;
         }
 
         /**
@@ -685,21 +738,21 @@ public class PageBuilder {
             return this;
         }
 
-        public GuideImage build() {
-            return new GuideImage(image, width, height, position);
+        public GuideImageElement build() {
+            return new GuideImageElement(image, width, height, position, new GuideImageExtras(enableCorners));
         }
     }
 
     //Builder for GuideItem
     public static class StaticItem {
-        private final ResourceLocation item;
+        private final List<Ingredient> ingredients;
         private String tile;
         private float scale;
         private ElementPosition position;
         private ResourceLocation pageScrap;
 
-        private StaticItem(net.minecraft.world.item.Item item) {
-            this.item = BuiltInRegistries.ITEM.getKey(item);
+        private StaticItem() {
+            this.ingredients = new ArrayList<>();
             this.tile = Recipe.SpellboundGrids.BASIC.name().toLowerCase();
             this.scale = 1f;
             this.position = ElementPosition.getDefault();
@@ -711,8 +764,19 @@ public class PageBuilder {
          * @param item The item to display
          * @return new GuideItem builder
          */
-        public static StaticItem of(net.minecraft.world.item.Item item) {
-            return new StaticItem(item);
+        public static StaticItem of(Ingredient item) {
+            StaticItem builder = new StaticItem();
+            return builder.addItem(item);
+        }
+
+        /**
+         * Adds an item to be displayed. If multiple are added it will cycle through them
+         * @param item the item to display
+         * @return this
+         */
+        public StaticItem addItem(Ingredient item) {
+            this.ingredients.add(item);
+            return this;
         }
 
         /**
@@ -767,9 +831,9 @@ public class PageBuilder {
             return this;
         }
 
-        public GuideStaticItem build() {
-            return new GuideStaticItem(
-                    item,
+        public GuideStaticItemElement build() {
+            return new GuideStaticItemElement(
+                    ingredients,
                     tile,
                     position,
                     new StaticItemExtras(pageScrap, scale)
@@ -787,6 +851,12 @@ public class PageBuilder {
         private int lineGap;
         private boolean dropShadow;
         private boolean textWrapping;
+        private String link;
+        private boolean unlockForLink;
+        private boolean underline;
+        private boolean bold;
+        private String hoverText;
+        private boolean italic;
 
         private Text(String translation) {
             this.translation = translation;
@@ -797,6 +867,12 @@ public class PageBuilder {
             this.lineGap = 9;
             this.dropShadow = false;
             this.textWrapping = true;
+            this.link = "";
+            this.unlockForLink = true;
+            this.underline = false;
+            this.bold = false;
+            this.hoverText = "";
+            this.italic = false;
         }
 
         /**
@@ -825,6 +901,58 @@ public class PageBuilder {
          */
         public Text maxLineLength(int length) {
             this.maxLineLength = length;
+            return this;
+        }
+
+        /**
+         * Set a link to be opened when the user clicks on the link
+         * @param link The link to open in users browser
+         * @return this
+         */
+        public Text setLink(String link) {
+            this.link = link;
+            return this;
+        }
+
+        /**
+         * Makes it so the user can open the link without the element being unlocked>
+         * @return this
+         */
+        public Text openLinkWithoutUnlock() {
+            this.unlockForLink = false;
+            return this;
+        }
+
+        /**
+         * Underlines the text
+         * @return this
+         */
+        public Text underline() {
+            this.underline = true;
+            return this;
+        }
+
+        public Text italic() {
+            this.italic = true;
+            return this;
+        }
+
+        /**
+         * Makes the text bold
+         * @return this
+         */
+        public Text bold() {
+            this.bold = true;
+            return this;
+        }
+
+        /**
+         * Gives text that appears when the user hovers over the element
+         * @param translationKey the translation key for the hover text
+         * @return this
+         */
+        public Text hoverText(String translationKey) {
+            this.hoverText = translationKey;
             return this;
         }
 
@@ -877,11 +1005,11 @@ public class PageBuilder {
             return this;
         }
 
-        public GuideText build() {
-            return new GuideText(
+        public GuideTextElement build() {
+            return new GuideTextElement(
                     translation,
                     new TextExtras(
-                            pageScrap, colour, maxLineLength, lineGap, dropShadow, textWrapping
+                            pageScrap, colour, maxLineLength, lineGap, dropShadow, textWrapping, link, unlockForLink, underline, bold, hoverText, italic
                     ),
                     position
             );
@@ -1010,8 +1138,8 @@ public class PageBuilder {
             return this;
         }
 
-        public GuideTextList build() {
-            return new GuideTextList(
+        public GuideTextListElement build() {
+            return new GuideTextListElement(
                     entries,
                     new TextListExtras(
                             pageScrap,
@@ -1028,13 +1156,13 @@ public class PageBuilder {
 
     //Builder for GuideItemRenderer
     public static class ItemRenderer {
-        private final ResourceLocation item;
+        private final List<Ingredient> item;
         private ElementPosition position;
         private ResourceLocation pageScrap;
         private float scale;
 
-        private ItemRenderer(Item item) {
-            this.item = BuiltInRegistries.ITEM.getKey(item);
+        private ItemRenderer() {
+            this.item = new ArrayList<>();
             this.position = ElementPosition.getDefault();
             this.pageScrap = GuideBookManager.FIRST_PAGE;
             this.scale = 25f;
@@ -1042,11 +1170,22 @@ public class PageBuilder {
 
         /**
          * Creates a new builder for an ItemRenderer element
-         * @param item the item to render
+         * @param ingredient the item to render
          * @return new ItemRenderer builder
          */
-        public static ItemRenderer of(Item item) {
-            return new ItemRenderer(item);
+        public static ItemRenderer of(Ingredient ingredient) {
+            ItemRenderer builder = new ItemRenderer();
+            return builder.addItem(ingredient);
+        }
+
+        /**
+         * Adds an item to be displayed. If more than one or added it cycled through them
+         * @param ingredient the item to display
+         * @return this
+         */
+        public ItemRenderer addItem(Ingredient ingredient) {
+            this.item.add(ingredient);
+            return this;
         }
 
         /**
@@ -1080,8 +1219,8 @@ public class PageBuilder {
             return this;
         }
 
-        public GuideItemRenderer build() {
-            return new GuideItemRenderer(
+        public GuideItemElement build() {
+            return new GuideItemElement(
                     item,
                     position,
                     new ItemRendererExtras(
