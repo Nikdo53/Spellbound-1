@@ -47,6 +47,19 @@ public class GuideTextRenderer implements IPageElementRenderer<GuideTextElement>
                 graphics.drawString(font, lines.get(i), leftPos + element.position().xOffset(), topPos + element.position().yOffset() + (i * font.lineHeight), element.extras().colour(), element.extras().dropShadow());
             }
         }
+
+        if (element.extras().scrambledEnd()) {
+            int prevEnd = font.width(lines.getLast());
+            int yOffset = (lines.size() * font.lineHeight) + topPos + element.position().yOffset();
+            int xOffset = leftPos + element.position().xOffset();
+
+            if (element.extras().maxLineLength() - prevEnd >= 5) {
+                yOffset -= font.lineHeight;
+                xOffset += prevEnd;
+            }
+
+            graphics.drawString(font, Component.literal("#####").withStyle(ChatFormatting.OBFUSCATED), xOffset, yOffset, element.extras().colour(), element.extras().dropShadow());
+        }
     }
 
     @Override

@@ -3,7 +3,7 @@
     {
       "type": "spellbound:text",
       "translation": {
-        "translate": "guide.ruin.v1_p3.keystones"
+        "translate": "guide.grimoire_of_annihilation.v1_p3.keystones"
       }
     },
     {
@@ -22,7 +22,7 @@
         "yOffset": 95
       },
       "translation": {
-        "translate": "guide.ruin.v1_p3.spell_broker"
+        "translate": "guide.grimoire_of_annihilation.v1_p3.spell_broker"
       }
     }
   ],

@@ -2,7 +2,7 @@ package com.ombremoon.spellbound.common.init;
 
 import com.mojang.serialization.MapCodec;
 import com.ombremoon.spellbound.client.gui.guide.elements.*;
-import com.ombremoon.spellbound.client.gui.guide.elements.special.TransfigurationRitualElement;
+import com.ombremoon.spellbound.client.gui.guide.elements.TransfigurationRitualElement;
 import com.ombremoon.spellbound.main.CommonClass;
 import com.ombremoon.spellbound.main.Constants;
 import net.minecraft.core.Registry;

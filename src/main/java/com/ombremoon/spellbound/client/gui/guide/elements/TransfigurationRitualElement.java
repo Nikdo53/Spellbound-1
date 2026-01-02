@@ -1,9 +1,8 @@
-package com.ombremoon.spellbound.client.gui.guide.elements.special;
+package com.ombremoon.spellbound.client.gui.guide.elements;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ombremoon.spellbound.client.gui.guide.elements.IPageElement;
 import com.ombremoon.spellbound.common.magic.acquisition.transfiguration.TransfigurationRitual;
 import com.ombremoon.spellbound.main.Keys;
 import net.minecraft.resources.ResourceKey;

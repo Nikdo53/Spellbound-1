@@ -2,7 +2,7 @@ package com.ombremoon.spellbound.client.gui.guide;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.ombremoon.spellbound.client.gui.guide.elements.special.GuideGhostItem;
-import com.ombremoon.spellbound.client.gui.guide.elements.special.TransfigurationRitualElement;
+import com.ombremoon.spellbound.client.gui.guide.elements.TransfigurationRitualElement;
 import com.ombremoon.spellbound.common.init.SBBlocks;
 import com.ombremoon.spellbound.common.magic.acquisition.transfiguration.RitualHelper;
 import com.ombremoon.spellbound.common.magic.acquisition.transfiguration.TransfigurationRitual;

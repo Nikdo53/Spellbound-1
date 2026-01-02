@@ -2,53 +2,70 @@
   "elements": [
     {
       "type": "spellbound:text",
+      "extras": {
+        "bold": true,
+        "centered": true
+      },
       "position": {
-        "xOffset": 5
+        "xOffset": 72,
+        "yOffset": 4
       },
       "translation": {
         "translate": "spells.spellbound.solar_ray"
       }
     },
     {
-      "type": "spellbound:entity_renderer",
-      "entities": [
-        "spellbound:solar_ray"
-      ],
-      "extras": {
-        "pageScrap": "spellbound:solar_ray_unlock",
-        "scale": 12,
-        "yRot": 70,
-        "zRot": 10
-      },
+      "type": "spellbound:spell_border",
+      "colour": -10678496,
+      "pathTexture": "spellbound:textures/gui/paths/ruin.png",
+      "spell": "spellbound:solar_ray"
+    },
+    {
+      "type": "spellbound:image",
+      "height": 74,
+      "image": "spellbound:textures/gui/books/images/spells/solar_ray.png",
       "position": {
-        "xOffset": 33,
-        "yOffset": 90
-      }
+        "yOffset": 40
+      },
+      "width": 140
     },
     {
       "type": "spellbound:text",
       "position": {
-        "yOffset": 120
+        "yOffset": 125
       },
       "translation": {
-        "translate": "guide.ruin.solar_ray.spell_lore"
+        "translate": "guide.grimoire_of_annihilation.solar_ray.description"
       }
     },
     {
       "type": "spellbound:text",
       "position": {
         "xOffset": 169,
-        "yOffset": 20
+        "yOffset": 5
       },
       "translation": {
-        "translate": "guide.ruin.solar_ray.stat_lore"
+        "translate": "guide.grimoire_of_annihilation.solar_ray.lore"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "scrambled_end": true
+      },
+      "position": {
+        "xOffset": 169,
+        "yOffset": 59
+      },
+      "translation": {
+        "translate": "guide.grimoire_of_annihilation.solar_ray.boss_lore"
       }
     },
     {
       "type": "spellbound:spell_info",
       "position": {
         "xOffset": 169,
-        "yOffset": 110
+        "yOffset": 128
       },
       "spell": "spellbound:solar_ray"
     }

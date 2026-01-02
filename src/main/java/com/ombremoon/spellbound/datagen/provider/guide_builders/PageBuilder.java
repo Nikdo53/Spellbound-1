@@ -1,13 +1,15 @@
 package com.ombremoon.spellbound.datagen.provider.guide_builders;
 
-import com.ombremoon.spellbound.client.gui.guide.elements.special.TransfigurationRitualElement;
+import com.ombremoon.spellbound.client.gui.guide.elements.TransfigurationRitualElement;
 import com.ombremoon.spellbound.common.init.SBSpells;
+import com.ombremoon.spellbound.common.magic.SpellPath;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookManager;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookPage;
 import com.ombremoon.spellbound.client.gui.guide.elements.*;
 import com.ombremoon.spellbound.client.gui.guide.elements.extras.*;
 import com.ombremoon.spellbound.common.magic.acquisition.transfiguration.TransfigurationRitual;
 import com.ombremoon.spellbound.common.magic.api.SpellType;
+import com.ombremoon.spellbound.main.CommonClass;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -129,7 +131,7 @@ public class PageBuilder {
          * The grid texture to use, defaults to "basic"
          * @param gridName The name of the grid to use, not including textures/... or .png
          * @return this
-         * @see Recipe.SpellboundGrids
+         * @see SpellboundGrids
          * @see Recipe#gridName(SpellboundGrids)
          */
         public Recipe gridName(String gridName) {
@@ -673,6 +675,81 @@ public class PageBuilder {
         }
     }
 
+    //Builder for SpellBorder
+    public static class SpellBorder {
+        private final ResourceLocation spell;
+        private int colour;
+        private ElementPosition position;
+        private ResourceLocation pathTexture;
+
+        private SpellBorder(ResourceLocation spell) {
+            SpellType<?> spellType = SBSpells.REGISTRY.get(spell);
+            SpellPath path = spellType.getPath();
+
+            this.spell = spell;
+            this.position = ElementPosition.getDefault();
+            this.pathTexture = CommonClass.customLocation("textures/gui/paths/" + path.name().toLowerCase() + ".png");
+            this.colour = switch (path) {
+                case RUIN -> -10678496;
+                case TRANSFIGURATION -> -14396391;
+                case SUMMONS -> -13490312;
+                case DIVINE -> -3510773;
+                case DECEPTION -> -13357984;
+                default -> 0;
+            };
+        }
+
+        /**
+         * Creates a spell border builder defaulting all values based on the spell
+         * @param spell The spell the border is for
+         * @return new SpellBorder builder
+         */
+        public static SpellBorder of(SpellType<?> spell) {
+            return new SpellBorder(SBSpells.REGISTRY.getKey(spell));
+        }
+
+        /**
+         * Sets the colour used in text and lines, should be relevant to path
+         * @param colour The colour to use
+         * @return this
+         */
+        public SpellBorder setColour(int colour) {
+            this.colour = colour;
+            return this;
+        }
+
+        /**
+         * Sets the x and y offset of the element within the page
+         * @param x the X offset
+         * @param y the Y offset
+         * @return this
+         */
+        public SpellBorder setPosition(int x, int y) {
+            this.position = new ElementPosition(x, y);
+            return this;
+        }
+
+        /**
+         * Sets the symbol used to represent the spell path
+         * @param texture The location of the texture
+         * @return this
+         */
+        public SpellBorder setPathTexture(ResourceLocation texture) {
+            this.pathTexture = texture;
+            return this;
+        }
+
+        /**
+         * Creates a GuideSpellBorderElement from builder
+         * @return generated element
+         */
+        public GuideSpellBorderElement build() {
+            return new GuideSpellBorderElement(
+                    spell, colour, position, pathTexture
+            );
+        }
+    }
+
     //TODO: Obfuscation
     //Builder for GuideImage
     public static class Image {
@@ -862,6 +939,7 @@ public class PageBuilder {
         private boolean bold;
         private String hoverText;
         private boolean italic;
+        private boolean scrambledEnding;
 
         private Text(Component text) {
             this.text = text;
@@ -879,6 +957,7 @@ public class PageBuilder {
             this.bold = false;
             this.hoverText = "";
             this.italic = false;
+            this.scrambledEnding = false;
         }
 
         /**
@@ -972,6 +1051,15 @@ public class PageBuilder {
         }
 
         /**
+         * Adds 5 obfuscated characters to end of text. Intended for incomplete features.
+         * @return this
+         */
+        public Text scrambledEnding() {
+            this.scrambledEnding = true;
+            return this;
+        }
+
+        /**
          * The gap between each line, defaults to 9
          * @param gap the number of pixels
          * @return this
@@ -1033,7 +1121,7 @@ public class PageBuilder {
             return new GuideTextElement(
                     text,
                     new TextExtras(
-                            pageScrap, colour, maxLineLength, lineGap, dropShadow, textWrapping, centered, link, unlockForLink, underline, bold, hoverText, italic
+                            pageScrap, colour, maxLineLength, lineGap, dropShadow, textWrapping, centered, link, unlockForLink, underline, bold, hoverText, italic, scrambledEnding
                     ),
                     position
             );
