@@ -69,29 +69,32 @@ public class GuideSpellInfoRenderer implements IPageElementRenderer<GuideSpellIn
         }
 
         ElementPosition position = element.position();
-        graphics.blitSprite(DATA_SPRITE, leftPos + position.xOffset(), topPos + position.yOffset(), 150, data.size() * (extras.lineGap() + 4));
-        graphics.blitSprite(TITLE_BOX_SPRITE, leftPos + position.xOffset(), topPos + position.yOffset(), 150, 17);
-        graphics.drawString(Minecraft.getInstance().font, Component.translatable("guide.element.spell_info"), leftPos + position.xOffset() + 4, topPos + 5 + position.yOffset(), extras.colour(), extras.dropShadow());
+        int dataHeight = (data.size() *
+                (Minecraft.getInstance().font.lineHeight + (element.extras().lineGap()/2))) + element.extras().lineGap()/2;
+
+        graphics.blitSprite(DATA_SPRITE, leftPos + position.xOffset(), topPos + position.yOffset() - dataHeight, 150, dataHeight);
+        graphics.blitSprite(TITLE_BOX_SPRITE, leftPos + position.xOffset(), topPos + position.yOffset() - dataHeight, 150, 17);
+        graphics.drawString(Minecraft.getInstance().font, Component.translatable("guide.element.spell_info"), leftPos + position.xOffset() + 4, topPos + 5 - dataHeight + position.yOffset(), extras.colour(), extras.dropShadow());
 
         for (int i = 0; i < data.size(); i++) {
             Pair<String, Object> pair = data.get(i);
-            if (pair.getSecond() instanceof Component value) drawString(pair.getFirst(), value, i, leftPos, topPos, graphics, element);
-            else if (pair.getSecond() instanceof Integer value) drawString(pair.getFirst(), value, i, leftPos, topPos, graphics, element);
-            else if (pair.getSecond() instanceof Float value) drawString(pair.getFirst(), value, i, leftPos, topPos, graphics, element);
+            if (pair.getSecond() instanceof Component value) drawString(pair.getFirst(), value, data.size() - i, leftPos, topPos, graphics, element);
+            else if (pair.getSecond() instanceof Integer value) drawString(pair.getFirst(), value, data.size() - i, leftPos, topPos, graphics, element);
+            else if (pair.getSecond() instanceof Float value) drawString(pair.getFirst(), value, data.size() - i, leftPos, topPos, graphics, element);
         }
 
     }
 
     private void drawString(String key, int value, int elementCount, int leftPos, int topPos, GuiGraphics graphics, GuideSpellInfoElement element) {
-        graphics.drawString(Minecraft.getInstance().font, Component.translatable("guide.element.spell_info." + key, value), leftPos + element.position().xOffset() + 4, topPos + 17 + element.position().yOffset() + (elementCount * element.extras().lineGap()), element.extras().colour(), element.extras().dropShadow());
+        graphics.drawString(Minecraft.getInstance().font, Component.translatable("guide.element.spell_info." + key, value), leftPos + element.position().xOffset() + 4, topPos - 5 + element.position().yOffset() + (-elementCount * element.extras().lineGap()), element.extras().colour(), element.extras().dropShadow());
     }
 
     private void drawString(String key, Component value, int elementCount, int leftPos, int topPos, GuiGraphics graphics, GuideSpellInfoElement element) {
-        graphics.drawString(Minecraft.getInstance().font, Component.translatable("guide.element.spell_info." + key, value), leftPos + element.position().xOffset() + 4, topPos + 17 + element.position().yOffset() + (elementCount * element.extras().lineGap()), element.extras().colour(), element.extras().dropShadow());
+        graphics.drawString(Minecraft.getInstance().font, Component.translatable("guide.element.spell_info." + key, value), leftPos + element.position().xOffset() + 4, topPos - 5 + element.position().yOffset() + (-elementCount * element.extras().lineGap()), element.extras().colour(), element.extras().dropShadow());
     }
 
     private void drawString(String key, float value, int elementCount, int leftPos, int topPos, GuiGraphics graphics, GuideSpellInfoElement element) {
-        graphics.drawString(Minecraft.getInstance().font, Component.translatable("guide.element.spell_info." + key, value), leftPos + element.position().xOffset() + 4, topPos + 17 + element.position().yOffset() + (elementCount * element.extras().lineGap()), element.extras().colour(), element.extras().dropShadow());
+        graphics.drawString(Minecraft.getInstance().font, Component.translatable("guide.element.spell_info." + key, value), leftPos + element.position().xOffset() + 4, topPos - 5 + element.position().yOffset() + (-elementCount * element.extras().lineGap()), element.extras().colour(), element.extras().dropShadow());
     }
 
 }

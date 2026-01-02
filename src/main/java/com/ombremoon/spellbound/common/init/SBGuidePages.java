@@ -216,11 +216,12 @@ public interface SBGuidePages {
                                         .build(),
                                 PageBuilder.Text
                                         .ofTranslatable(translations + "boss_lore")
-                                        .position(PAGE_TWO_START_X, 59)
+                                        .position(PAGE_TWO_START_X, 68)
                                         .build(),
                                 PageBuilder.SpellInfo
                                         .of(spell)
-                                        .position(PAGE_TWO_START_X, 128)
+                                        .alwaysShow()
+                                        .position(PAGE_TWO_START_X, 195)
                                         .build()
                         ));
     }

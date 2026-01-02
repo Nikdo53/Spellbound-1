@@ -134,23 +134,23 @@ public class ModLangProvider extends LanguageProvider {
         addSpellContents(SpellPath.RUIN, SBSpells.SOLAR_RAY.get(),
                 "Channel the power of the sun forward creating a powerful beam setting fire to targets in its path.",
                 "I have purchased this spell tome from a Spell Broker as I have been unable to decipher its origin but I believe its siphoning energy from the sun.",
-                "I was mistaken... This spell isn't channelling energy from the sun, but a Sun God! It bends the sun to its will with every swing of its arm casting rays of light towards me!!! I managed to escape it's realm for now.");
+                "I was mistaken... This spell isn't channelling energy from the sun, but a Sun God! This is a realm im not coming back to...");
 
         //Transfig
         add("guide.transfig.v1_p1.description", "This book shall document my discoveries throughout my adventures into the arcane and how I can manipulate the world around me through the powers of transfiguration.");
 
         addSpellContents(SpellPath.TRANSFIGURATION, SBSpells.STRIDE.get(),
                 "Revamps the way your body conserves energy granting an increase in the casters movement speed.",
-                 "I have been trying to gather ingredients for all of my transfigurations but its taking me too long to find everything I need a faster way.",
-                "Well I decided to solve my problem with transfiguration and you wont believe it but by mixing the right ingredients I can supercharge my body allowing my legs to work even faster!");
+                 "I have been trying to gather ingredients for all of my transfigurations but its taking me too long to find everything. I need a faster way.",
+                "Well I solved my problem with transfiguration. You wont believe it but by mixing the right ingredients I can supercharge my body allowing my legs to work even faster!");
         addSpellContents(SpellPath.TRANSFIGURATION, SBSpells.SHADOW_GATE.get(),
-                "Rip open ",
-                "",
-                "");
+                "Rips open a portal through the darkness linking two points for transportation",
+                "As my studies have advanced I am finding myself needing to explore more biomes and found that teleportation could be quite useful.",
+                "I think I got it! After experimenting with ender pearls I found they rip open gateways temporarily. I have created a spell to keep these open for longer.");
         addSpellContents(SpellPath.TRANSFIGURATION, SBSpells.MYSTIC_ARMOR.get(),
-                "",
-                 "",
-                "");
+                "Grants the caster a magically charged shield, reducing incoming spell damage based on level.",
+                 "Uh oh seems like I have angered a few too many Magi. Im trying to throw together what ever I can hoping i can protect my self a little more consistantly.",
+                "Well i was trying to make myself absorb their mana and while that didn't completely work I have managed to reduce the impact of their spells.");
     }
 
     private void addSpellContents(SpellPath path, SpellType<?> spell, String description, String lore, String bossLore) {
