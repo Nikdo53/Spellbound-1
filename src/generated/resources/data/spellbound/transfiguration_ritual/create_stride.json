@@ -14,18 +14,30 @@
       "tier": 1
     }
   ],
-  "materials": [
+  "values": [
     {
-      "item": "minecraft:leather_boots"
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:leather_boots"
+      }
     },
     {
-      "item": "minecraft:sugar"
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:sugar"
+      }
     },
     {
-      "item": "minecraft:feather"
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:feather"
+      }
     },
     {
-      "item": "minecraft:lapis_lazuli"
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:lapis_lazuli"
+      }
     }
   ]
 }

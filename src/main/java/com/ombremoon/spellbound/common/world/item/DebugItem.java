@@ -35,8 +35,8 @@ public class DebugItem extends Item implements Loggable {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         var handler = SpellUtil.getSpellHandler(player);
         var skillHandler = SpellUtil.getSkills(player);
-        duckDebug(level, player, usedHand, handler, skillHandler);
-        //ombreDebug(level, player, usedHand, handler, skillHandler);
+//        duckDebug(level, player, usedHand, handler, skillHandler);
+        ombreDebug(level, player, usedHand, handler, skillHandler);
         return InteractionResultHolder.sidedSuccess(player.getItemInHand(usedHand), level.isClientSide);
     }
 
@@ -57,8 +57,8 @@ public class DebugItem extends Item implements Loggable {
     }
 
     private void ombreDebug(Level level, Player player, InteractionHand usedHand, SpellHandler spellHandler, SkillHolder skillHolder) {
-        StormRiftSpell spell = SBSpells.STORM_RIFT.get().createSpell();
-        StormRiftSpell spell1 = SBSpells.STORM_RIFT.get().createSpell();
+        ItemStack itemStack = player.getItemInHand(InteractionHand.OFF_HAND);
+        itemStack.setCount(2);
     }
 
     private void duckDebug(Level level, Player player, InteractionHand hand, SpellHandler spellHandler, SkillHolder skillHolder) {

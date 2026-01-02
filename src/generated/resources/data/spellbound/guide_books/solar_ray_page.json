@@ -5,7 +5,7 @@
       "position": {
         "xOffset": 5
       },
-      "translation": "guide.ruin.solar_ray.title"
+      "translation": "spells.spellbound.solar_ray"
     },
     {
       "type": "spellbound:entity_renderer",

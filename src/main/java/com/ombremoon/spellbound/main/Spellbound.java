@@ -1,13 +1,13 @@
 package com.ombremoon.spellbound.main;
 
-import com.ombremoon.spellbound.client.gui.guide_renderers.*;
-import com.ombremoon.spellbound.client.gui.guide_renderers.GuideEntityRenderer;
-import com.ombremoon.spellbound.client.gui.guide_renderers.GuideStaticItemRenderer;
+import com.ombremoon.spellbound.client.gui.guide.*;
+import com.ombremoon.spellbound.client.gui.guide.GuideEntityRenderer;
+import com.ombremoon.spellbound.client.gui.guide.GuideStaticItemRenderer;
+import com.ombremoon.spellbound.client.gui.guide.elements.special.TransfigurationRitualElement;
 import com.ombremoon.spellbound.common.init.*;
 import com.ombremoon.spellbound.common.magic.SpellPath;
-import com.ombremoon.spellbound.common.magic.acquisition.guides.elements.*;
+import com.ombremoon.spellbound.client.gui.guide.elements.*;
 import com.ombremoon.spellbound.common.magic.acquisition.transfiguration.TransfigurationRitual;
-import com.ombremoon.spellbound.common.magic.api.AbstractSpell;
 import com.ombremoon.spellbound.common.magic.api.SpellType;
 import com.ombremoon.spellbound.common.world.multiblock.Multiblock;
 import dev.kosmx.playerAnim.api.layered.IAnimation;
@@ -15,7 +15,6 @@ import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -24,7 +23,6 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
-import org.jetbrains.annotations.Nullable;
 
 //TODO: General - Discuss with Duck about bobHurt in GameRenderer
 //TODO: General - Discuss with Duck about Followers
@@ -106,5 +104,6 @@ public class Spellbound {
         ElementRenderDispatcher.register(GuideTextListElement.class, new GuideTextListRenderer());
         ElementRenderDispatcher.register(GuideItemElement.class, new GuideItemRenderer());
         ElementRenderDispatcher.register(GuideSpellBorderElement.class, new GuideSpellBorderRenderer());
+        ElementRenderDispatcher.register(TransfigurationRitualElement.class, new GuideRitualRenderer());
     }
 }

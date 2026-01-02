@@ -1,10 +1,8 @@
 package com.ombremoon.spellbound.common.magic.acquisition.guides;
 
-import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ombremoon.spellbound.common.magic.acquisition.guides.elements.IPageElement;
-import com.ombremoon.spellbound.common.magic.acquisition.guides.page_scraps.PageScrapManager;
+import com.ombremoon.spellbound.client.gui.guide.elements.IPageElement;
 import com.ombremoon.spellbound.main.CommonClass;
 import com.ombremoon.spellbound.util.SpellUtil;
 import net.minecraft.resources.ResourceLocation;

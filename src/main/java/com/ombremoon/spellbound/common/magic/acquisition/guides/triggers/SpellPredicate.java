@@ -3,7 +3,6 @@ package com.ombremoon.spellbound.common.magic.acquisition.guides.triggers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ombremoon.spellbound.common.init.SBSpells;
-import com.ombremoon.spellbound.common.magic.acquisition.guides.elements.extras.SpellInfoExtras;
 import com.ombremoon.spellbound.common.magic.api.SpellType;
 import net.minecraft.resources.ResourceLocation;
 

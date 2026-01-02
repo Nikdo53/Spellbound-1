@@ -14,42 +14,42 @@
       "tier": 2
     }
   ],
-  "materials": [
+  "values": [
     {
-      "item": "minecraft:iron_door"
+      "count": 2,
+      "ingredient": {
+        "item": "minecraft:iron_door"
+      }
     },
     {
-      "item": "minecraft:iron_door"
+      "count": 2,
+      "ingredient": {
+        "item": "minecraft:ender_pearl"
+      }
     },
     {
-      "item": "minecraft:ender_pearl"
+      "count": 2,
+      "ingredient": {
+        "item": "minecraft:feather"
+      }
     },
     {
-      "item": "minecraft:ender_pearl"
+      "count": 2,
+      "ingredient": {
+        "item": "minecraft:ink_sac"
+      }
     },
     {
-      "item": "minecraft:feather"
+      "count": 2,
+      "ingredient": {
+        "item": "minecraft:blackstone"
+      }
     },
     {
-      "item": "minecraft:feather"
-    },
-    {
-      "item": "minecraft:ink_sac"
-    },
-    {
-      "item": "minecraft:ink_sac"
-    },
-    {
-      "item": "minecraft:blackstone"
-    },
-    {
-      "item": "minecraft:blackstone"
-    },
-    {
-      "item": "spellbound:magic_essence"
-    },
-    {
-      "item": "spellbound:magic_essence"
+      "count": 2,
+      "ingredient": {
+        "item": "spellbound:magic_essence"
+      }
     }
   ]
 }

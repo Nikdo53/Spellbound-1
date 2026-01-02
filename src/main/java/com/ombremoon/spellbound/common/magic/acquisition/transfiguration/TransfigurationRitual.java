@@ -6,7 +6,9 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ombremoon.spellbound.common.world.multiblock.type.TransfigurationMultiblock;
 import com.ombremoon.spellbound.main.Keys;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
@@ -18,48 +20,113 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 
 import java.util.*;
 
-public record TransfigurationRitual(Component description, RitualDefinition definition, NonNullList<Ingredient> materials, List<RitualEffect> effects) {
+public class TransfigurationRitual {
     public static final int DEFAULT_RITUAL_DURATION = 5;
     public static final Codec<TransfigurationRitual> DIRECT_CODEC = RecordCodecBuilder.create(
             p_344998_ -> p_344998_.group(
                             ComponentSerialization.CODEC.fieldOf("description").forGetter(TransfigurationRitual::description),
                             RitualDefinition.CODEC.fieldOf("definition").forGetter(TransfigurationRitual::definition),
-                            Ingredient.CODEC_NONEMPTY
+                            Value.CODEC
                                     .listOf()
-                                    .fieldOf("materials")
+                                    .fieldOf("values")
                                     .flatXmap(list -> {
-                                        Ingredient[] ingredients = list.toArray(Ingredient[]::new);
-                                        if (ingredients.length == 0) {
-                                            return DataResult.error(() -> "No materials for transfiguration ritual.");
+                                        Value[] avalue = list.toArray(Value[]::new);
+                                        if (avalue.length == 0) {
+                                            return DataResult.error(() -> "No ingredients for modular part recipe");
                                         } else {
-                                            return ingredients.length > 24
-                                                    ? DataResult.error(() -> "Too many materials for transfiguration ritual. You greedy gremlin. The max is 24.")
-                                                    : DataResult.success(NonNullList.of(Ingredient.EMPTY, ingredients));
+                                            return avalue.length > 36
+                                                    ? DataResult.error(() -> "Too many ingredients for mech recipe. You greedy gremlin. The max is 36.")
+                                                    : DataResult.success(NonNullList.of(Value.EMPTY, avalue));
                                         }
                                     }, DataResult::success)
-                                    .forGetter(ritual -> ritual.materials),
+                                    .forGetter(recipe -> recipe.materials),
                             RitualEffect.CODEC.listOf().fieldOf("effects").forGetter(TransfigurationRitual::effects)
                     )
                     .apply(p_344998_, TransfigurationRitual::new)
     );
     public static final Codec<Holder<TransfigurationRitual>> CODEC = RegistryFixedCodec.create(Keys.RITUAL);
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<TransfigurationRitual>> STREAM_CODEC = ByteBufCodecs.holderRegistry(Keys.RITUAL);
+    private final Component description;
+    private final RitualDefinition definition;
+    private final NonNullList<Value> materials;
+    private final List<RitualEffect> effects;
+    final Map<Ingredient, Integer> ingredients = new Object2IntOpenHashMap<>();
+    final Set<Item> filteredItems = new ObjectOpenHashSet<>();
 
-    public boolean matches(TransfigurationMultiblock multiblock, List<ItemStack> items) {
-        return this.definition.tier == multiblock.getRings() && this.hasRequiredMaterials(items) && this.hasValidEffects(multiblock);
+    TransfigurationRitual(Component description, RitualDefinition definition, NonNullList<Value> materials, List<RitualEffect> effects) {
+        this.description = description;
+        this.definition = definition;
+        this.materials = materials;
+        this.effects = effects;
+
+        materials.forEach(value -> ingredients.put(value.ingredient, value.count));
     }
 
-    public boolean hasRequiredMaterials(List<ItemStack> items) {
-        Collection<Ingredient> acceptedItems = new ArrayList<>(this.materials);
-        for (ItemStack stack : items) {
-            acceptedItems.removeIf(ingredient -> ingredient.test(stack));
+    /*public boolean matches(TransfigurationMultiblock multiblock, List<ItemStack> items) {
+        return this.definition.tier == multiblock.getRings() && this.hasRequiredMaterials(items) && this.hasValidEffects(multiblock);
+    }*/
+
+    public boolean matches(TransfigurationMultiblock input, List<ItemStack> items) {
+        if (items.size() < this.materials.size() || items.size() > this.materials.size()) {
+            return false;
+        } else if (this.matches(items, this.getIngredients())) {
+            for (Item item : this.filteredItems) {
+                if (this.countItem(item, items) < this.getIngredientCount(new ItemStack(item)))
+                    return false;
+            }
+            return this.definition.tier == input.getRings() && this.hasValidEffects(input);
         }
-        return acceptedItems.isEmpty();
+        return false;
+    }
+
+    public boolean matches(List<ItemStack> from, NonNullList<Ingredient> to) {
+        int matchedIngredients = 0;
+        for (ItemStack itemStack : from) {
+            if (matchedIngredients >= to.size()) {
+                return true;
+            } else {
+                for (Ingredient ingredient : to) {
+                    if (ingredient.test(itemStack)) {
+                        matchedIngredients++;
+                        this.filteredItems.add(itemStack.getItem());
+                        break;
+                    }
+                }
+            }
+        }
+        return matchedIngredients == to.size();
+    }
+
+    private NonNullList<Ingredient> getIngredients() {
+        NonNullList<Ingredient> nonNullList = NonNullList.create();
+        nonNullList.addAll(this.ingredients.keySet());
+        return nonNullList;
+    }
+
+    private int getIngredientCount(ItemStack ingredient) {
+        for (var entry : this.ingredients.entrySet()) {
+            if (entry.getKey().getItems()[0].is(ingredient.getItem()))
+                return entry.getValue();
+        }
+        return 0;
+    }
+
+    private int countItem(Item item, List<ItemStack> items) {
+        int i = 0;
+        for(ItemStack stack : items) {
+            if (stack.is(item)) {
+                i += stack.getCount();
+            }
+        }
+
+        return i;
     }
 
     public boolean hasValidEffects(TransfigurationMultiblock multiblock) {
@@ -69,6 +136,22 @@ public record TransfigurationRitual(Component description, RitualDefinition defi
         }
 
         return true;
+    }
+
+    public Component description() {
+        return this.description;
+    }
+
+    public RitualDefinition definition() {
+        return this.definition;
+    }
+
+    public NonNullList<Value> materials() {
+        return this.materials;
+    }
+
+    public List<RitualEffect> effects() {
+        return this.effects;
     }
 
     public static Builder ritual(int tier, int startupTime, int duration) {
@@ -85,7 +168,7 @@ public record TransfigurationRitual(Component description, RitualDefinition defi
 
     public static class Builder {
         private final RitualDefinition definition;
-        private final NonNullList<Ingredient> materials = NonNullList.create();
+        private final NonNullList<Value> materials = NonNullList.create();
         private final List<RitualEffect> effects = new ObjectArrayList<>();
 
         public Builder(RitualDefinition definition) {
@@ -97,10 +180,7 @@ public record TransfigurationRitual(Component description, RitualDefinition defi
         }
 
         public Builder requires(Ingredient ingredient, int count) {
-            for (int i = 0; i < count; i++) {
-                this.materials.add(ingredient);
-            }
-
+            this.materials.add(new Value(ingredient, count));
             return this;
         }
 
@@ -125,5 +205,32 @@ public record TransfigurationRitual(Component description, RitualDefinition defi
                         )
                         .apply(p_344890_, RitualDefinition::new)
         );
+    }
+
+    public record Value(Ingredient ingredient, int count) {
+        public static final Value EMPTY = new Value(Ingredient.EMPTY, 0);
+        public static final Codec<Value> CODEC = RecordCodecBuilder.create(instance ->
+                instance.group(
+                        Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(Value::ingredient),
+                        Codec.INT.fieldOf("count").forGetter(Value::count)
+                ).apply(instance, Value::new)
+        );
+
+        public static final StreamCodec<RegistryFriendlyByteBuf, Value> STREAM_CODEC = StreamCodec.composite(
+                Ingredient.CONTENTS_STREAM_CODEC, Value::ingredient,
+                ByteBufCodecs.INT, Value::count,
+                Value::new
+        );
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof Value value)) {
+                return false;
+            } else {
+                return value.ingredient.equals(ingredient);
+            }
+        }
     }
 }

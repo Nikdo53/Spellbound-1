@@ -2,6 +2,7 @@ package com.ombremoon.spellbound.datagen;
 
 import com.ombremoon.spellbound.common.init.SBEntities;
 import com.ombremoon.spellbound.common.init.SBPageScraps;
+import com.ombremoon.spellbound.common.init.SBRituals;
 import com.ombremoon.spellbound.common.init.SBSpells;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookPage;
 import com.ombremoon.spellbound.datagen.provider.GuideBookProvider;
@@ -10,23 +11,24 @@ import com.ombremoon.spellbound.main.CommonClass;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.Recipe;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class ModGuideBookProvider extends GuideBookProvider {
     //Books
-    private static final ResourceLocation GRIMOIRE = loc("grimoire_of_annihilation");
+    private static final ResourceLocation RUIN = loc("grimoire_of_annihilation");
     private static final ResourceLocation BASIC = loc("studies_in_the_arcane");
-    private static final ResourceLocation TRANSFIG = loc("studies_in_the_arcane");
+    private static final ResourceLocation TRANSFIG = loc("architects_lexicon");
 
     //Pages
     private static final ResourceLocation RUIN_P1 = loc("sb_ruin_v1_p1");
     private static final ResourceLocation RUIN_P2 = loc("sb_ruin_v1_p2");
     private static final ResourceLocation RUIN_P3 = loc("sb_ruin_v1_p3");
     private static final ResourceLocation SOLAR_RAY = loc("solar_ray_page");
+
+    private static final ResourceLocation TRANSFIG_P1 = loc("sb_transfig_v1_p1");
+    private static final ResourceLocation SHADOW_GATE = loc("shadow_gate_page");
 
     private static final ResourceLocation BASIC_P1 = loc("sb_basic_v1_p1");
 
@@ -69,7 +71,7 @@ public class ModGuideBookProvider extends GuideBookProvider {
 
         //Ruin book
         PageBuilder
-                .forBook(GRIMOIRE)
+                .forBook(RUIN)
                 .addElements(
                         PageBuilder.Text
                                 .of("item.spellbound.grimoire_of_annihilation")
@@ -83,7 +85,7 @@ public class ModGuideBookProvider extends GuideBookProvider {
                                 .build()
                 ).save(writer, RUIN_P1);
         PageBuilder
-                .forBook(GRIMOIRE)
+                .forBook(RUIN)
                 .setPreviousPage(RUIN_P1)
                 .addElements(
                         PageBuilder.Image
@@ -105,7 +107,7 @@ public class ModGuideBookProvider extends GuideBookProvider {
                                 .build()
                 ).save(writer, RUIN_P2);
         PageBuilder
-                .forBook(GRIMOIRE)
+                .forBook(RUIN)
                 .setPreviousPage(RUIN_P2)
                 .addElements(
                         PageBuilder.Text
@@ -122,11 +124,11 @@ public class ModGuideBookProvider extends GuideBookProvider {
                                 .build()
                 ).save(writer, RUIN_P3);
         PageBuilder
-                .forBook(GRIMOIRE)
+                .forBook(RUIN)
                 .setPreviousPage(RUIN_P3)
                 .addElements(
                         PageBuilder.Text
-                                .of("guide.ruin.solar_ray.title")
+                                .of("spells.spellbound.solar_ray")
                                 .position(5, 0)
                                 .build(),
                         PageBuilder.EntityRenderer
@@ -150,6 +152,32 @@ public class ModGuideBookProvider extends GuideBookProvider {
                                 .build()
                 ).save(writer, SOLAR_RAY);
 
+        PageBuilder
+                .forBook(TRANSFIG)
+                .addElements(
+                        PageBuilder.Text
+                                .of("item.spellbound.architects_lexicon")
+                                .position(PAGE_TWO_START + 13, 20)
+                                .build(),
+                        PageBuilder.Text
+                                .of("guide.transfig.v1_p1.description")
+                                .hoverText("Testing this lol")
+                                .setLink("https://www.google.com/")
+                                .position(PAGE_TWO_START, 50)
+                                .build()
+                ).save(writer, TRANSFIG_P1);
+        PageBuilder
+                .forBook(TRANSFIG)
+                .setPreviousPage(TRANSFIG_P1)
+                .addElements(
+                        PageBuilder.Text
+                                .of("spells.spellbound.shadow_gate")
+                                .position(5, 0)
+                                .build(),
+                        PageBuilder.RitualRenderer
+                                .of(SBRituals.CREATE_MYSTIC_ARMOR)
+                                .build()
+                ).save(writer, SHADOW_GATE);
         //Transfig Rituals
         //Name
         //Description

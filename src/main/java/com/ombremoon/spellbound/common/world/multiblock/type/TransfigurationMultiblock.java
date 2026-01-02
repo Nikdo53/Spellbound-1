@@ -28,6 +28,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -78,10 +79,7 @@ public class TransfigurationMultiblock extends StandardMultiblock {
                 .map(level::getBlockEntity).filter(Objects::nonNull)
                 .map(blockEntity -> (TransfigurationDisplayBlockEntity) blockEntity)
                 .toList();
-        List<ItemStack> items = displays
-                .stream()
-                .map(display -> display.currentItem)
-                .toList();
+        List<ItemStack> items = createItemList(displays);
         Optional<TransfigurationRitual> optional = RitualHelper.getRitualFor(level, this, items);
         if (optional.isPresent()) {
             TransfigurationRitual ritual = optional.get();
@@ -99,6 +97,27 @@ public class TransfigurationMultiblock extends StandardMultiblock {
         } else {
             clearMultiblock(player, level, pattern);
         }
+    }
+
+    private List<ItemStack> createItemList(List<TransfigurationDisplayBlockEntity> displays) {
+        List<ItemStack> items = new ArrayList<>();
+        for (var display : displays) {
+            boolean found = false;
+            if (display.currentItem == null)
+                continue;
+
+            for (ItemStack item : items) {
+                if (item.getItem() == display.currentItem.getItem()) {
+                    item.grow(1);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                items.add(display.currentItem.copy());
+            }
+        }
+        return items;
     }
 
     @Override

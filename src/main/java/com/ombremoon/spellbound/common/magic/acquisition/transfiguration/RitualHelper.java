@@ -4,6 +4,8 @@ import com.ombremoon.spellbound.common.world.multiblock.type.TransfigurationMult
 import com.ombremoon.spellbound.main.Keys;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -16,6 +18,10 @@ public class RitualHelper {
 
     public static Optional<TransfigurationRitual> getRitualFor(Level level, TransfigurationMultiblock multiblock, List<ItemStack> items) {
         return level.registryAccess().registry(Keys.RITUAL).get().stream().filter(ritual -> ritual.matches(multiblock, items)).findFirst();
+    }
+
+    public static TransfigurationRitual getRitualFor(Level level, ResourceKey<TransfigurationRitual> ritual) {
+        return level.registryAccess().registry(Keys.RITUAL).get().get(ritual);
     }
 
     public static void createItem(Level level, BlockPos pos, ItemStack item) {

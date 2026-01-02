@@ -68,12 +68,15 @@ public class RenderUtil {
     }
 
     public static void renderItem(GuiGraphics graphics, ItemStack stack, int x, int y, float scale) {
+        renderItem(graphics, stack, x, y, scale, 150.0F);
+    }
+    public static void renderItem(GuiGraphics graphics, ItemStack stack, int x, int y, float scale, float depth) {
         if (!stack.isEmpty()) {
             Minecraft minecraft = Minecraft.getInstance();
             BakedModel bakedmodel = minecraft.getItemRenderer().getModel(stack, minecraft.level, null, 0);
             PoseStack pose = graphics.pose();
             pose.pushPose();
-            pose.translate((x + (19*scale)), (y + (17*scale)), (float)(150));
+            pose.translate((x + (19*scale)), (y + (17*scale)), depth);
 
             try {
                 float size = 16.0F * 1.2F * scale;

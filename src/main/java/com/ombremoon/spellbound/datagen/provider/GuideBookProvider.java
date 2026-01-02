@@ -1,9 +1,6 @@
 package com.ombremoon.spellbound.datagen.provider;
 
-import com.ombremoon.spellbound.common.magic.acquisition.divine.ActionHolder;
-import com.ombremoon.spellbound.common.magic.acquisition.divine.DivineAction;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookPage;
-import com.ombremoon.spellbound.common.magic.acquisition.guides.elements.IPageElement;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
@@ -14,7 +11,6 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public abstract class GuideBookProvider implements DataProvider {
     private final PackOutput.PathProvider pathProvider;

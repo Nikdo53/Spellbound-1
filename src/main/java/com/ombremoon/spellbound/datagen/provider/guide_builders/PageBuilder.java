@@ -1,12 +1,15 @@
 package com.ombremoon.spellbound.datagen.provider.guide_builders;
 
+import com.ombremoon.spellbound.client.gui.guide.elements.special.TransfigurationRitualElement;
 import com.ombremoon.spellbound.common.init.SBSpells;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookManager;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookPage;
-import com.ombremoon.spellbound.common.magic.acquisition.guides.elements.*;
-import com.ombremoon.spellbound.common.magic.acquisition.guides.elements.extras.*;
+import com.ombremoon.spellbound.client.gui.guide.elements.*;
+import com.ombremoon.spellbound.client.gui.guide.elements.extras.*;
+import com.ombremoon.spellbound.common.magic.acquisition.transfiguration.TransfigurationRitual;
 import com.ombremoon.spellbound.common.magic.api.SpellType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -1228,6 +1231,30 @@ public class PageBuilder {
                             scale
                     )
             );
+        }
+    }
+
+    //Builder for GuideRitualRenderer
+    public static class RitualRenderer {
+        private ResourceKey<TransfigurationRitual> ritual;
+
+        /**
+         * Creates a new builder for a RitualRenderer element
+         * @param ritual the ritual for items to render from
+         * @return new RitualRenderer builder
+         */
+        public static RitualRenderer of(ResourceKey<TransfigurationRitual> ritual) {
+            RitualRenderer builder = new RitualRenderer();
+            return builder.createRitual(ritual);
+        }
+
+        private RitualRenderer createRitual(ResourceKey<TransfigurationRitual> ritual) {
+            this.ritual = ritual;
+            return this;
+        }
+
+        public TransfigurationRitualElement build() {
+            return new TransfigurationRitualElement(this.ritual);
         }
     }
 }

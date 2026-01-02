@@ -16,18 +16,30 @@
       "item": "spellbound:chalk"
     }
   ],
-  "materials": [
+  "values": [
     {
-      "item": "minecraft:water_bucket"
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:water_bucket"
+      }
     },
     {
-      "item": "minecraft:gold_ingot"
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:gold_ingot"
+      }
     },
     {
-      "item": "minecraft:iron_ingot"
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:iron_ingot"
+      }
     },
     {
-      "item": "spellbound:arcanthus"
+      "count": 1,
+      "ingredient": {
+        "item": "spellbound:arcanthus"
+      }
     }
   ]
 }

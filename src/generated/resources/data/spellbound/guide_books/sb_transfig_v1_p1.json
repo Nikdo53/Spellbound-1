@@ -1,0 +1,25 @@
+{
+  "elements": [
+    {
+      "type": "spellbound:text",
+      "position": {
+        "xOffset": 182,
+        "yOffset": 20
+      },
+      "translation": "item.spellbound.architects_lexicon"
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "hoverText": "Testing this lol",
+        "link": "https://www.google.com/"
+      },
+      "position": {
+        "xOffset": 169,
+        "yOffset": 50
+      },
+      "translation": "guide.transfig.v1_p1.description"
+    }
+  ],
+  "id": "spellbound:architects_lexicon"
+}
