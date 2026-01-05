@@ -1,13 +1,12 @@
 package com.ombremoon.spellbound.datagen.provider.guide_builders;
 
-import com.ombremoon.spellbound.client.gui.guide.elements.TransfigurationRitualElement;
+import com.ombremoon.spellbound.client.gui.guide.elements.*;
+import com.ombremoon.spellbound.client.gui.guide.elements.extras.*;
 import com.ombremoon.spellbound.common.init.SBSpells;
 import com.ombremoon.spellbound.common.magic.SpellMastery;
 import com.ombremoon.spellbound.common.magic.SpellPath;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookManager;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookPage;
-import com.ombremoon.spellbound.client.gui.guide.elements.*;
-import com.ombremoon.spellbound.client.gui.guide.elements.extras.*;
 import com.ombremoon.spellbound.common.magic.acquisition.transfiguration.TransfigurationRitual;
 import com.ombremoon.spellbound.common.magic.api.SpellType;
 import com.ombremoon.spellbound.main.CommonClass;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
-import java.util.function.Supplier;
 
 public class PageBuilder {
     private ResourceLocation bookId;

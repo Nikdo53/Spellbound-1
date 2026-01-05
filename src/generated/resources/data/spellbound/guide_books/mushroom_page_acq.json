@@ -1,0 +1,106 @@
+{
+  "elements": [
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "bold": true,
+        "centered": true
+      },
+      "position": {
+        "xOffset": 72,
+        "yOffset": 4
+      },
+      "translation": {
+        "translate": "spellbound.wild_mushroom"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "italic": true
+      },
+      "position": {
+        "yOffset": 35
+      },
+      "translation": {
+        "translate": "summon.acquisition.description"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "italic": true
+      },
+      "position": {
+        "xOffset": -5,
+        "yOffset": 55
+      },
+      "translation": "-------------------------"
+    },
+    {
+      "type": "spellbound:recipe",
+      "gridName": "necronomicon",
+      "position": {
+        "xOffset": 72,
+        "yOffset": 100
+      },
+      "recipe": "minecraft:anvil"
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "bold": true,
+        "centered": true
+      },
+      "position": {
+        "xOffset": 247,
+        "yOffset": 4
+      },
+      "translation": {
+        "translate": "entity.spellbound.giant_mushroom"
+      }
+    },
+    {
+      "type": "spellbound:entity_renderer",
+      "entities": [
+        "spellbound:giant_mushroom"
+      ],
+      "extras": {
+        "animated": true
+      },
+      "position": {
+        "xOffset": 247,
+        "yOffset": 100
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "centered": true,
+        "italic": true
+      },
+      "position": {
+        "xOffset": 247,
+        "yOffset": 150
+      },
+      "translation": {
+        "translate": "summon.acquisition.boss_rewards"
+      }
+    },
+    {
+      "type": "spellbound:item_list",
+      "extras": {},
+      "items": [
+        {
+          "items": [
+            {
+              "item": "spellbound:spell_tome"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "id": "spellbound:the_necronomicon",
+  "insertAfter": "spellbound:summon_cover_page"
+}

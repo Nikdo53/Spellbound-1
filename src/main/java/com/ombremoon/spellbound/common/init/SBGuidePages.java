@@ -8,11 +8,18 @@ import com.ombremoon.spellbound.common.magic.api.SpellType;
 import com.ombremoon.spellbound.datagen.provider.guide_builders.PageBuilder;
 import com.ombremoon.spellbound.main.CommonClass;
 import com.ombremoon.spellbound.main.Keys;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 
 import java.util.function.Supplier;
 
@@ -48,6 +55,7 @@ public interface SBGuidePages {
 
     //Summon Book
     ResourceKey<GuideBookPage> SUMMON_COVER_PAGE = key("summon_cover_page");
+    ResourceKey<GuideBookPage> MUSHROOM_ACQ = key("mushroom_page_acq");
 
     //Divine Book
     ResourceKey<GuideBookPage> DIVINE_COVER_PAGE = key("divine_cover_page");
@@ -143,6 +151,7 @@ public interface SBGuidePages {
                         )
         );
         createSpellPage(context, SOLAR_RAY, RUIN_P3, RUIN, SBSpells.SOLAR_RAY);
+        createSummonAcqPage(context, SUMMON, MUSHROOM_ACQ, SUMMON_COVER_PAGE, SBEntities.GIANT_MUSHROOM.get(), SBSpells.WILD_MUSHROOM.get());
 
         //Transfiguration
         createCoverPage(context, TRANSFIG, TRANSFIG_COVER_PAGE, SpellPath.TRANSFIGURATION);
@@ -211,6 +220,69 @@ public interface SBGuidePages {
                                         .alwaysShow()
                                         .position(PAGE_TWO_START_X, 195)
                                         .build()
+                        ));
+    }
+
+    private static void createSummonAcqPage(BootstrapContext<GuideBookPage> context,
+                                            ResourceLocation forBook,
+                                            ResourceKey<GuideBookPage> currentPage,
+                                            ResourceKey<GuideBookPage> prevPage,
+
+                                            EntityType<?> boss,
+                                            SpellType<?> spell
+    ) {
+        register(context,
+                currentPage,
+                PageBuilder
+                        .forBook(forBook)
+                        .setPreviousPage(prevPage)
+                        .addElements(
+                                PageBuilder.Text
+                                        .ofTranslatable(spell.location().toLanguageKey())
+                                        .position(PAGE_START_CENTER_X, PAGE_START_DOUBLE_Y)
+                                        .centered()
+                                        .bold()
+                                        .build(),
+                                PageBuilder.Text
+                                        .ofTranslatable("summon.acquisition.description")
+                                        .position(0, 35)
+                                        .italic()
+                                        .build(),
+                                PageBuilder.Text
+                                        .ofLiteral("-------------------------")
+                                        .position(-5, 55)
+                                        .italic()
+                                        .build(),
+                                //TODO: Fix recipe
+                                PageBuilder.Recipe
+                                        .of(ResourceLocation.withDefaultNamespace("anvil"))
+                                        .gridName(PageBuilder.Recipe.SpellboundGrids.NECRONOMICON)
+                                        .position(PAGE_START_CENTER_X, 100)
+                                        .build(),
+
+                                PageBuilder.Text
+                                        .ofTranslatable(boss.getDescriptionId())
+                                        .position(PAGE_TWO_START_CENTER_X, PAGE_START_DOUBLE_Y)
+                                        .centered()
+                                        .bold()
+                                        .build(),
+                                PageBuilder.EntityRenderer
+                                        .of()
+                                        .addEntity(boss)
+                                        .animated()
+                                        .position(PAGE_TWO_START_CENTER_X, 100)
+                                        .build(),
+                                PageBuilder.Text
+                                        .ofTranslatable("summon.acquisition.boss_rewards")
+                                        .position(PAGE_TWO_START_CENTER_X, 150)
+                                        .centered()
+                                        .italic()
+                                        .build(),
+                                PageBuilder.ItemList
+                                        .of()
+                                        .addEntry(Ingredient.of(SBItems.SPELL_TOME.get()))
+                                        .build()
+
                         ));
     }
 
