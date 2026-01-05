@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ombremoon.spellbound.client.gui.guide.elements.extras.ElementPosition;
 import com.ombremoon.spellbound.client.gui.guide.elements.extras.ItemListExtras;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

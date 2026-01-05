@@ -7,6 +7,7 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ombremoon.spellbound.main.CommonClass;
 import com.ombremoon.spellbound.main.Constants;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -24,9 +25,11 @@ public class GuideBookManager extends SimpleJsonResourceReloadListener {
     private static final Logger LOGGER = Constants.LOG;
     private static final Gson GSON = new GsonBuilder().create();
     private static Map<ResourceLocation, List<GuideBookPage>> BOOKS = new HashMap<>();
+    private final RegistryAccess registries;
 
-    public GuideBookManager() {
+    public GuideBookManager(RegistryAccess registries) {
         super(GSON, "guide_books");
+        this.registries = registries;
     }
 
     //Adds the different paths for the varying books to the scanner
@@ -67,7 +70,7 @@ public class GuideBookManager extends SimpleJsonResourceReloadListener {
         Map<ResourceLocation, List<Pair<ResourceLocation, GuideBookPage>>> pages = new HashMap<>();
         object.forEach((location, json) -> {
             try {
-                GuideBookPage page = GuideBookPage.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow();
+                GuideBookPage page = GuideBookPage.CODEC.parse(registries.createSerializationContext(JsonOps.INSTANCE), json).getOrThrow();
                 if (page == null) {
                     LOGGER.debug("Skipping loading guide page {} as its conditions were not met", location);
                     return;
@@ -140,7 +143,7 @@ public class GuideBookManager extends SimpleJsonResourceReloadListener {
 
     @SubscribeEvent
     public static void onAddReloadListener(AddReloadListenerEvent event) {
-        GuideBookManager manager = new GuideBookManager();
+        GuideBookManager manager = new GuideBookManager(event.getRegistryAccess());
         event.addListener(manager);
     }
 }

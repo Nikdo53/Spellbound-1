@@ -69,6 +69,8 @@ public interface SBDivineActions {
     );
 
     ResourceKey<DivineAction> HEAL_MOB_TO_FULL = key("healing_touch/heal_mob_to_full");
+    ResourceKey<DivineAction> USE_BLESSED_BANDAGES = key("healing_touch/use_blessed_bandages");
+    ResourceKey<DivineAction> BLESS_SHRINE = key("healing_touch/bless_shrine");
     ResourceKey<DivineAction> CURE_ZOMBIE_VILLAGER = key("blessing/cure_zombie_villager");
     ResourceKey<DivineAction> KILL_VILLAGER = key("unidentified/kill_villager");
     ResourceKey<DivineAction> DECORATE_SHRINE = key("healing_blossom/decorate_shrine");

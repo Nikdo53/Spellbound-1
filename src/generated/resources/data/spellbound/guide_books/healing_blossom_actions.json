@@ -20,11 +20,18 @@
       }
     },
     {
+      "type": "spellbound:spell_border",
+      "colour": -3510773,
+      "path": "divine",
+      "pathTexture": "spellbound:textures/gui/paths/divine.png"
+    },
+    {
       "type": "spellbound:text",
       "extras": {
         "maxLineLength": 100
       },
       "position": {
+        "xOffset": 54,
         "yOffset": 40
       },
       "translation": {
@@ -64,26 +71,17 @@
       "width": 155
     },
     {
-      "type": "spellbound:item",
+      "type": "spellbound:image",
       "extras": {
-        "disableBackground": true,
-        "scale": 2.0
+        "enableCorners": false
       },
-      "item": [
-        {
-          "tag": "minecraft:chest_armor"
-        }
-      ],
+      "height": 32,
+      "image": "spellbound:textures/block/rune/rune_1.png",
       "position": {
-        "xOffset": 77,
-        "yOffset": 7
-      }
-    },
-    {
-      "type": "spellbound:spell_border",
-      "colour": -3510773,
-      "path": "divine",
-      "pathTexture": "spellbound:textures/gui/paths/divine.png"
+        "xOffset": 9,
+        "yOffset": 37
+      },
+      "width": 32
     },
     {
       "type": "spellbound:text",
@@ -91,7 +89,6 @@
         "maxLineLength": 100
       },
       "position": {
-        "xOffset": 54,
         "yOffset": 93
       },
       "translation": {
@@ -131,26 +128,17 @@
       "width": 155
     },
     {
-      "type": "spellbound:item",
+      "type": "spellbound:image",
       "extras": {
-        "disableBackground": true,
-        "scale": 2.0
+        "enableCorners": false
       },
-      "item": [
-        {
-          "item": "minecraft:gold_ingot"
-        }
-      ],
+      "height": 32,
+      "image": "spellbound:textures/gui/paths/divine.png",
       "position": {
-        "xOffset": -26,
-        "yOffset": 64
-      }
-    },
-    {
-      "type": "spellbound:spell_border",
-      "colour": -3510773,
-      "path": "divine",
-      "pathTexture": "spellbound:textures/gui/paths/divine.png"
+        "xOffset": 112,
+        "yOffset": 89
+      },
+      "width": 32
     },
     {
       "type": "spellbound:text",
@@ -158,6 +146,7 @@
         "maxLineLength": 100
       },
       "position": {
+        "xOffset": 54,
         "yOffset": 150
       },
       "translation": {
@@ -197,31 +186,17 @@
       "width": 155
     },
     {
-      "type": "spellbound:item",
+      "type": "spellbound:image",
       "extras": {
-        "disableBackground": true,
-        "scale": 2.0
+        "enableCorners": false
       },
-      "item": [
-        [
-          {
-            "item": "minecraft:enchanting_table"
-          },
-          {
-            "item": "spellbound:jungle_divine_shrine"
-          }
-        ]
-      ],
+      "height": 32,
+      "image": "spellbound:textures/gui/spells/healing_blossom.png",
       "position": {
-        "xOffset": 77,
-        "yOffset": 110
-      }
-    },
-    {
-      "type": "spellbound:spell_border",
-      "colour": -3510773,
-      "path": "divine",
-      "pathTexture": "spellbound:textures/gui/paths/divine.png"
+        "xOffset": 9,
+        "yOffset": 140
+      },
+      "width": 32
     },
     {
       "type": "spellbound:text",
@@ -231,12 +206,15 @@
       },
       "translation": {
         "extra": [
+          "\n\n",
           {
             "translate": "healing_blossom.decorate_shrine.lore"
           },
+          "\n\n",
           {
             "translate": "unidentified.kill_villager.lore"
-          }
+          },
+          "\n\n"
         ],
         "translate": "blessing.cure_zombie_villager.lore"
       }

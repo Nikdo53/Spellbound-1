@@ -11,18 +11,25 @@ import com.ombremoon.spellbound.client.gui.guide.elements.extras.*;
 import com.ombremoon.spellbound.common.magic.acquisition.transfiguration.TransfigurationRitual;
 import com.ombremoon.spellbound.common.magic.api.SpellType;
 import com.ombremoon.spellbound.main.CommonClass;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.component.DataComponentPredicate;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
+import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiConsumer;
 
 public class PageBuilder {
     private ResourceLocation bookId;
@@ -865,6 +872,43 @@ public class PageBuilder {
             this.ingredients.add(item);
             return this;
         }
+
+/*        public StaticItem addItem(ItemLike item, TypedDataComponent<?>... data) {
+            this.ingredients.add(createIngredient(Arrays.asList(data), item));
+            return this;
+        }
+
+        public StaticItem addItem(HolderSet<Item> items, TypedDataComponent<?>... data) {
+            this.ingredients.add(createIngredient(Arrays.asList(data), items));
+            return this;
+        }
+
+        public StaticItem addItem(Item item, TypedDataComponent<?>... data) {
+            this.ingredients.add(createIngredient(Arrays.asList(data), item));
+            return this;
+        }
+
+        public StaticItem addItem(HolderSet<Item> items) {
+            this.ingredients.add(createIngredient(List.of(), items));
+            return this;
+        }
+
+        public StaticItem addItem(Item item) {
+            this.ingredients.add(createIngredient(List.of(), item));
+            return this;
+        }
+
+        private DataComponentIngredient createIngredient(List<TypedDataComponent<?>> data, ItemLike... items) {
+            return createIngredient(data,HolderSet.direct(Arrays.stream(items).map(ItemLike::asItem).map(Item::builtInRegistryHolder).toList()));
+        }
+
+        private <S> DataComponentIngredient createIngredient(List<TypedDataComponent<?>> data, HolderSet<Item> items) {
+            var builder = DataComponentPredicate.builder();
+            for (var components : data) {
+                builder.expect((DataComponentType<? super S>) components.type(), (S) components.value());
+            }
+            return new DataComponentIngredient(items, builder.build(), false);
+        }*/
 
         /**
          * The grid texture to use, defaults to "basic"

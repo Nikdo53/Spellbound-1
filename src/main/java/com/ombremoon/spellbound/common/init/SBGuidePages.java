@@ -10,19 +10,20 @@ import com.ombremoon.spellbound.datagen.provider.guide_builders.PageBuilder;
 import com.ombremoon.spellbound.main.CommonClass;
 import com.ombremoon.spellbound.main.Keys;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public interface SBGuidePages {
@@ -169,101 +170,25 @@ public interface SBGuidePages {
 
         //Divine
         createCoverPage(context, DIVINE, DIVINE_COVER_PAGE, SpellPath.DIVINE);
-        register(
+        createDivineActionPage(
                 context,
                 HEALING_TOUCH_ACTIONS,
-                PageBuilder
-                        .forBook(DIVINE)
-                        .addElements(
-                                PageBuilder.Text
-                                        .of(translatable("guide.divine.divine_actions").append(translatable("spells.spellbound.healing_touch")))
-                                        .position(PAGE_START_CENTER_X, PAGE_START_DOUBLE_Y)
-                                        .centered()
-                                        .bold()
-                                        .build(),
-                                PageBuilder.SpellBorder
-                                        .of(SpellPath.DIVINE)
-                                        .build(),
-                                PageBuilder.Text
-                                        .ofTranslatable("divine_action.healing_touch.heal_mob_to_full")
-                                        .position(0, 40)
-                                        .maxLineLength(100)
-                                        .build(),
-                                PageBuilder.Text
-                                        .ofTranslatable("divine_action.healing_touch.apply_blessed_bandages")
-                                        .position(54, 93)
-                                        .maxLineLength(100)
-                                        .build(),
-                                PageBuilder.Text
-                                        .ofTranslatable("divine_action.healing_touch.purify_shrine")
-                                        .position(0, 150)
-                                        .maxLineLength(100)
-                                        .build(),
-                                PageBuilder.Text
-                                        .ofTranslatable("healing_touch.heal_mob_to_full.lore")
-                                        .position(PAGE_TWO_START_X, 5)
-                                        .build(),
-                                PageBuilder.Tooltip
-                                        .of()
-                                        .addTooltip(literal("Shepherd").withStyle(ChatFormatting.YELLOW, ChatFormatting.BOLD, ChatFormatting.UNDERLINE))
-                                        .addTooltip(literal(""))
-                                        .addTooltip(literal("Judgement: "))
-                                        .addTooltip(literal("Cooldown: "))
-                                        .position(0, 40)
-                                        .dimensions(155, 40)
-                                        .build(),
-                                PageBuilder.Tooltip
-                                        .of()
-                                        .addTooltip(literal("TBD").withStyle(ChatFormatting.YELLOW, ChatFormatting.BOLD, ChatFormatting.UNDERLINE))
-                                        .addTooltip(literal(""))
-                                        .addTooltip(literal("Judgement: "))
-                                        .addTooltip(literal("Cooldown: "))
-                                        .position(0, 93)
-                                        .dimensions(155, 40)
-                                        .build(),
-                                PageBuilder.Tooltip
-                                        .of()
-                                        .addTooltip(literal("TBD").withStyle(ChatFormatting.YELLOW, ChatFormatting.BOLD, ChatFormatting.UNDERLINE))
-                                        .addTooltip(literal(""))
-                                        .addTooltip(literal("Judgement: "))
-                                        .addTooltip(literal("Cooldown: "))
-                                        .position(0, 150)
-                                        .dimensions(155, 40)
-                                        .build(),
-                                PageBuilder.StaticItem.of()
-                                        .addItem(Ingredient.of(Blocks.ZOMBIE_HEAD))
-                                        .position(77, 7)
-                                        .scale(2)
-                                        .disableBackground()
-                                        .build(),
-                                PageBuilder.StaticItem.of()
-                                        .addItem(Ingredient.of(Items.SHEEP_SPAWN_EGG))
-                                        .position(-26, 64)
-                                        .scale(2)
-                                        .disableBackground()
-                                        .build(),
-//                                PageBuilder.StaticItem
-//                                        .of(Ingredient.of(Items.WITHER_ROSE))
-//                                        .position(77, 110)
-//                                        .scale(2)
-//                                        .disableBackground()
-//                                        .build()
-                                PageBuilder.EntityRenderer
-                                        .of()
-                                        .addEntity(EntityType.WARDEN)
-                                        .setRotations(-22.5F, 45, 0)
-                                        .position(127, 175)
-                                        .build()
-                        )
+                DIVINE_COVER_PAGE,
+                SBSpells.HEALING_TOUCH,
+                false,
+                new ItemActionEntry(SBDivineActions.HEAL_MOB_TO_FULL, 5, 24000, Ingredient.of(Items.SHEEP_SPAWN_EGG)),
+                new ItemActionEntry(SBDivineActions.USE_BLESSED_BANDAGES, 5, 24000, Ingredient.of(Items.GOLDEN_APPLE)),
+                new ItemActionEntry(SBDivineActions.BLESS_SHRINE, 5, 24000, DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(SBData.TALISMAN_RINGS.get(), 2).build(), SBItems.RITUAL_TALISMAN.get()))
         );
         createDivineActionPage(
                 context,
                 HEALING_BLOSSOM_ACTIONS,
                 HEALING_TOUCH_ACTIONS,
                 SBSpells.HEALING_TOUCH,
-                new ItemActionEntry(SBDivineActions.CURE_ZOMBIE_VILLAGER, 15, 200, Ingredient.of(ItemTags.CHEST_ARMOR)),
-                new ItemActionEntry(SBDivineActions.DECORATE_SHRINE, 5, 24000, Ingredient.of(Items.GOLD_INGOT)),
-                new ItemActionEntry(SBDivineActions.KILL_VILLAGER, -20, 6000, Ingredient.of(Blocks.ENCHANTING_TABLE, SBBlocks.JUNGLE_DIVINE_SHRINE.get()))
+                true,
+                new ImageActionEntry(SBDivineActions.CURE_ZOMBIE_VILLAGER, 15, 200, new ImageWithScale(loc("textures/block/rune/rune_1.png"))),
+                new ImageActionEntry(SBDivineActions.DECORATE_SHRINE, 5, 24000, new ImageWithScale(loc("textures/gui/paths/divine.png"))),
+                new ImageActionEntry(SBDivineActions.KILL_VILLAGER, -20, 6000, new ImageWithScale(loc("textures/gui/spells/healing_blossom.png")))
         );
 
         //Deception
@@ -415,6 +340,7 @@ public interface SBGuidePages {
             ResourceKey<GuideBookPage> currentPage,
             ResourceKey<GuideBookPage> prevPage,
             Supplier<SpellType<T>> spellType,
+            boolean flip,
             ActionEntry... entries
     ) {
         if (entries.length > 3)
@@ -428,6 +354,9 @@ public interface SBGuidePages {
                         .position(PAGE_START_CENTER_X, PAGE_START_DOUBLE_Y)
                         .centered()
                         .bold()
+                        .build(),
+                PageBuilder.SpellBorder
+                        .of(SpellPath.DIVINE)
                         .build()
         );
         for (int i = 0; i < entries.length; i++) {
@@ -436,12 +365,17 @@ public interface SBGuidePages {
             int judgement = entry.judgement();
             boolean positiveJudgement = judgement >= 0;
             int xPos = i != 1 ? 0 : 54;
+            if (flip) {
+                xPos = i != 1 ? 54 : 0;
+            }
+
             int yPos = i != 0 ? i != 1 ? 150 : 93 : 40;
             builder.addElements(
                     PageBuilder.Text
                             .ofTranslatable("divine_action." + action)
                             .position(xPos, yPos)
                             .maxLineLength(100)
+//                            .setRequiredScrap()
                             .build(),
                     PageBuilder.Tooltip
                             .of()
@@ -455,7 +389,11 @@ public interface SBGuidePages {
             );
 
             if (entry instanceof ItemActionEntry itemEntry) {
-                int xRenderPos = i != 1 ? 77 : -26;
+                int xRenderPos = i != 1 ? 74 : -26;
+                if (flip) {
+                    xRenderPos = i != 1 ? -26 : 74;
+                }
+
                 int yRenderPos = i != 0 ? i != 1 ? 110 : 64 : 7;
                 builder.addElements(
                         PageBuilder.StaticItem.of()
@@ -463,25 +401,30 @@ public interface SBGuidePages {
                                 .position(xRenderPos, yRenderPos)
                                 .scale(2)
                                 .disableBackground()
-                                .build(),
-                        PageBuilder.SpellBorder
-                                .of(SpellPath.DIVINE)
                                 .build()
                 );
             } else if (entry instanceof EntityActionEntry entityEntry) {
                 int xRenderPos = i != 1 ? 126 : 25;
-                int yRenderPos = i != 0 ? i != 1 ? 175 : 130 : 80;
+                if (flip) {
+                    xRenderPos = i != 1 ? 25 : 126;
+                }
+
+                int yRenderPos = i != 0 ? i != 1 ? 180 : 130 : 75;
                 builder.addElements(
                         PageBuilder.EntityRenderer.of()
                                 .addEntity(entityEntry.entity.entityType)
-                                .position(xRenderPos, yRenderPos)
+                                .position(xRenderPos, yRenderPos + entityEntry.entity.yOffset)
                                 .scale(25 * entityEntry.entity.scale)
                                 .setRotations(-22.5F, 45, 0)
                                 .build()
                 );
             } else if (entry instanceof ImageActionEntry imageEntry) {
-                int xRenderPos = i != 1 ? 77 : -26;
-                int yRenderPos = i != 0 ? i != 1 ? 110 : 64 : 7;
+                int xRenderPos = i != 1 ? 112 : 9;
+                if (flip) {
+                    xRenderPos = i != 1 ? 9 : 112;
+                }
+
+                int yRenderPos = i != 0 ? i != 1 ? 140 : 89 : 37;
                 int scale = imageEntry.image.scale;
                 builder.addElements(
                         PageBuilder.Image.of(imageEntry.image.texture)
@@ -494,9 +437,9 @@ public interface SBGuidePages {
 
             MutableComponent translation = translatable(action + ".lore");
             if (loreComponent != null) {
-                loreComponent.append(translation);
+                loreComponent.append(translation).append("\n\n");
             } else {
-                loreComponent = translation;
+                loreComponent = translation.append("\n\n");
             }
         }
 
@@ -536,22 +479,30 @@ public interface SBGuidePages {
 
     record ItemActionEntry(ResourceKey<DivineAction> action, int judgement, int cooldown, Ingredient ingredient) implements ActionEntry {}
 
-    record EntityActionEntry(ResourceKey<DivineAction> action, int judgement, int cooldown, EntityWithScale entity) implements ActionEntry {}
+    record EntityActionEntry(ResourceKey<DivineAction> action, int judgement, int cooldown, EntityTranslations entity) implements ActionEntry {}
 
     record ImageActionEntry(ResourceKey<DivineAction> action, int judgement, int cooldown, ImageWithScale image) implements ActionEntry {}
 
-    record EntityWithScale(EntityType<?> entityType, float scale) {
+    record EntityTranslations(EntityType<?> entityType, int yOffset, float scale) {
 
-        EntityWithScale(Supplier<EntityType<?>> supplier, float scale) {
-            this(supplier.get(), scale);
+        EntityTranslations(EntityType<?> entityType, float scale) {
+            this(entityType, 0, scale);
         }
 
-        EntityWithScale(Supplier<EntityType<?>> supplier) {
-            this(supplier.get(), 1.0F);
-        }
-
-        EntityWithScale(EntityType<?> entityType) {
+        EntityTranslations(EntityType<?> entityType) {
             this(entityType, 1.0F);
+        }
+
+        static <T extends Entity> EntityTranslations create(Supplier<EntityType<T>> entity, int yOffset, float scale) {
+            return new EntityTranslations(entity.get(), yOffset, scale);
+        }
+
+        static <T extends Entity> EntityTranslations create(Supplier<EntityType<T>> entity, float scale) {
+            return create(entity, 0, scale);
+        }
+
+        static <T extends Entity> EntityTranslations create(Supplier<EntityType<T>> entity) {
+            return create(entity, 1.0F);
         }
     }
 
