@@ -757,6 +757,7 @@ public interface SBGuidePages {
                                 .of(spell.get().getRootSkill().getTexture())
                                 .setDimensions(18, 18)
                                 .position(PAGE_TWO_START_X - 50, 2)
+                                .disableCorners()
                                 .build(),
                         PageBuilder.SpellBorder
                                 .of(spellType)
@@ -885,6 +886,7 @@ public interface SBGuidePages {
                                         .of(spell.get().getRootSkill().getTexture())
                                         .setDimensions(18, 18)
                                         .position(PAGE_TWO_START_X - 50, 2)
+                                        .disableCorners()
                                         .build(),
                                 PageBuilder.SpellBorder
                                         .of(spellType)

@@ -50,7 +50,7 @@
         "yOffset": 125
       },
       "translation": {
-        "translate": "spells.description.spellbound.wild_mushroom"
+        "translate": "skill.description.spellbound.wild_mushroom"
       }
     },
     {

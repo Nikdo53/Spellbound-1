@@ -50,7 +50,7 @@
         "yOffset": 125
       },
       "translation": {
-        "translate": "spells.description.spellbound.mystic_armor"
+        "translate": "skill.description.spellbound.mystic_armor"
       }
     },
     {

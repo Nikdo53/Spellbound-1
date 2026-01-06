@@ -50,7 +50,7 @@
         "yOffset": 125
       },
       "translation": {
-        "translate": "spells.description.spellbound.stride"
+        "translate": "skill.description.spellbound.stride"
       }
     },
     {

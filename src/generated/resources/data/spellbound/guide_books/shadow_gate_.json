@@ -50,7 +50,7 @@
         "yOffset": 125
       },
       "translation": {
-        "translate": "spells.description.spellbound.shadow_gate"
+        "translate": "skill.description.spellbound.shadow_gate"
       }
     },
     {
