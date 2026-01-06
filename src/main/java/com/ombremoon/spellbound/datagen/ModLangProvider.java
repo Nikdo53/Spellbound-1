@@ -128,17 +128,6 @@ public class ModLangProvider extends LanguageProvider {
         add("guide.basic.bugs", "Bug Reports");
         add("guide.basic.blurb", "Welcome fellow Magi! I present to you the first in many books documenting my exploration into the arcane. This book will act as a guideline introducing you to the different paths of magic I have discovered and how they can be used.");
 
-        //Ruin
-        add("guide.ruin.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can bend it to my will to destroy my enemies by harnessing the powers of ruin.");
-        add("guide.ruin.v1_p2.ruin_portal", "During my adventures I have come across these strange portals that seem like they have been damaged by some kind of destructive magic.\n\nPerhaps its possible to repair, if I can just figure out where these portals lead...");
-        add("guide.ruin.v1_p2.keystone", "HAHA! Success! These portals are more than I first thought.\n\nIt seems they lead to unknown pocket dimensions. From my research I have deduced the destination depends on these keystones,\n\nI have jotted down a recipe but they seem to need a catalyst to be powered.");
-        add("guide.ruin.v1_p3.keystones", "Dammit, I just cant figure out how to empower these keystones. Maybe given more time I'll be able to figure it out...\n\nFor now im shifting my focus to looking for other spell casters that can hopefully shine a light on how to manipulate the arcane in these lands.\n\nI will begin my search within the forests and perhaps if I'm feeling adventurous I might try the End...");
-        add("guide.ruin.v1_p3.spell_broker", "Well, I found a reclusive fellow hold up in this tower. As strange as he was he seemed knowledgeable in destructive magic and I purchased a few books from him.\n\nI'll document what I can of my findings from these books until I can crack keystones.");
-
-        addSpellContents(SpellPath.RUIN, SBSpells.SOLAR_RAY.get(),
-                "Channel the power of the sun forward creating a powerful beam setting fire to targets in its path.",
-                "I have purchased this spell tome from a Spell Broker as I have been unable to decipher its origin but I believe its siphoning energy from the sun.",
-                "I was mistaken... This spell isn't channelling energy from the sun, but a Sun God! This is a realm im not coming back to...");
 
         //Transfig
         add("guide.transfiguration.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can manipulate the world around me through the study of transfiguration.");
@@ -156,7 +145,11 @@ public class ModLangProvider extends LanguageProvider {
                  "Uh oh seems like I have angered a few too many Magi. Im trying to throw together what ever I can hoping i can protect my self a little more consistantly.",
                 "Well i was trying to make myself absorb their mana and while that didn't completely work I have managed to reduce the impact of their spells.");
 
+        add("guide.basic.acquisition", "Spell Acquisition");
+
         summonContents();
+        ruinContents();
+        basicContents();
 
         //Deception
         add("guide.deception.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can utilize the shadows to my advantage with the art of deception.");
@@ -166,6 +159,41 @@ public class ModLangProvider extends LanguageProvider {
         add("guide." + path.name() + "." + spell.location().getPath() + ".description", description);
         add("guide." + path.name() + "." + spell.location().getPath() + ".lore", lore);
         add("guide." + path.name() + "." + spell.location().getPath() + ".boss_lore", bossLore);
+    }
+
+    private void basicContents() {
+        add("guide.basic.ruin.cover_page", "The Ruin Path focuses on destructive spells that can destroy both living creatures and the environment utilising different elemental powers.");
+        add("guide.basic.ruin.description", "Ruin spells are split up into Sub-Paths each with a different effect allowing you to use §lFire§r, §lFrost§r, §lShock§r or a mix of all three.");
+        add("guide.basic.ruin.description1", "Each Sub-path has special effects they cause on your target allowing you to either deal more damage or crowd control targets.");
+        add("guide.basic.ruin.acquisition1", "Ruin spells are acquired by defeating powerful enemies that use different Ruin Path spells to deal damage.");
+        add("guide.basic.ruin.acquisition2", "These enemies reside in their own arenas that require keystones to access. The recipes for these have been long forgotten however, leaving ruin spells to be known only to Spell Brokers");
+    }
+
+    protected void ruinContents() {
+        add("guide.ruin.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can bend it to my will to destroy my enemies by harnessing the powers of ruin.");
+
+        add("guide.ruin.subpaths", "Sub-Paths");
+        add("guide.ruin.description1", "The destructive Path of Ruin, channelling the forces gripping the world together and twisting them to tear the world apart.");
+        add("guide.ruin.description2", "To use this path to its fullest is to channel all your mana into pure elemental power ripping through anyone who stands in your path or doubts your true power, disregarding what ever damage you may do to the world around you.");
+        add("guide.ruin.subpaths1", "Ruin manipulates the power holding the world together but there isnt just one force doing this.");
+
+        add("guide.ruin.subpaths2", "I believe there are 3 primordial elements this power consists of: §lFire§r, §lFrost§r and §lShock§r. They all seem to have a different impact on both the world and my magic. If I focus my studies on one Sub-Path its possible I could enhance my control over one of these forces exponentially.");
+        add("guide.ruin.subpaths_cnt", "Sub-Paths Cont.");
+        add("guide.ruin.fire", "§lFire§r\nFire is the first of the elements I have explored and it seems to have the highest damage output of the 3 being able to set targets alight.");
+        add("guide.ruin.frost", "§lFrost§r\nThe fire elements opposite, Frost, this one seems to affect living creatures ability to perform actions massively slowing any thing affected by it.");
+        add("guide.ruin.shock", "§lShock§r\nThe final of the three elements seems to be linked directly to the weather as it allows me to create storm clouds to destroy my foes. The shock seems to disrupt some enemies thoughts stunning them.");
+
+        add("guide.ruin.portals", "Ruin Portals");
+        add("guide.ruin.keystones", "Keystones");
+        add("guide.ruin.portals1", "When I draw from this source of magic I can feel others tug at it. I believe there are some ancient beings residing in their own realms that have learnt to bend these elements to their will.");
+        add("guide.ruin.portals2", "I aim to find the gateways to these ancient beings realms so I can find how they are twisting the elements to create new ways of expressing their magic.");
+        add("guide.ruin.portals3", "While exploring I have found a few gateways but they seem to all be locked. Until a way to create keystones to open the portals is found I'l have to learn what I can from Spell Brokers.");
+
+        addSpellContents(SpellPath.RUIN, SBSpells.SOLAR_RAY.get(),
+                "Channel the power of the sun forward creating a powerful beam setting fire to targets in its path.",
+                "I have purchased this spell tome from a Spell Broker as I have been unable to decipher its origin but I believe its siphoning energy from the sun.",
+                "I was mistaken... This spell isn't channelling energy from the sun, but a Sun God! That's definitely a being to avoid");
+
     }
 
     protected void summonContents() {

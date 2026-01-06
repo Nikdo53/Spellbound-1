@@ -1,0 +1,54 @@
+{
+  "elements": [
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "bold": true,
+        "centered": true
+      },
+      "position": {
+        "xOffset": 72,
+        "yOffset": 8
+      },
+      "translation": {
+        "translate": "guide.ruin.subpaths_cnt"
+      }
+    },
+    {
+      "type": "spellbound:spell_border",
+      "colour": -10678496,
+      "path": "ruin",
+      "pathTexture": "spellbound:textures/gui/paths/ruin.png"
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "yOffset": 35
+      },
+      "translation": {
+        "translate": "guide.ruin.fire"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "yOffset": 100
+      },
+      "translation": {
+        "translate": "guide.ruin.frost"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "xOffset": 169,
+        "yOffset": 35
+      },
+      "translation": {
+        "translate": "guide.ruin.shock"
+      }
+    }
+  ],
+  "id": "spellbound:grimoire_of_annihilation",
+  "insertAfter": "spellbound:ruin_description"
+}

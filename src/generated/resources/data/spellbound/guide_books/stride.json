@@ -27,6 +27,7 @@
       "height": 74,
       "image": "spellbound:textures/gui/books/images/spells/stride.png",
       "position": {
+        "xOffset": 3,
         "yOffset": 40
       },
       "width": 140

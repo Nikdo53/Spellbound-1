@@ -11,68 +11,77 @@
         "yOffset": 8
       },
       "translation": {
-        "translate": "spells.spellbound.solar_ray"
+        "translate": "spellbound.path.ruin"
       }
     },
     {
       "type": "spellbound:spell_border",
       "colour": -10678496,
-      "mastery": "expert",
       "path": "ruin",
       "pathTexture": "spellbound:textures/gui/paths/ruin.png"
     },
     {
-      "type": "spellbound:image",
-      "corner_texture": "spellbound:textures/gui/books/image_borders/grimoire_of_annihilation.png",
-      "height": 74,
-      "image": "spellbound:textures/gui/books/images/spells/solar_ray.png",
-      "position": {
-        "xOffset": 3,
-        "yOffset": 40
-      },
-      "width": 140
-    },
-    {
       "type": "spellbound:text",
-      "position": {
-        "yOffset": 125
-      },
-      "translation": {
-        "translate": "guide.RUIN.solar_ray.description"
-      }
-    },
-    {
-      "type": "spellbound:text",
-      "position": {
-        "xOffset": 169,
-        "yOffset": 5
-      },
-      "translation": {
-        "translate": "guide.RUIN.solar_ray.lore"
-      }
-    },
-    {
-      "type": "spellbound:text",
-      "position": {
-        "xOffset": 169,
-        "yOffset": 68
-      },
-      "translation": {
-        "translate": "guide.RUIN.solar_ray.boss_lore"
-      }
-    },
-    {
-      "type": "spellbound:spell_info",
       "extras": {
-        "alwaysShow": true
+        "bold": true,
+        "centered": true
       },
-      "path": "spellbound:solar_ray",
+      "position": {
+        "xOffset": 247,
+        "yOffset": 8
+      },
+      "translation": {
+        "translate": "guide.ruin.subpaths"
+      }
+    },
+    {
+      "type": "spellbound:spell_border",
+      "colour": -10678496,
+      "path": "ruin",
+      "pathTexture": "spellbound:textures/gui/paths/ruin.png",
+      "position": {
+        "xOffset": 169
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "yOffset": 35
+      },
+      "translation": {
+        "translate": "guide.ruin.description1"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "yOffset": 100
+      },
+      "translation": {
+        "translate": "guide.ruin.description2"
+      }
+    },
+    {
+      "type": "spellbound:text",
       "position": {
         "xOffset": 169,
-        "yOffset": 195
+        "yOffset": 35
+      },
+      "translation": {
+        "translate": "guide.ruin.subpaths1"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "xOffset": 169,
+        "yOffset": 80
+      },
+      "translation": {
+        "translate": "guide.ruin.subpaths2"
       }
     }
   ],
   "id": "spellbound:grimoire_of_annihilation",
-  "insertAfter": "spellbound:ruin_portals"
+  "insertAfter": "spellbound:ruin_cover_page"
 }

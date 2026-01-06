@@ -10,9 +10,6 @@ import com.ombremoon.spellbound.common.world.item.SpellTomeItem;
 import com.ombremoon.spellbound.datagen.provider.guide_builders.PageBuilder;
 import com.ombremoon.spellbound.main.CommonClass;
 import com.ombremoon.spellbound.main.Keys;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -20,21 +17,16 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.print.Book;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -55,8 +47,9 @@ public interface SBGuidePages {
 
     //Ruin Book
     ResourceKey<GuideBookPage> RUIN_COVER_PAGE = key("ruin_cover_page");
-    ResourceKey<GuideBookPage> RUIN_P2 = key("sb_ruin_v1_p2");
-    ResourceKey<GuideBookPage> RUIN_P3 = key("sb_ruin_v1_p3");
+    ResourceKey<GuideBookPage> RUIN_DESCRIPTION = key("ruin_description");
+    ResourceKey<GuideBookPage> RUIN_SUB_PATHS = key("ruin_sub_paths");
+    ResourceKey<GuideBookPage> RUIN_PORTALS = key("ruin_portals");
     ResourceKey<GuideBookPage> SOLAR_RAY = key("solar_ray_page");
 
     //Transfig Book
@@ -98,6 +91,7 @@ public interface SBGuidePages {
 
     //Deception Book
     ResourceKey<GuideBookPage> DECEPTION_COVER_PAGE = key("deception_cover_page");
+    ResourceKey<GuideBookPage> DECEPTION_DESCRIPTION = key("deception_description");
 
     //Basic Bookmarked pages
     ResourceKey<GuideBookPage> BASIC_COVER_PAGE = key("basic_cover_page");
@@ -115,6 +109,7 @@ public interface SBGuidePages {
     ResourceKey<GuideBookPage> MORE_ITEMS = key("basic_cover_page"); //Shards, Armors & Staves
     ResourceKey<GuideBookPage> SPELLS = key("basic_cover_page"); //Spell Tomes & Choice Spells
     ResourceKey<GuideBookPage> SKILLS = key("basic_cover_page"); //Skills
+    ResourceKey<GuideBookPage> BASIC_RUIN_DESCRIPTION = key("basic_ruin_description");
 
     static void bootstrap(BootstrapContext<GuideBookPage> context) {
 
@@ -152,12 +147,57 @@ public interface SBGuidePages {
                                         .build()
                         )
         );
+        createBasicCoverPage(context, BASIC_BOOK, BASIC_RUIN_PAGE, BASIC_COVER_PAGE, SpellPath.RUIN);
+        createDescription(context,
+                BASIC_RUIN_DESCRIPTION,
+                BASIC_RUIN_PAGE,
+                Book.BASIC,
+                SpellPath.RUIN,
+                translatable("spellbound.path.ruin"),
+                translatable("guide.basic.acquisition"),
+                false,
+                new TextPosition(translatable("guide.basic.ruin.description"), 35),
+                new TextPosition(translatable("guide.basic.ruin.description1"), 110),
+                new TextPosition(translatable("guide.basic.ruin.acquisition1"), PAGE_TWO_START_X, 35),
+                new TextPosition(translatable("guide.basic.ruin.acquisition2"), PAGE_TWO_START_X, 100)
+        );
         //endregion
 
         //region Ruin
         createCoverPage(context, RUIN_BOOK, RUIN_COVER_PAGE, SpellPath.RUIN);
+        createDescription(context,
+                RUIN_DESCRIPTION,
+                RUIN_COVER_PAGE,
+                Book.RUIN,
+                translatable("spellbound.path.ruin"),
+                translatable("guide.ruin.subpaths"),
+                false,
+                new TextPosition(translatable("guide.ruin.description1"), 35),
+                new TextPosition(translatable("guide.ruin.description2"), 100),
+                new TextPosition(translatable("guide.ruin.subpaths1"), PAGE_TWO_START_X, 35),
+                new TextPosition(translatable("guide.ruin.subpaths2"), PAGE_TWO_START_X, 80)
+        );
+        createDescription(context,
+                RUIN_SUB_PATHS,
+                RUIN_DESCRIPTION,
+                Book.RUIN,
+                translatable("guide.ruin.subpaths_cnt"),
+                null, false,
+                new TextPosition(translatable("guide.ruin.fire"), 35),
+                new TextPosition(translatable("guide.ruin.frost"), 100),
+                new TextPosition(translatable("guide.ruin.shock"), PAGE_TWO_START_X, 35));
+        createDescription(context,
+                RUIN_PORTALS,
+                RUIN_SUB_PATHS,
+                Book.RUIN,
+                translatable("guide.ruin.portals"),
+                translatable("guide.ruin.keystones"),
+                false,
+                new TextPosition(translatable("guide.ruin.portals1"), 35),
+                new TextPosition(translatable("guide.ruin.portals2"), 110),
+                new TextPosition(translatable("guide.ruin.portals3"), PAGE_TWO_START_X, 35));
 
-        createSpellPage(context, SOLAR_RAY, RUIN_P3, Book.RUIN, SBSpells.SOLAR_RAY);
+        createSpellPage(context, SOLAR_RAY, RUIN_PORTALS, Book.RUIN, SBSpells.SOLAR_RAY);
         //endregion
 
         //region Transfiguration
@@ -286,7 +326,54 @@ public interface SBGuidePages {
 
         //region Deception
         createCoverPage(context, DECEPTION_BOOK, DECEPTION_COVER_PAGE, SpellPath.DECEPTION);
+        createDescription(context,
+                DECEPTION_DESCRIPTION,
+                DECEPTION_COVER_PAGE,
+                Book.DECEPTION,
+                translatable("spellbound.path.deception"),
+                null,
+                false,
+                new TextPosition(translatable("guide.deception.description1"), 35),
+                new TextPosition(translatable("guide.deception.description2"), 110));
         //endregion
+    }
+
+    private static void createBasicCoverPage(
+            BootstrapContext<GuideBookPage> context,
+            ResourceLocation forBook,
+            ResourceKey<GuideBookPage> currentPage,
+            ResourceKey<GuideBookPage> prevPage,
+            SpellPath path
+    ) {
+        register(
+                context,
+                currentPage,
+                PageBuilder
+                        .forBook(forBook)
+                        .setPreviousPage(prevPage)
+                        .addElements(
+                                PageBuilder.Image
+                                        .of(loc("textures/gui/paths/" + path.getSerializedName() + ".png"))
+                                        .setDimensions(150, 150)
+                                        .position(0, 25)
+                                        .disableCorners()
+                                        .build(),
+                                PageBuilder.SpellBorder
+                                        .of(path)
+                                        .setPosition(PAGE_TWO_START_X, 0)
+                                        .build(),
+                                PageBuilder.Text
+                                        .ofTranslatable("item.spellbound." + forBook.getPath())
+                                        .position(PAGE_TWO_START_CENTER_X, PAGE_START_Y)
+                                        .centered()
+                                        .build(),
+                                PageBuilder.Text
+                                        .ofTranslatable("guide.basic." + path.getSerializedName() + ".cover_page")
+                                        .position(PAGE_TWO_START_CENTER_X, 65)
+                                        .centered()
+                                        .build()
+                        )
+        );
     }
 
     private static void createCoverPage(
@@ -335,6 +422,19 @@ public interface SBGuidePages {
             boolean doubleTitle,
             TextPosition... texts
     ) {
+        createDescription(context, currentPage, prevPage, book, book.path, title, secondTitle, doubleTitle, texts);
+    }
+    private static void createDescription(
+            BootstrapContext<GuideBookPage> context,
+            ResourceKey<GuideBookPage> currentPage,
+            ResourceKey<GuideBookPage> prevPage,
+            Book book,
+            SpellPath path,
+            MutableComponent title,
+            @Nullable MutableComponent secondTitle,
+            boolean doubleTitle,
+            TextPosition... texts
+    ) {
         var builder = PageBuilder.forBook(book.getLocation()).setPreviousPage(prevPage).addElements(
                 PageBuilder.Text
                         .of(title)
@@ -343,7 +443,7 @@ public interface SBGuidePages {
                         .centered()
                         .build(),
                 PageBuilder.SpellBorder
-                        .of(book.getPath())
+                        .of(path)
                         .setPosition(0, 0)
                         .build()
         );
@@ -356,11 +456,12 @@ public interface SBGuidePages {
                             .centered()
                             .build(),
                     PageBuilder.SpellBorder
-                            .of(book.getPath())
+                            .of(path)
                             .setPosition(PAGE_TWO_START_X, 0)
                             .build()
             );
         }
+
         for (var text : texts) {
             builder.addElements(
                     PageBuilder.Text
