@@ -61,7 +61,7 @@ public class ModLangProvider extends LanguageProvider {
 
     protected void pathLang() {
         for (SpellPath path : SpellPath.values()) {
-            add("spellbound.pathTexture." + path.getSerializedName(), checkReplace(path.getSerializedName()));
+            add("spellbound.path." + path.getSerializedName(), checkReplace(path.getSerializedName()));
         }
     }
 
@@ -85,7 +85,7 @@ public class ModLangProvider extends LanguageProvider {
         skillDescriptions();
         guideContents();
         ritualContents();
-        divineActionContents();
+        divineGuideContents();
 
         add("spellbound.toast.scrap_unlocked", "New book entry unlocked");
 
@@ -155,8 +155,6 @@ public class ModLangProvider extends LanguageProvider {
         add("guide.summons.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can increase my strength through numbers with the rites of summoning.");
 
         //Divine
-        add("guide.divine.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can call upon divine forces to aid myself and allies and harm foes.");
-        add("guide.divine.divine_actions", "Divine Actions:\n");
 
         //Deception
         add("guide.deception.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can utilize the shadows to my advantage with the art of deception.");
@@ -185,11 +183,27 @@ public class ModLangProvider extends LanguageProvider {
         add("spellbound.ritual.materials", "Ritual Materials");
     }
 
-    protected void divineActionContents() {
+    protected void divineGuideContents() {
         add("divine_action.judgement", "Judgement: ");
         add("divine_action.judgement_required", "Judgement Required: ");
         add("divine_action.cooldown", "Cooldown: %s ticks");
 
+        add("guide.divine.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can call upon divine forces to aid myself and allies and harm foes.");
+        add("guide.divine.description1", "The Divine Path is the discipline of miracles, drawing power from the absolute forces of not only Light, but Darkness. This magic is not learned—it is bestowed.");
+        add("guide.divine.description2", "To walk this path is to become a conduit for higher powers. Whether you seek to be a Saint of Mercy who shields the weak, or a Paladin of Darkness who has fallen to the forces of evil, this path demands action.");
+        add("guide.divine.judgement", "Judgement");
+        add("guide.divine.judgement_cont", "Judgement Cont.");
+        add("guide.divine.judgement1", "I used to think this magic was merely a tool, indifferent to the hand that wielded it. I was wrong. It is watching me.");
+        add("guide.divine.judgement2", "I noticed the shift recently. After spending days protecting the weak, my benevolent magic surged, becoming far more potent than before. Yet, out of curiosity, when I turned to cruelty, that warmth withered. In its place, my darker arts flared with a terrifying, violent heat.");
+        add("guide.divine.judgement3", "There is a hidden balance at play—a §lJudgement.");
+        add("guide.divine.judgement4", "It seems my soul is constantly being weighed. Acts of light tip the scales, amplifying my ability to preserve life but suffocating my ability to take it. Acts of darkness tip them back, fueling my darker arts while severing my connection to the light.");
+        add("guide.divine.judgement5", "This invisible score dictates everything. Forbidden knowledge remains locked to me until my nature aligns with its intent, and even the world itself seems to react to my standing. I must choose my path carefully. I cannot be both a Saint and a Monster. The Scales will not allow it.");
+        add("guide.divine.divine_temple", "Divine Temple");
+        add("guide.divine.divine_temple1", "I have discovered these mysterious, looming structures along my travels. Scattered across the lands are Divine Temples, ancient structures built to worship the Divine.");
+        add("guide.divine.valkyr1", "They are not abandoned. Each is protected by a Valkyr, a sentinel of steel and light.");
+        add("guide.divine.valkyr2", "I realized my safety hung by a thread. These guardians serve the balance of Judgement. To the righteous, they are silent watchers. But had I approached with a heart stained by cruelty, I have no doubt the Valkyr would have cut me down the moment I crossed the threshold.");
+
+        add("guide.divine.divine_actions", "Divine Actions:\n");
         add("healing_touch.heal_mob_to_full.name", "Shepherd");
         add("divine_action.healing_touch.heal_mob_to_full", "Heal any non-hostile mob to full");
         add("healing_touch.use_blessed_bandages.name", "Field Medic");
