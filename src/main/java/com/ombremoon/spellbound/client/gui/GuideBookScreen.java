@@ -1,5 +1,7 @@
 package com.ombremoon.spellbound.client.gui;
 
+import com.mojang.math.Axis;
+import com.mojang.math.Transformation;
 import com.ombremoon.spellbound.client.gui.guide.renderers.ElementRenderDispatcher;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookManager;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookPage;
@@ -7,6 +9,8 @@ import com.ombremoon.spellbound.client.gui.guide.elements.IPageElement;
 import com.ombremoon.spellbound.client.gui.guide.elements.special.IClickable;
 import com.ombremoon.spellbound.client.gui.guide.elements.special.IHoverable;
 import com.ombremoon.spellbound.client.gui.guide.elements.special.IInteractable;
+import com.ombremoon.spellbound.main.CommonClass;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -72,6 +76,28 @@ public class GuideBookScreen extends Screen {
                 if (ElementRenderDispatcher.isHovering(element, mouseX, mouseY, renderLeft, renderTop))
                     ElementRenderDispatcher.handleHover(element, guiGraphics, renderLeft, renderTop, mouseX, mouseY, partialTick);
             }
+        }
+
+        checkCornerHover(guiGraphics, mouseX, mouseY);
+    }
+
+    public void checkCornerHover(GuiGraphics graphics, int mouseX, int mouseY) {
+        if (currentPage > 0 && (mouseX >= this.leftPos + 41 && mouseX <= this.leftPos + 56 && mouseY >= this.topPos + 230 && mouseY <= this.topPos + 243)) {
+            graphics.blit(
+                    CommonClass.customLocation("textures/gui/books/corner_buttons/" + this.bookId.getPath() + ".png"),
+                    this.leftPos + 40, this.topPos+226,
+                    0, 0,
+                    17, 20,
+                    17, 20
+            );
+        } else if (currentPage < lastPage && mouseX >= this.leftPos + 354 && mouseX <= this.leftPos + 370 && mouseY >= this.topPos + 230 && mouseY <= this.topPos + 243) {
+            graphics.blit(
+                    CommonClass.customLocation("textures/gui/books/corner_buttons/" + this.bookId.getPath() + ".png"),
+                    this.leftPos + 353, this.topPos+226,
+                    0, 0,
+                    17, 20,
+                    -17, 20
+            );
         }
     }
 
