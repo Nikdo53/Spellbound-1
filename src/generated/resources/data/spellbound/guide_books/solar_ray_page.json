@@ -23,6 +23,7 @@
     },
     {
       "type": "spellbound:image",
+      "corner_texture": "spellbound:textures/gui/books/image_borders/grimoire_of_annihilation.png",
       "height": 74,
       "image": "spellbound:textures/gui/books/images/spells/solar_ray.png",
       "position": {

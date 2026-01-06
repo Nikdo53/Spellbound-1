@@ -118,6 +118,7 @@ public interface SBGuidePages {
 
     static void bootstrap(BootstrapContext<GuideBookPage> context) {
 
+        //region basic
         register(
                 context,
                 BASIC_COVER_PAGE,
@@ -151,59 +152,15 @@ public interface SBGuidePages {
                                         .build()
                         )
         );
+        //endregion
 
-        //Ruin
+        //region Ruin
         createCoverPage(context, RUIN_BOOK, RUIN_COVER_PAGE, SpellPath.RUIN);
-        register(
-                context,
-                RUIN_P2,
-                PageBuilder
-                        .forBook(RUIN_BOOK)
-                        .setPreviousPage(RUIN_COVER_PAGE)
-                        .addElements(
-                                PageBuilder.Image
-                                        .of(CommonClass.customLocation("textures/gui/books/images/ruin_portal.png"))
-                                        .setDimensions(140, 74)
-                                        .build(),
-                                PageBuilder.Text
-                                        .ofTranslatable("guide.ruin.v1_p2.ruin_portal")
-                                        .position(0, 80)
-                                        .build(),
-                                PageBuilder.Text
-                                        .ofTranslatable("guide.ruin.v1_p2.keystone")
-                                        .position(PAGE_TWO_START_X, 5)
-                                        .build(),
-                                PageBuilder.Recipe
-                                        .of(ResourceLocation.withDefaultNamespace("crafting_table"))
-                                        .gridName(PageBuilder.Recipe.SpellboundGrids.GRIMOIRE)
-                                        .position(195, 125)
-                                        .build()
-                        )
-        );
-        register(
-                context,
-                RUIN_P3,
-                PageBuilder
-                        .forBook(RUIN_BOOK)
-                        .setPreviousPage(RUIN_P2)
-                        .addElements(
-                                PageBuilder.Text
-                                        .ofTranslatable("guide.ruin.v1_p3.keystones")
-                                        .build(),
-                                PageBuilder.Image
-                                        .of(loc("textures/gui/books/images/broker_tower.png"))
-                                        .setDimensions(150, 87)
-                                        .position(PAGE_TWO_START_X, 0)
-                                        .build(),
-                                PageBuilder.Text
-                                        .ofTranslatable("guide.ruin.v1_p3.spell_broker")
-                                        .position(PAGE_TWO_START_X, 95)
-                                        .build()
-                        )
-        );
-        createSpellPage(context, SOLAR_RAY, RUIN_P3, Book.RUIN, SBSpells.SOLAR_RAY);
 
-        //Transfiguration
+        createSpellPage(context, SOLAR_RAY, RUIN_P3, Book.RUIN, SBSpells.SOLAR_RAY);
+        //endregion
+
+        //region Transfiguration
         createCoverPage(context, TRANSFIG_BOOK, TRANSFIG_COVER_PAGE, SpellPath.TRANSFIGURATION);
         createSpellPage(context, STRIDE, TRANSFIG_COVER_PAGE, Book.TRANSFIG, SBSpells.STRIDE);
         createRitualPage(context, STRIDE_RITUAL, STRIDE, SBRituals.CREATE_STRIDE, 5, 0, RitualTier.ONE);
@@ -211,8 +168,9 @@ public interface SBGuidePages {
         createRitualPage(context, SHADOW_GATE_RITUAL, SHADOW_GATE, SBRituals.CREATE_SHADOW_GATE, 10, 0, RitualTier.TWO);
         createSpellPage(context, MYSTIC_ARMOR, SHADOW_GATE_RITUAL, Book.TRANSFIG, SBSpells.MYSTIC_ARMOR);
         createRitualPage(context, MYSTIC_ARMOR_RITUAL, MYSTIC_ARMOR, SBRituals.CREATE_MYSTIC_ARMOR, 10, 0, RitualTier.TWO);
+        //endregion
 
-        //Summon
+        //region Summon
         createCoverPage(context, SUMMON_BOOK, SUMMON_COVER_PAGE, SpellPath.SUMMONS);
         createDescription(
                 context,
@@ -256,8 +214,9 @@ public interface SBGuidePages {
                 );
         createSpellPage(context, WILD_MUSHROOM, SUMMON_PORTAL_ACTIVATION, Book.SUMMONS, SBSpells.WILD_MUSHROOM);
         createSummonAcqPage(context, SUMMON_BOOK, MUSHROOM_ACQ, SUMMON_PORTAL_ACTIVATION, SBEntities.GIANT_MUSHROOM.get(), SBSpells.WILD_MUSHROOM.get());
+        //endregion
 
-        //Divine
+        //region Divine
         createCoverPage(context, DIVINE_BOOK, DIVINE_COVER_PAGE, SpellPath.DIVINE);
         createDescription(
                 context,
@@ -323,9 +282,11 @@ public interface SBGuidePages {
                 new ImageActionEntry(SBDivineActions.GROW_AMBROSIA_BUSH, SBPageScraps.GROW_AMBROSIA_BUSH, SBPageScraps.GROW_AMBROSIA_BUSH_LORE, 10, 12000, 15, new ImageWithScale(defaultNameSpace("textures/block/sweet_berry_bush_stage3.png"))),
                 new ItemActionEntry(SBDivineActions.PURIFY_WITHER_ROSE, SBPageScraps.PURIFY_WITHER_ROSE, SBPageScraps.PURIFY_WITHER_ROSE_LORE, 15, 6000, 35, Ingredient.of(Items.WITHER_ROSE))
         );
+        //endregion
 
-        //Deception
+        //region Deception
         createCoverPage(context, DECEPTION_BOOK, DECEPTION_COVER_PAGE, SpellPath.DECEPTION);
+        //endregion
     }
 
     private static void createCoverPage(
@@ -472,7 +433,7 @@ public interface SBGuidePages {
                     .setDimensions(image.width, image.height);
             if (!image.withCorners) {
                 imageBuilder.disableCorners();
-            }
+            } else imageBuilder.setCornerTexture(CommonClass.customLocation("textures/gui/books/image_borders/" + book.bookLocation.getPath() + ".png"));
             builder.addElements(imageBuilder.build());
         }
 
@@ -532,7 +493,7 @@ public interface SBGuidePages {
                     .setDimensions(image.width, image.height);
             if (!image.withCorners) {
                 imageBuilder.disableCorners();
-            }
+            } else imageBuilder.setCornerTexture(CommonClass.customLocation("textures/gui/books/image_borders/" + book.bookLocation.getPath() + ".png"));
             builder.addElements(imageBuilder.build());
         }
 
@@ -565,7 +526,8 @@ public interface SBGuidePages {
                                 PageBuilder.Image
                                         .of(CommonClass.customLocation("textures/gui/books/images/spells/" + spellType.location().getPath() + ".png"))
                                         .setDimensions(140, 74)
-                                        .position(0, 40)
+                                        .position(3, 40)
+                                        .setCornerTexture(CommonClass.customLocation("textures/gui/books/image_borders/" + book.bookLocation.getPath() + ".png"))
                                         .build(),
                                 PageBuilder.Text
                                         .ofTranslatable(translations + "description")

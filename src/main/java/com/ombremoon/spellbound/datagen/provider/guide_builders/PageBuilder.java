@@ -821,12 +821,14 @@ public class PageBuilder {
         private ElementPosition position;
         private ResourceLocation pageScrap;
         private boolean enableCorners;
+        private ResourceLocation cornerTexture;
 
         private Image(ResourceLocation image) {
             this.image = image;
             this.position = ElementPosition.getDefault();
             this.pageScrap = GuideBookManager.FIRST_PAGE;
             this.enableCorners = true;
+            this.cornerTexture = CommonClass.customLocation("textures/gui/books/image_borders/studies_in_the_arcane.png");
         }
 
         /**
@@ -844,6 +846,11 @@ public class PageBuilder {
          */
         public Image disableCorners() {
             this.enableCorners = false;
+            return this;
+        }
+
+        public Image setCornerTexture(ResourceLocation texture) {
+            this.cornerTexture = texture;
             return this;
         }
 
@@ -882,7 +889,7 @@ public class PageBuilder {
         }
 
         public GuideImageElement build() {
-            return new GuideImageElement(image, width, height, position, new GuideImageExtras(enableCorners));
+            return new GuideImageElement(image, width, height, position, new GuideImageExtras(enableCorners), cornerTexture);
         }
     }
 

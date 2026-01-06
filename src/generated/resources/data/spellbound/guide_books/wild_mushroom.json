@@ -23,6 +23,7 @@
     },
     {
       "type": "spellbound:image",
+      "corner_texture": "spellbound:textures/gui/books/image_borders/the_necronomicon.png",
       "height": 74,
       "image": "spellbound:textures/gui/books/images/spells/wild_mushroom.png",
       "position": {

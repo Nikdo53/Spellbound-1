@@ -54,6 +54,7 @@
     },
     {
       "type": "spellbound:image",
+      "corner_texture": "spellbound:textures/gui/books/image_borders/sanctified_codex.png",
       "height": 80,
       "image": "spellbound:textures/gui/books/images/divine_temple.png",
       "position": {
