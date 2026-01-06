@@ -11,14 +11,14 @@
         "yOffset": 8
       },
       "translation": {
-        "translate": "spellbound.path.divine"
+        "translate": "spellbound.path.ruin"
       }
     },
     {
       "type": "spellbound:spell_border",
-      "colour": -3510773,
-      "path": "divine",
-      "pathTexture": "spellbound:textures/gui/paths/divine.png"
+      "colour": -10678496,
+      "path": "ruin",
+      "pathTexture": "spellbound:textures/gui/paths/ruin.png"
     },
     {
       "type": "spellbound:text",
@@ -31,14 +31,14 @@
         "yOffset": 8
       },
       "translation": {
-        "translate": "guide.divine.judgement"
+        "translate": "guide.basic.acquisition"
       }
     },
     {
       "type": "spellbound:spell_border",
-      "colour": -3510773,
-      "path": "divine",
-      "pathTexture": "spellbound:textures/gui/paths/divine.png",
+      "colour": -10678496,
+      "path": "ruin",
+      "pathTexture": "spellbound:textures/gui/paths/ruin.png",
       "position": {
         "xOffset": 172
       }
@@ -49,16 +49,16 @@
         "yOffset": 35
       },
       "translation": {
-        "translate": "guide.divine.description1"
+        "translate": "guide.basic.ruin.description"
       }
     },
     {
       "type": "spellbound:text",
       "position": {
-        "yOffset": 100
+        "yOffset": 110
       },
       "translation": {
-        "translate": "guide.divine.description2"
+        "translate": "guide.basic.ruin.description1"
       }
     },
     {
@@ -68,20 +68,20 @@
         "yOffset": 35
       },
       "translation": {
-        "translate": "guide.divine.judgement1"
+        "translate": "guide.basic.ruin.acquisition1"
       }
     },
     {
       "type": "spellbound:text",
       "position": {
         "xOffset": 172,
-        "yOffset": 80
+        "yOffset": 100
       },
       "translation": {
-        "translate": "guide.divine.judgement2"
+        "translate": "guide.basic.ruin.acquisition2"
       }
     }
   ],
-  "id": "spellbound:sanctified_codex",
-  "insertAfter": "spellbound:divine_cover_page"
+  "id": "spellbound:studies_in_the_arcane",
+  "insertAfter": "spellbound:basic_ruin_cover"
 }

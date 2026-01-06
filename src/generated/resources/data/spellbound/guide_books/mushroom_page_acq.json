@@ -1,0 +1,128 @@
+{
+  "elements": [
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "bold": true,
+        "centered": true
+      },
+      "position": {
+        "xOffset": 72,
+        "yOffset": 4
+      },
+      "translation": {
+        "translate": "spells.spellbound.wild_mushroom"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "italic": true
+      },
+      "position": {
+        "yOffset": 35
+      },
+      "translation": {
+        "translate": "summon.acquisition.description"
+      }
+    },
+    {
+      "type": "spellbound:spell_border",
+      "colour": -13490312,
+      "path": "summons",
+      "pathTexture": "spellbound:textures/gui/paths/summons.png"
+    },
+    {
+      "type": "spellbound:recipe",
+      "gridName": "necronomicon",
+      "position": {
+        "xOffset": 32,
+        "yOffset": 65
+      },
+      "recipe": "minecraft:anvil"
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "centered": true
+      },
+      "position": {
+        "xOffset": 72,
+        "yOffset": 155
+      },
+      "translation": {
+        "translate": "summon.acquisition.wild_mushroom.lore"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "bold": true,
+        "centered": true
+      },
+      "position": {
+        "xOffset": 247,
+        "yOffset": 4
+      },
+      "translation": {
+        "translate": "entity.spellbound.giant_mushroom"
+      }
+    },
+    {
+      "type": "spellbound:entity_renderer",
+      "entities": [
+        "spellbound:giant_mushroom"
+      ],
+      "extras": {
+        "animated": true,
+        "scale": 12.0,
+        "xRot": -22.5,
+        "yRot": 45.0
+      },
+      "position": {
+        "xOffset": 247,
+        "yOffset": 110
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "centered": true,
+        "italic": true
+      },
+      "position": {
+        "xOffset": 247,
+        "yOffset": 125
+      },
+      "translation": {
+        "translate": "summon.acquisition.boss_rewards"
+      }
+    },
+    {
+      "type": "spellbound:item_list",
+      "extras": {
+        "centered": true,
+        "maxRows": 1
+      },
+      "items": [
+        {
+          "items": [
+            {
+              "components": {
+                "spellbound:spells": "spellbound:wild_mushroom"
+              },
+              "count": 1,
+              "id": "spellbound:spell_tome"
+            }
+          ]
+        }
+      ],
+      "position": {
+        "xOffset": 230,
+        "yOffset": 140
+      }
+    }
+  ],
+  "id": "spellbound:the_necronomicon",
+  "insertAfter": "spellbound:summon_portal_activation"
+}

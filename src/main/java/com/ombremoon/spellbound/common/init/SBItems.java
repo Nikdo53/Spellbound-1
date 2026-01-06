@@ -61,7 +61,7 @@ public class SBItems {
     public static final Supplier<Item> CHALK = registerItem("chalk", () -> new ChalkItem(getItemProperties().stacksTo(16)));
 
     //Guide Books
-    public static final Supplier<Item> STARTER_BOOK = registerItem("studies_in_the_arcane", () -> new GuideBookItem(CommonClass.customLocation("studies_in_the_arcane")));
+    public static final Supplier<Item> STARTER_BOOK = registerItem("studies_in_the_arcane", BasicGuideItem::new);
     public static final Supplier<Item> RUIN_BOOK = registerItem("grimoire_of_annihilation", () -> new GuideBookItem(CommonClass.customLocation("grimoire_of_annihilation")));
     public static final Supplier<Item> TRANSFIG_BOOK = registerItem("architects_lexicon", () -> new GuideBookItem(CommonClass.customLocation("architects_lexicon")));
     public static final Supplier<Item> SUMMON_BOOK = registerItem("the_necronomicon", () -> new GuideBookItem(CommonClass.customLocation("the_necronomicon")));

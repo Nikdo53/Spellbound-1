@@ -11,14 +11,14 @@
         "yOffset": 8
       },
       "translation": {
-        "translate": "spellbound.path.divine"
+        "translate": "spellbound.path.summons"
       }
     },
     {
       "type": "spellbound:spell_border",
-      "colour": -3510773,
-      "path": "divine",
-      "pathTexture": "spellbound:textures/gui/paths/divine.png"
+      "colour": -13490312,
+      "path": "summons",
+      "pathTexture": "spellbound:textures/gui/paths/summons.png"
     },
     {
       "type": "spellbound:text",
@@ -31,14 +31,14 @@
         "yOffset": 8
       },
       "translation": {
-        "translate": "guide.divine.judgement"
+        "translate": "guide.summon.dimensions"
       }
     },
     {
       "type": "spellbound:spell_border",
-      "colour": -3510773,
-      "path": "divine",
-      "pathTexture": "spellbound:textures/gui/paths/divine.png",
+      "colour": -13490312,
+      "path": "summons",
+      "pathTexture": "spellbound:textures/gui/paths/summons.png",
       "position": {
         "xOffset": 172
       }
@@ -49,7 +49,7 @@
         "yOffset": 35
       },
       "translation": {
-        "translate": "guide.divine.description1"
+        "translate": "guide.summon.description1"
       }
     },
     {
@@ -58,7 +58,7 @@
         "yOffset": 100
       },
       "translation": {
-        "translate": "guide.divine.description2"
+        "translate": "guide.summon.description2"
       }
     },
     {
@@ -68,20 +68,20 @@
         "yOffset": 35
       },
       "translation": {
-        "translate": "guide.divine.judgement1"
+        "translate": "guide.summon.dimensions1"
       }
     },
     {
       "type": "spellbound:text",
       "position": {
         "xOffset": 172,
-        "yOffset": 80
+        "yOffset": 120
       },
       "translation": {
-        "translate": "guide.divine.judgement2"
+        "translate": "guide.summon.dimensions2"
       }
     }
   ],
-  "id": "spellbound:sanctified_codex",
-  "insertAfter": "spellbound:divine_cover_page"
+  "id": "spellbound:the_necronomicon",
+  "insertAfter": "spellbound:summon_cover_page"
 }

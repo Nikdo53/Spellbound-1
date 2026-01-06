@@ -11,21 +11,21 @@
         "yOffset": 8
       },
       "translation": {
-        "translate": "spells.spellbound.stride"
+        "translate": "spells.spellbound.wild_mushroom"
       }
     },
     {
       "type": "spellbound:spell_border",
-      "colour": -14396391,
-      "mastery": "novice",
-      "path": "transfiguration",
-      "pathTexture": "spellbound:textures/gui/paths/transfiguration.png"
+      "colour": -13490312,
+      "mastery": "adept",
+      "path": "summons",
+      "pathTexture": "spellbound:textures/gui/paths/summons.png"
     },
     {
       "type": "spellbound:image",
-      "corner_texture": "spellbound:textures/gui/books/image_borders/architects_lexicon.png",
+      "corner_texture": "spellbound:textures/gui/books/image_borders/the_necronomicon.png",
       "height": 74,
-      "image": "spellbound:textures/gui/books/images/spells/stride.png",
+      "image": "spellbound:textures/gui/books/images/spells/wild_mushroom.png",
       "position": {
         "xOffset": 3,
         "yOffset": 40
@@ -38,7 +38,7 @@
         "yOffset": 125
       },
       "translation": {
-        "translate": "guide.TRANSFIGURATION.stride.description"
+        "translate": "guide.SUMMONS.wild_mushroom.description"
       }
     },
     {
@@ -48,7 +48,7 @@
         "yOffset": 5
       },
       "translation": {
-        "translate": "guide.TRANSFIGURATION.stride.lore"
+        "translate": "guide.SUMMONS.wild_mushroom.lore"
       }
     },
     {
@@ -58,7 +58,7 @@
         "yOffset": 68
       },
       "translation": {
-        "translate": "guide.TRANSFIGURATION.stride.boss_lore"
+        "translate": "guide.SUMMONS.wild_mushroom.boss_lore"
       }
     },
     {
@@ -66,13 +66,13 @@
       "extras": {
         "alwaysShow": true
       },
-      "path": "spellbound:stride",
+      "path": "spellbound:wild_mushroom",
       "position": {
         "xOffset": 172,
         "yOffset": 195
       }
     }
   ],
-  "id": "spellbound:architects_lexicon",
-  "insertAfter": "spellbound:transfig_cover_page"
+  "id": "spellbound:the_necronomicon",
+  "insertAfter": "spellbound:summon_portal_activation"
 }

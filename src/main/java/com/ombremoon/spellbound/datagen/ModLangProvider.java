@@ -118,22 +118,16 @@ public class ModLangProvider extends LanguageProvider {
         add("guide.element.spell_border.element", "Element: ");
         add("guide.element.spell_border.mastery", "Mastery: %1$s");
 
+        //Summon Acq
+        add("summon.acquisition.description", "Use the keystone below to access the boss's dimension.");
+        add("summon.acquisition.boss_rewards", "Boss Rewards");
+        add("summon.acquisition.wild_mushroom.lore", "Come to think of it, it's rare to see a single mushroom on its own...");
+
         //Basic
         add("guide.basic.discord", "Discord");
         add("guide.basic.bugs", "Bug Reports");
         add("guide.basic.blurb", "Welcome fellow Magi! I present to you the first in many books documenting my exploration into the arcane. This book will act as a guideline introducing you to the different paths of magic I have discovered and how they can be used.");
 
-        //Ruin
-        add("guide.ruin.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can bend it to my will to destroy my enemies by harnessing the powers of ruin.");
-        add("guide.ruin.v1_p2.ruin_portal", "During my adventures I have come across these strange portals that seem like they have been damaged by some kind of destructive magic.\n\nPerhaps its possible to repair, if I can just figure out where these portals lead...");
-        add("guide.ruin.v1_p2.keystone", "HAHA! Success! These portals are more than I first thought.\n\nIt seems they lead to unknown pocket dimensions. From my research I have deduced the destination depends on these keystones,\n\nI have jotted down a recipe but they seem to need a catalyst to be powered.");
-        add("guide.ruin.v1_p3.keystones", "Dammit, I just cant figure out how to empower these keystones. Maybe given more time I'll be able to figure it out...\n\nFor now im shifting my focus to looking for other spell casters that can hopefully shine a light on how to manipulate the arcane in these lands.\n\nI will begin my search within the forests and perhaps if I'm feeling adventurous I might try the End...");
-        add("guide.ruin.v1_p3.spell_broker", "Well, I found a reclusive fellow hold up in this tower. As strange as he was he seemed knowledgeable in destructive magic and I purchased a few books from him.\n\nI'll document what I can of my findings from these books until I can crack keystones.");
-
-        addSpellContents(SpellPath.RUIN, SBSpells.SOLAR_RAY.get(),
-                "Channel the power of the sun forward creating a powerful beam setting fire to targets in its path.",
-                "I have purchased this spell tome from a Spell Broker as I have been unable to decipher its origin but I believe its siphoning energy from the sun.",
-                "I was mistaken... This spell isn't channelling energy from the sun, but a Sun God! This is a realm im not coming back to...");
 
         //Transfig
         add("guide.transfiguration.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can manipulate the world around me through the study of transfiguration.");
@@ -151,10 +145,11 @@ public class ModLangProvider extends LanguageProvider {
                  "Uh oh seems like I have angered a few too many Magi. Im trying to throw together what ever I can hoping i can protect my self a little more consistantly.",
                 "Well i was trying to make myself absorb their mana and while that didn't completely work I have managed to reduce the impact of their spells.");
 
-        //Summon
-        add("guide.summons.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can increase my strength through numbers with the rites of summoning.");
+        add("guide.basic.acquisition", "Spell Acquisition");
 
-        //Divine
+        summonContents();
+        ruinContents();
+        basicContents();
 
         //Deception
         add("guide.deception.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can utilize the shadows to my advantage with the art of deception.");
@@ -164,6 +159,68 @@ public class ModLangProvider extends LanguageProvider {
         add("guide." + path.name() + "." + spell.location().getPath() + ".description", description);
         add("guide." + path.name() + "." + spell.location().getPath() + ".lore", lore);
         add("guide." + path.name() + "." + spell.location().getPath() + ".boss_lore", bossLore);
+    }
+
+    private void basicContents() {
+        add("guide.basic.ruin.cover_page", "The Ruin Path focuses on destructive spells that can destroy both living creatures and the environment utilising different elemental powers.");
+        add("guide.basic.ruin.description", "Ruin spells are split up into Sub-Paths each with a different effect allowing you to use §lFire§r, §lFrost§r, §lShock§r or a mix of all three.");
+        add("guide.basic.ruin.description1", "Each Sub-path has special effects they cause on your target allowing you to either deal more damage or crowd control targets.");
+        add("guide.basic.ruin.acquisition1", "Ruin spells are acquired by defeating powerful enemies that use different Ruin Path spells to deal damage.");
+        add("guide.basic.ruin.acquisition2", "These enemies reside in their own arenas that require keystones to access. The recipes for these have been long forgotten however, leaving ruin spells to be known only to Spell Brokers");
+    }
+
+    protected void ruinContents() {
+        add("guide.ruin.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can bend it to my will to destroy my enemies by harnessing the powers of ruin.");
+
+        add("guide.ruin.subpaths", "Sub-Paths");
+        add("guide.ruin.description1", "The destructive Path of Ruin, channelling the forces gripping the world together and twisting them to tear the world apart.");
+        add("guide.ruin.description2", "To use this path to its fullest is to channel all your mana into pure elemental power ripping through anyone who stands in your path or doubts your true power, disregarding what ever damage you may do to the world around you.");
+        add("guide.ruin.subpaths1", "Ruin manipulates the power holding the world together but there isnt just one force doing this.");
+
+        add("guide.ruin.subpaths2", "I believe there are 3 primordial elements this power consists of: §lFire§r, §lFrost§r and §lShock§r. They all seem to have a different impact on both the world and my magic. If I focus my studies on one Sub-Path its possible I could enhance my control over one of these forces exponentially.");
+        add("guide.ruin.subpaths_cnt", "Sub-Paths Cont.");
+        add("guide.ruin.fire", "§lFire§r\nFire is the first of the elements I have explored and it seems to have the highest damage output of the 3 being able to set targets alight.");
+        add("guide.ruin.frost", "§lFrost§r\nThe fire elements opposite, Frost, this one seems to affect living creatures ability to perform actions massively slowing any thing affected by it.");
+        add("guide.ruin.shock", "§lShock§r\nThe final of the three elements seems to be linked directly to the weather as it allows me to create storm clouds to destroy my foes. The shock seems to disrupt some enemies thoughts stunning them.");
+
+        add("guide.ruin.portals", "Ruin Portals");
+        add("guide.ruin.keystones", "Keystones");
+        add("guide.ruin.portals1", "When I draw from this source of magic I can feel others tug at it. I believe there are some ancient beings residing in their own realms that have learnt to bend these elements to their will.");
+        add("guide.ruin.portals2", "I aim to find the gateways to these ancient beings realms so I can find how they are twisting the elements to create new ways of expressing their magic.");
+        add("guide.ruin.portals3", "While exploring I have found a few gateways but they seem to all be locked. Until a way to create keystones to open the portals is found I'l have to learn what I can from Spell Brokers.");
+
+        addSpellContents(SpellPath.RUIN, SBSpells.SOLAR_RAY.get(),
+                "Channel the power of the sun forward creating a powerful beam setting fire to targets in its path.",
+                "I have purchased this spell tome from a Spell Broker as I have been unable to decipher its origin but I believe its siphoning energy from the sun.",
+                "I was mistaken... This spell isn't channelling energy from the sun, but a Sun God! That's definitely a being to avoid");
+
+    }
+
+    protected void summonContents() {
+        add("guide.summons.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can increase my strength through numbers with the rites of summoning.");
+
+        add("guide.summon.dimensions", "Dimensions");
+        add("guide.summon.description1", "Summoning magic... dragging creatures from the darkest of realms and forcing them to fight on your behalf. Only the strong willed can use this power.");
+        add("guide.summon.description2", "To harness this source of magic a creature must first be battled to understand its power. But that requires first reaching into these twisted realms where they reside and hunting these powerful entities.");
+        add("guide.summon.dimensions1", "The most powerful creatures to exist, lord over their own realms. If I am able to find a way to access these dimensions then I can learn how to control these beasts and their powers.");
+        add("guide.summon.dimensions2", "I know I can't be the first one to try this I plan to search for any potential portals left by others.");
+
+        add("guide.summon.summoning_stone", "Summoning Stones");
+        add("guide.summon.summoning_portal", "Portal Construction");
+        add("guide.summon.summoning_stone1", "After speaking to a few Spell Brokers they have told me of these summoning stones that can be crafted to create a gateway.");
+        add("guide.summon.summoning_portal1", "Ah-ha! Mimicking an End portal seems to allow these stones to be activated with Magic Essence. Now I just need to find how to access a specific dimension.");
+
+        add("guide.summon.portal_activation", "Portal Activation");
+        add("guide.summon.portal_activation1", "After focusing more of my studies on End portals I have realised that these types of portals need a block to focus on, to locate their destination.");
+        add("guide.summon.portal_activation2", "I believe that if I can create just a single summoning stone adjusted to a specific dimension I could open a gateway by placing it in the middle of my portal and activating it.");
+        add("guide.summon.valid_portals", "Well after multiple stages of trial and error I have found that these focused summoning stones must be very specific.");
+        add("guide.summon.valid_portals1", "When I am able to find a way to create a new focused stone I will be sure to note it down in this book, along with any information regarding the spells I can draw out from the dimension.");
+
+        addSpellContents(SpellPath.SUMMONS, SBSpells.WILD_MUSHROOM.get(),
+                "Grows a mushroom out of the ground at the target location, periodically emitting a damaging poison cloud.",
+                "Fungi are some of the most resilient living organisms, if I can find a mushroom infested realm think of the power it could be hiding.",
+                "Why did I think going to the home of a notably durable fungi would be a good idea. It always knows where I am it must be these damn spores."
+        );
     }
 
     protected void ritualContents() {

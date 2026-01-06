@@ -1,12 +1,16 @@
 package com.ombremoon.spellbound.client.gui;
 
-import com.ombremoon.spellbound.client.gui.guide.ElementRenderDispatcher;
+import com.mojang.math.Axis;
+import com.mojang.math.Transformation;
+import com.ombremoon.spellbound.client.gui.guide.renderers.ElementRenderDispatcher;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookManager;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookPage;
 import com.ombremoon.spellbound.client.gui.guide.elements.IPageElement;
 import com.ombremoon.spellbound.client.gui.guide.elements.special.IClickable;
 import com.ombremoon.spellbound.client.gui.guide.elements.special.IHoverable;
 import com.ombremoon.spellbound.client.gui.guide.elements.special.IInteractable;
+import com.ombremoon.spellbound.main.CommonClass;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -17,19 +21,19 @@ import net.minecraft.sounds.SoundEvents;
 import java.util.List;
 
 public class GuideBookScreen extends Screen {
-    private static final int WIDTH = 415;
-    private static final int HEIGHT = 287;
+    protected static final int WIDTH = 415;
+    protected static final int HEIGHT = 287;
 
-    private static final int PAGE_X_OFFSET = 46;
-    private static final int PAGE_Y_OFFSET = 36;
+    protected static final int PAGE_X_OFFSET = 46;
+    protected static final int PAGE_Y_OFFSET = 36;
 
-    private ResourceLocation bookId;
-    private ResourceLocation bookTexture;
-    private int leftPos;
-    private int topPos;
-    private int currentPage = 0;
-    private int lastPage;
-    private List<GuideBookPage> pages;
+    protected ResourceLocation bookId;
+    protected ResourceLocation bookTexture;
+    protected int leftPos;
+    protected int topPos;
+    protected int currentPage = 0;
+    protected int lastPage;
+    protected List<GuideBookPage> pages;
 
     public GuideBookScreen(Component title, ResourceLocation bookId, ResourceLocation bookTexture) {
         super(title);
@@ -62,16 +66,40 @@ public class GuideBookScreen extends Screen {
         int renderLeft = this.leftPos + PAGE_X_OFFSET;
         int renderTop = this.topPos + PAGE_Y_OFFSET;
         ElementRenderDispatcher.tick();
+        checkCornerHover(guiGraphics, mouseX, mouseY);
+
 
         for (IPageElement element : pages.get(currentPage).elements()) {
             ElementRenderDispatcher.renderElement(element, guiGraphics, renderLeft, renderTop, mouseX, mouseY, partialTick);
 
             if (element instanceof IInteractable interactable
-                    && ElementRenderDispatcher.isHovering(element, mouseX, mouseY, renderLeft, renderTop)) {
+                    && interactable instanceof IHoverable) {
 
-                if (interactable instanceof IHoverable)
+                if (ElementRenderDispatcher.isHovering(element, mouseX, mouseY, renderLeft, renderTop))
                     ElementRenderDispatcher.handleHover(element, guiGraphics, renderLeft, renderTop, mouseX, mouseY, partialTick);
             }
+        }
+
+
+    }
+
+    public void checkCornerHover(GuiGraphics graphics, int mouseX, int mouseY) {
+        if (currentPage > 0 && (mouseX >= this.leftPos + 41 && mouseX <= this.leftPos + 56 && mouseY >= this.topPos + 230 && mouseY <= this.topPos + 243)) {
+            graphics.blit(
+                    CommonClass.customLocation("textures/gui/books/corner_buttons/" + this.bookId.getPath() + ".png"),
+                    this.leftPos + 40, this.topPos+226,
+                    0, 0,
+                    17, 20,
+                    17, 20
+            );
+        } else if (currentPage < lastPage && mouseX >= this.leftPos + 354 && mouseX <= this.leftPos + 370 && mouseY >= this.topPos + 230 && mouseY <= this.topPos + 243) {
+            graphics.blit(
+                    CommonClass.customLocation("textures/gui/books/corner_buttons/" + this.bookId.getPath() + ".png"),
+                    this.leftPos + 353, this.topPos+226,
+                    0, 0,
+                    17, 20,
+                    -17, 20
+            );
         }
     }
 

@@ -1,4 +1,4 @@
-package com.ombremoon.spellbound.client.gui.guide;
+package com.ombremoon.spellbound.client.gui.guide.renderers;
 
 import com.ombremoon.spellbound.client.gui.guide.elements.IPageElement;
 import net.minecraft.client.gui.GuiGraphics;
@@ -23,6 +23,7 @@ public class ElementRenderDispatcher {
     public static void tick() {
         TICK_COUNT += 1;
     }
+    public static int getTickCount() {return TICK_COUNT;}
 
     public static <T extends IPageElement, C extends IPageElementRenderer<T>> void renderElement(T element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick) {
         C renderer = (C) REGISTER.get(element.getClass());

@@ -1,4 +1,4 @@
-package com.ombremoon.spellbound.client.gui.guide;
+package com.ombremoon.spellbound.client.gui.guide.renderers;
 
 import com.ombremoon.spellbound.client.gui.guide.elements.GuideTextElement;
 import com.ombremoon.spellbound.util.RenderUtil;
@@ -34,7 +34,7 @@ public class GuideTextRenderer implements IPageElementRenderer<GuideTextElement>
 
         List<FormattedCharSequence> lines = font.split(
                 ((MutableComponent)element.text())
-                        .withStyle(style),
+                        .withStyle(style),#
                 element.extras().maxLineLength());
         this.height = lines.size() * font.lineHeight;
 
@@ -88,17 +88,14 @@ public class GuideTextRenderer implements IPageElementRenderer<GuideTextElement>
 
     @Override
     public void handleHover(GuideTextElement element, GuiGraphics guiGraphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick) {
-        if (element.extras().hoverText().isBlank()) return;
 
-        guiGraphics.drawString(Minecraft.getInstance().font,
-                "IS IT WORKING YET?",
-                leftPos + element.position().xOffset(),
-                topPos + element.position().yOffset() + this.height + 10,
-                element.extras().colour(), element.extras().dropShadow());
+
     }
 
     @Override
     public boolean isHovering(int mouseX, int mouseY, int leftPos, int topPos, GuideTextElement element) {
+        if (element.extras().hoverText().isBlank()) return false;
+
         int startX = leftPos + element.position().xOffset();
         int startY = topPos + element.position().yOffset();
         return mouseX > startX && mouseX < startX + this.maxWidth

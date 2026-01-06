@@ -1,13 +1,12 @@
 package com.ombremoon.spellbound.datagen.provider.guide_builders;
 
-import com.ombremoon.spellbound.client.gui.guide.elements.TransfigurationRitualElement;
+import com.ombremoon.spellbound.client.gui.guide.elements.*;
+import com.ombremoon.spellbound.client.gui.guide.elements.extras.*;
 import com.ombremoon.spellbound.common.init.SBSpells;
 import com.ombremoon.spellbound.common.magic.SpellMastery;
 import com.ombremoon.spellbound.common.magic.SpellPath;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookManager;
 import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookPage;
-import com.ombremoon.spellbound.client.gui.guide.elements.*;
-import com.ombremoon.spellbound.client.gui.guide.elements.extras.*;
 import com.ombremoon.spellbound.common.magic.acquisition.transfiguration.TransfigurationRitual;
 import com.ombremoon.spellbound.common.magic.api.SpellType;
 import com.ombremoon.spellbound.main.CommonClass;
@@ -20,8 +19,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.Nullable;
@@ -321,6 +324,7 @@ public class PageBuilder {
         private int countGap;
         private boolean dropShadow;
         private int textColour;
+        private boolean centered;
 
         private ItemList() {
             this.entries = new ArrayList<>();
@@ -332,6 +336,7 @@ public class PageBuilder {
             this.countGap = 33;
             this.dropShadow = false;
             this.textColour = 0;
+            this.centered = false;
         }
 
         /**
@@ -348,9 +353,9 @@ public class PageBuilder {
          * @param count the number of the item to add
          * @return this
          */
-        public ItemList addEntry(Ingredient ingredient, int count) {
+        public ItemList addEntry(ItemStack ingredient, int count) {
             this.entries.add(new GuideItemListElement.ItemListEntry(
-                    List.of(ingredient), count));
+                    List.of(ingredient), ConstantValue.exactly(count), GuideBookManager.FIRST_PAGE));
             return this;
         }
 
@@ -360,9 +365,33 @@ public class PageBuilder {
          * @param count the number of the item to add
          * @return this
          */
-        public ItemList addEntry(List<Ingredient> ingredient, int count) {
+        public ItemList addEntry(List<ItemStack> ingredient, int count) {
             this.entries.add(new GuideItemListElement.ItemListEntry(
-                    ingredient, count));
+                    ingredient, ConstantValue.exactly(count), GuideBookManager.FIRST_PAGE));
+            return this;
+        }
+
+        /**
+         * Adds a new entry to the item list
+         * @param ingredient The ingredient to add to the list
+         * @param count the number of the item to add
+         * @return this
+         */
+        public ItemList addEntry(ItemStack ingredient, int minCount, int maxCount) {
+            this.entries.add(new GuideItemListElement.ItemListEntry(
+                    List.of(ingredient), UniformGenerator.between(minCount, maxCount), GuideBookManager.FIRST_PAGE));
+            return this;
+        }
+
+        /**
+         * Adds a new entry to the item list
+         * @param ingredient The ingredient to add to the list
+         * @param count the number of the item to add
+         * @return this
+         */
+        public ItemList addEntry(List<ItemStack> ingredient, int minCount, int maxCount) {
+            this.entries.add(new GuideItemListElement.ItemListEntry(
+                    ingredient, UniformGenerator.between(minCount, maxCount), GuideBookManager.FIRST_PAGE));
             return this;
         }
 
@@ -371,7 +400,7 @@ public class PageBuilder {
          * @param item The item to add
          * @return this
          */
-        public ItemList addEntry(Ingredient item) {
+        public ItemList addEntry(ItemStack item) {
             return addEntry(item, 1);
         }
 
@@ -380,7 +409,7 @@ public class PageBuilder {
          * @param item The item to add
          * @return this
          */
-        public ItemList addEntry(List<Ingredient> item) {
+        public ItemList addEntry(List<ItemStack> item) {
             return addEntry(item, 1);
         }
 
@@ -464,6 +493,11 @@ public class PageBuilder {
             return this;
         }
 
+        public ItemList centered() {
+            this.centered = true;
+            return this;
+        }
+
         public GuideItemListElement build() {
             return new GuideItemListElement(
                     entries,
@@ -474,7 +508,8 @@ public class PageBuilder {
                             columnGap,
                             countGap,
                             dropShadow,
-                            textColour
+                            textColour,
+                            centered
                     ), position
             );
         }
@@ -786,12 +821,14 @@ public class PageBuilder {
         private ElementPosition position;
         private ResourceLocation pageScrap;
         private boolean enableCorners;
+        private ResourceLocation cornerTexture;
 
         private Image(ResourceLocation image) {
             this.image = image;
             this.position = ElementPosition.getDefault();
             this.pageScrap = GuideBookManager.FIRST_PAGE;
             this.enableCorners = true;
+            this.cornerTexture = CommonClass.customLocation("textures/gui/books/image_borders/studies_in_the_arcane.png");
         }
 
         /**
@@ -809,6 +846,11 @@ public class PageBuilder {
          */
         public Image disableCorners() {
             this.enableCorners = false;
+            return this;
+        }
+
+        public Image setCornerTexture(ResourceLocation texture) {
+            this.cornerTexture = texture;
             return this;
         }
 
@@ -847,7 +889,7 @@ public class PageBuilder {
         }
 
         public GuideImageElement build() {
-            return new GuideImageElement(image, width, height, position, new GuideImageExtras(enableCorners));
+            return new GuideImageElement(image, width, height, position, new GuideImageExtras(enableCorners), cornerTexture);
         }
     }
 

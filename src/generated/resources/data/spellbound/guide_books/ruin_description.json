@@ -11,14 +11,14 @@
         "yOffset": 8
       },
       "translation": {
-        "translate": "spellbound.path.divine"
+        "translate": "spellbound.path.ruin"
       }
     },
     {
       "type": "spellbound:spell_border",
-      "colour": -3510773,
-      "path": "divine",
-      "pathTexture": "spellbound:textures/gui/paths/divine.png"
+      "colour": -10678496,
+      "path": "ruin",
+      "pathTexture": "spellbound:textures/gui/paths/ruin.png"
     },
     {
       "type": "spellbound:text",
@@ -31,14 +31,14 @@
         "yOffset": 8
       },
       "translation": {
-        "translate": "guide.divine.judgement"
+        "translate": "guide.ruin.subpaths"
       }
     },
     {
       "type": "spellbound:spell_border",
-      "colour": -3510773,
-      "path": "divine",
-      "pathTexture": "spellbound:textures/gui/paths/divine.png",
+      "colour": -10678496,
+      "path": "ruin",
+      "pathTexture": "spellbound:textures/gui/paths/ruin.png",
       "position": {
         "xOffset": 172
       }
@@ -49,7 +49,7 @@
         "yOffset": 35
       },
       "translation": {
-        "translate": "guide.divine.description1"
+        "translate": "guide.ruin.description1"
       }
     },
     {
@@ -58,7 +58,7 @@
         "yOffset": 100
       },
       "translation": {
-        "translate": "guide.divine.description2"
+        "translate": "guide.ruin.description2"
       }
     },
     {
@@ -68,7 +68,7 @@
         "yOffset": 35
       },
       "translation": {
-        "translate": "guide.divine.judgement1"
+        "translate": "guide.ruin.subpaths1"
       }
     },
     {
@@ -78,10 +78,10 @@
         "yOffset": 80
       },
       "translation": {
-        "translate": "guide.divine.judgement2"
+        "translate": "guide.ruin.subpaths2"
       }
     }
   ],
-  "id": "spellbound:sanctified_codex",
-  "insertAfter": "spellbound:divine_cover_page"
+  "id": "spellbound:grimoire_of_annihilation",
+  "insertAfter": "spellbound:ruin_cover_page"
 }

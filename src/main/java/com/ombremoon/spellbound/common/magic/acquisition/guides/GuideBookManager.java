@@ -27,9 +27,22 @@ public class GuideBookManager extends SimpleJsonResourceReloadListener {
     private static Map<ResourceLocation, List<GuideBookPage>> BOOKS = new HashMap<>();
     private final RegistryAccess registries;
 
+    private static final Map<ResourceLocation, Integer> bookmarkedPages = new HashMap<>(6);
+
     public GuideBookManager(RegistryAccess registries) {
         super(GSON, "guide_books");
+
+        bookmarkedPages.put(CommonClass.customLocation("basic_cover_page"), 0);
+        bookmarkedPages.put(CommonClass.customLocation("basic_transfig_cover"), 0);
+        bookmarkedPages.put(CommonClass.customLocation("basic_summon_cover"), 0);
+        bookmarkedPages.put(CommonClass.customLocation("basic_divine_cover"), 0);
+        bookmarkedPages.put(CommonClass.customLocation("basic_deception_cover"), 0);
+        bookmarkedPages.put(CommonClass.customLocation("basic_ruin_cover"), 0);
         this.registries = registries;
+    }
+
+    public static int getBasicBookmark(ResourceLocation page) {
+        return bookmarkedPages.get(page);
     }
 
     //Adds the different paths for the varying books to the scanner
@@ -114,9 +127,11 @@ public class GuideBookManager extends SimpleJsonResourceReloadListener {
             if (entry.getValue() == 0) queue.add(entry.getKey());
         }
 
+        Set<ResourceLocation> bookmarks = bookmarkedPages.keySet();
         List<GuideBookPage> sortedBook = new ArrayList<>();
         while (!queue.isEmpty()) {
             ResourceLocation current = queue.poll();
+            if (bookmarks.contains(current)) bookmarkedPages.put(current, sortedBook.size());
             sortedBook.add(pages.get(current));
 
             List<ResourceLocation> children = parentToChildren.get(current);
