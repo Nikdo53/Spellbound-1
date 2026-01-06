@@ -20,8 +20,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.Nullable;
 
@@ -75,10 +78,10 @@ public interface SBGuidePages {
 
     //Divine Book
     ResourceKey<GuideBookPage> DIVINE_COVER_PAGE = key("divine_cover_page");
-    ResourceKey<GuideBookPage> DIVINE_DESCRIPTION = key("divine_description"); //Description & Judgement
-    ResourceKey<GuideBookPage> DIVINE_JUDGEMENT = key("divine_judgement"); //Description & Judgement
-    ResourceKey<GuideBookPage> DIVINE_TEMPLE_VALKYR = key("temple_and_valkyr"); //Temple & Valkyr
-    ResourceKey<GuideBookPage> DIVINE_SHRINE = key("divine_shrine"); // Shrine & Spell Acquisition
+    ResourceKey<GuideBookPage> DIVINE_DESCRIPTION = key("divine_description");
+    ResourceKey<GuideBookPage> DIVINE_JUDGEMENT = key("divine_judgement");
+    ResourceKey<GuideBookPage> DIVINE_TEMPLE_VALKYR = key("temple_and_valkyr");
+    ResourceKey<GuideBookPage> DIVINE_SHRINE = key("divine_shrine");
 //    ResourceKey<GuideBookPage> DIVINE_ITEMS_1 = key("divine_description"); //Ambrosia, Holy Water, Blessed Bandages, Divine Phial
 //    ResourceKey<GuideBookPage> DIVINE_ITEMS_2 = key("divine_description"); //Ambrosia, Holy Water, Blessed Bandages, Divine Phial
 //    ResourceKey<GuideBookPage> DIVINE_ARMOR_STAFF = key("divine_description"); //Armor & Staff
@@ -185,6 +188,23 @@ public interface SBGuidePages {
 
         //Transfiguration
         createCoverPage(context, TRANSFIG_BOOK, TRANSFIG_COVER_PAGE, SpellPath.TRANSFIGURATION);
+        createDescriptionAndItems(
+                context,
+                TRANSFIG_DESCRIPTION,
+                TRANSFIG_COVER_PAGE,
+                Book.TRANSFIG,
+                translatable("spellbound.path.transfiguration"),
+                translatable("guide.transfiguration.rituals"),
+                false,
+                List.of(
+                        new ItemEntry(Ingredient.of(blockToItem(SBBlocks.TRANSFIGURATION_PEDESTAL)), 147, 100),
+                        new ItemEntry(Ingredient.of(blockToItem(SBBlocks.TRANSFIGURATION_DISPLAY)), 251, 100)
+                ),
+                new TextEntry(translatable("guide.transfiguration.description1"), 35),
+                new TextEntry(translatable("guide.transfiguration.description2"), 100),
+                new TextEntry(translatable("guide.transfiguration.rituals1"), PAGE_TWO_START_X, 35),
+                new TextEntry(translatable("guide.transfiguration.rituals2"), PAGE_TWO_START_X, 80)
+        );
         createSpellPage(context, STRIDE, TRANSFIG_COVER_PAGE, Book.TRANSFIG, SBSpells.STRIDE);
         createRitualPage(context, STRIDE_RITUAL, STRIDE, SBRituals.CREATE_STRIDE, 5, 0, RitualTier.ONE);
         createSpellPage(context, SHADOW_GATE, STRIDE_RITUAL, Book.TRANSFIG, SBSpells.SHADOW_GATE);
@@ -221,7 +241,8 @@ public interface SBGuidePages {
                         new ImageEntryWithDimensions(loc("textures/gui/books/images/summoning_portal.png"), PAGE_TWO_START_X, 35,150, 80)
                 ),
                 new TextEntry(translatable("guide.summon.summoning_stone1"), 35),
-                new TextEntry(translatable("guide.summon.summoning_portal1"), PAGE_TWO_START_X, 125));
+                new TextEntry(translatable("guide.summon.summoning_portal1"), PAGE_TWO_START_X, 125)
+        );
         createDescription(context,
                 SUMMON_PORTAL_ACTIVATION,
                 SUMMON_PORTALS,
@@ -289,9 +310,9 @@ public interface SBGuidePages {
                 null,
                 false,
                 List.of(
-                        new ItemEntry(Ingredient.of(SBBlocks.PLAINS_DIVINE_SHRINE.get().asItem()), -28, 70, false),
-                        new ItemEntry(Ingredient.of(SBBlocks.SANDSTONE_DIVINE_SHRINE.get().asItem()), 24, 70, false),
-                        new ItemEntry(Ingredient.of(SBBlocks.JUNGLE_DIVINE_SHRINE.get().asItem()), 76, 70, false)
+                        new ItemEntry(Ingredient.of(blockToItem(SBBlocks.PLAINS_DIVINE_SHRINE)), -28, 70, false),
+                        new ItemEntry(Ingredient.of(blockToItem(SBBlocks.SANDSTONE_DIVINE_SHRINE)), 24, 70, false),
+                        new ItemEntry(Ingredient.of(blockToItem(SBBlocks.JUNGLE_DIVINE_SHRINE)), 76, 70, false)
                 ),
                 new TextEntry(translatable("guide.divine.divine_shrine1"), 0, 35),
                 new TextEntry(translatable("guide.divine.divine_shrine2"), 0, 140),
@@ -1067,6 +1088,14 @@ public interface SBGuidePages {
 
         builder.addElements(loreList.build());
         register(context, currentPage, builder);
+    }
+
+    private static ItemLike blockToItem(Supplier<Block> block) {
+        return blockToItem(block.get());
+    }
+
+    private static ItemLike blockToItem(Block block) {
+        return block.asItem();
     }
 
     private static MutableComponent translatable(String text) {

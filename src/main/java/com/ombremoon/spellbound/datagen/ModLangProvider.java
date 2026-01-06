@@ -212,6 +212,10 @@ public class ModLangProvider extends LanguageProvider {
         add("spellbound.ritual.duration", "Duration: %s seconds");
         add("spellbound.ritual.duration_not_applicable", "Duration: N/A");
 
+        add("guide.transfiguration.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can manipulate the world around me through the study of transfiguration.");
+        add("guide.transfiguration.quote", "Reality is not a rule. It is a suggestion");
+        add("guide.transfiguration.description1", "Matter, equivalent exchange, logic—the Transfiguration Path requires great understanding of these concepts. It's more than magic—it's a science.");
+        add("guide.transfiguration.description2", "To truly master this path is to reject the world as it appears. Stone can become water, iron can become gold, and a formidable enemy can become a harmless sheep. But to rewrite the laws of physics, you must understand them first.");
         add("ritual.spellbound.create_stride", "Create Spell Tome:\nStride");
         add("ritual.spellbound.create_stride.description", "Creates a Stride spell tome");
         add("ritual.spellbound.create_shadow_gate", "Create Spell Tome:\nShadow Gate");
@@ -219,7 +223,6 @@ public class ModLangProvider extends LanguageProvider {
         add("ritual.spellbound.create_mystic_armor", "Create Spell Tome:\nMystic Armor");
         add("ritual.spellbound.create_mystic_armor.description", "Creates a Mystic Armor spell tome");
         add("spellbound.ritual.materials", "Ritual Materials");
-        add("guide.transfiguration.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can manipulate the world around me through the study of transfiguration.");
         addSpellContents(SpellPath.TRANSFIGURATION, SBSpells.STRIDE.get(),
                 "Revamps the way your body conserves energy granting an increase in the casters movement speed.",
                 "I have been trying to gather ingredients for all of my transfigurations but its taking me too long to find everything. I need a faster way.",
