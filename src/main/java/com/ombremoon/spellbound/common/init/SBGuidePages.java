@@ -6,6 +6,7 @@ import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookPage;
 import com.ombremoon.spellbound.common.magic.acquisition.transfiguration.TransfigurationRitual;
 import com.ombremoon.spellbound.common.magic.api.AbstractSpell;
 import com.ombremoon.spellbound.common.magic.api.SpellType;
+import com.ombremoon.spellbound.common.world.item.SpellTomeItem;
 import com.ombremoon.spellbound.datagen.provider.guide_builders.PageBuilder;
 import com.ombremoon.spellbound.main.CommonClass;
 import com.ombremoon.spellbound.main.Keys;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 import java.util.function.Function;
@@ -74,10 +76,52 @@ public interface SBGuidePages {
     //Deception Book
     ResourceKey<GuideBookPage> DECEPTION_COVER_PAGE = key("deception_cover_page");
 
-    //Basic Book
+    //Basic Bookmarks
     ResourceKey<GuideBookPage> BASIC_COVER_PAGE = key("basic_cover_page");
+    ResourceKey<GuideBookPage> BASIC_TRANSFIG_PAGE = key("basic_transfig_cover");
+    ResourceKey<GuideBookPage> BASIC_SUMMON_PAGE = key("basic_summon_cover");
+    ResourceKey<GuideBookPage> BASIC_DIVINE_PAGE = key("basic_divine_cover");
+    ResourceKey<GuideBookPage> BASIC_DECEPTION_PAGE = key("basic_deception_cover");
+    ResourceKey<GuideBookPage> BASIC_RUIN_PAGE = key("basic_ruin_cover");
 
     static void bootstrap(BootstrapContext<GuideBookPage> context) {
+
+        register(
+                context,
+                BASIC_TRANSFIG_PAGE,
+                PageBuilder
+                        .forBook(BASIC)
+                        .addElements(PageBuilder.Text.ofLiteral("1").build())
+        );
+        register(
+                context,
+                BASIC_SUMMON_PAGE,
+                PageBuilder
+                        .forBook(BASIC)
+                        .addElements(PageBuilder.Text.ofLiteral("2").build())
+        );
+        register(
+                context,
+                BASIC_DIVINE_PAGE,
+                PageBuilder
+                        .forBook(BASIC)
+                        .addElements(PageBuilder.Text.ofLiteral("3").build())
+        );
+        register(
+                context,
+                BASIC_DECEPTION_PAGE,
+                PageBuilder
+                        .forBook(BASIC)
+                        .addElements(PageBuilder.Text.ofLiteral("4").build())
+        );
+        register(
+                context,
+                BASIC_RUIN_PAGE,
+                PageBuilder
+                        .forBook(BASIC)
+                        .addElements(PageBuilder.Text.ofLiteral("5").build())
+        );
+
         register(
                 context,
                 BASIC_COVER_PAGE,
@@ -334,7 +378,6 @@ public interface SBGuidePages {
                                             ResourceLocation forBook,
                                             ResourceKey<GuideBookPage> currentPage,
                                             ResourceKey<GuideBookPage> prevPage,
-
                                             EntityType<?> boss,
                                             SpellType<?> spell
     ) {
@@ -355,16 +398,19 @@ public interface SBGuidePages {
                                         .position(0, 35)
                                         .italic()
                                         .build(),
-                                PageBuilder.Text
-                                        .ofLiteral("-------------------------")
-                                        .position(-5, 55)
-                                        .italic()
+                                PageBuilder.SpellBorder
+                                        .of(SpellPath.SUMMONS)
                                         .build(),
                                 //TODO: Fix recipe
                                 PageBuilder.Recipe
                                         .of(ResourceLocation.withDefaultNamespace("anvil"))
                                         .gridName(PageBuilder.Recipe.SpellboundGrids.NECRONOMICON)
-                                        .position(PAGE_START_CENTER_X - 40, 85)
+                                        .position(PAGE_START_CENTER_X - 40, 65)
+                                        .build(),
+                                PageBuilder.Text
+                                        .ofTranslatable("summon.acquisition." + spell.location().getPath() + ".lore")
+                                        .position(PAGE_START_CENTER_X, 155)
+                                        .centered()
                                         .build(),
 
                                 PageBuilder.Text
@@ -377,18 +423,22 @@ public interface SBGuidePages {
                                         .of()
                                         .addEntity(boss)
                                         .animated()
-                                        .position(PAGE_TWO_START_CENTER_X, 100)
+                                        .position(PAGE_TWO_START_CENTER_X, 110)
+                                        .setRotations(-22.5f, 45, 0)
+                                        .scale(12f)
                                         .build(),
                                 PageBuilder.Text
                                         .ofTranslatable("summon.acquisition.boss_rewards")
-                                        .position(PAGE_TWO_START_CENTER_X, 150)
+                                        .position(PAGE_TWO_START_CENTER_X, 125)
                                         .centered()
                                         .italic()
                                         .build(),
                                 PageBuilder.ItemList
                                         .of()
-                                        .addEntry(Ingredient.of(SBItems.SPELL_TOME.get()))
-                                        .position(230, 180)
+                                        .addEntry(SpellTomeItem.createWithSpell(spell))
+                                        .centered()
+                                        .maxRows(1)
+                                        .position(230, 140)
                                         .build()
 
                         ));

@@ -17,19 +17,19 @@ import net.minecraft.sounds.SoundEvents;
 import java.util.List;
 
 public class GuideBookScreen extends Screen {
-    private static final int WIDTH = 415;
-    private static final int HEIGHT = 287;
+    protected static final int WIDTH = 415;
+    protected static final int HEIGHT = 287;
 
-    private static final int PAGE_X_OFFSET = 46;
-    private static final int PAGE_Y_OFFSET = 36;
+    protected static final int PAGE_X_OFFSET = 46;
+    protected static final int PAGE_Y_OFFSET = 36;
 
-    private ResourceLocation bookId;
-    private ResourceLocation bookTexture;
-    private int leftPos;
-    private int topPos;
-    private int currentPage = 0;
-    private int lastPage;
-    private List<GuideBookPage> pages;
+    protected ResourceLocation bookId;
+    protected ResourceLocation bookTexture;
+    protected int leftPos;
+    protected int topPos;
+    protected int currentPage = 0;
+    protected int lastPage;
+    protected List<GuideBookPage> pages;
 
     public GuideBookScreen(Component title, ResourceLocation bookId, ResourceLocation bookTexture) {
         super(title);
@@ -67,9 +67,9 @@ public class GuideBookScreen extends Screen {
             ElementRenderDispatcher.renderElement(element, guiGraphics, renderLeft, renderTop, mouseX, mouseY, partialTick);
 
             if (element instanceof IInteractable interactable
-                    && ElementRenderDispatcher.isHovering(element, mouseX, mouseY, renderLeft, renderTop)) {
+                    && interactable instanceof IHoverable) {
 
-                if (interactable instanceof IHoverable)
+                if (ElementRenderDispatcher.isHovering(element, mouseX, mouseY, renderLeft, renderTop))
                     ElementRenderDispatcher.handleHover(element, guiGraphics, renderLeft, renderTop, mouseX, mouseY, partialTick);
             }
         }

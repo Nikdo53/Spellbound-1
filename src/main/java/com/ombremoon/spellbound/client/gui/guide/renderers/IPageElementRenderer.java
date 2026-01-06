@@ -59,6 +59,15 @@ public interface IPageElementRenderer<T extends IPageElement> extends Loggable {
         return Ingredient.of(list.toArray(new ItemLike[]{}));
     }
 
+    default Ingredient buildIngredientFromStack(List<ItemStack> ingredients) {
+        List<ItemLike> list = new ArrayList<>();
+        for (ItemStack ing : ingredients) {
+            list.add(ing.getItem());
+        }
+
+        return Ingredient.of(list.toArray(new ItemLike[]{}));
+    }
+
     default Ingredient buildIngredientFromValues(List<TransfigurationRitual.Value> ingredients) {
         List<ItemStack> list = new ArrayList<>();
         for (var value : ingredients) {
