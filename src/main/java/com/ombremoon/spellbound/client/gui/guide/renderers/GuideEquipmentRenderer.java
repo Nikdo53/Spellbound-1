@@ -1,22 +1,18 @@
 package com.ombremoon.spellbound.client.gui.guide.renderers;
 
-import com.ombremoon.spellbound.client.gui.guide.elements.GuideArmorElement;
+import com.ombremoon.spellbound.client.gui.guide.elements.GuideEquipmentElement;
 import com.ombremoon.spellbound.client.gui.guide.elements.extras.EquipmentExtras;
-import com.ombremoon.spellbound.client.particle.EffectBuilder;
 import com.ombremoon.spellbound.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.decoration.ArmorStand;
-import net.minecraft.world.item.Item;
 import org.joml.Quaternionf;
 
-public class GuideArmorRenderer implements IPageElementRenderer<GuideArmorElement> {
+public class GuideEquipmentRenderer implements IPageElementRenderer<GuideEquipmentElement> {
     @Override
-    public void render(GuideArmorElement element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick, int tickCount) {
+    public void render(GuideEquipmentElement element, GuiGraphics graphics, int leftPos, int topPos, int mouseX, int mouseY, float partialTick, int tickCount) {
         ArmorStand stand = (ArmorStand) getData(element, "armor");
 
         if (stand == null) {
