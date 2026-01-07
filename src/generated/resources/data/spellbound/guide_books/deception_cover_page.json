@@ -46,6 +46,20 @@
       "translation": {
         "translate": "guide.deception.cover_page"
       }
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "centered": true,
+        "italic": true
+      },
+      "position": {
+        "xOffset": 247,
+        "yOffset": 150
+      },
+      "translation": {
+        "translate": "guide.deception.quote"
+      }
     }
   ],
   "id": "spellbound:swindlers_guide"

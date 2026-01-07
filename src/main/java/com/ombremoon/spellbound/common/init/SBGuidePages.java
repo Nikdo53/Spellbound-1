@@ -30,7 +30,6 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.crafting.CompoundIngredient;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.util.Color;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -108,9 +107,10 @@ public interface SBGuidePages {
     //Basic
     ResourceKey<GuideBookPage> BASIC_COVER_PAGE = key("basic_cover_page");
     ResourceKey<GuideBookPage> SPELLBOUND_DESCRIPTION = key("basic_cover_page"); //What is Spellbound & Paths
-    ResourceKey<GuideBookPage> IMPORTANT_ITEMS = key("basic_cover_page"); //Arcanthus, Magic Essence, and Workbench
+    ResourceKey<GuideBookPage> IMPORTANT_ITEMS = key("basic_cover_page"); //Arcanthus, Magic Essence
+    ResourceKey<GuideBookPage> WORKBENCH = key("basic_cover_page"); //Workbench
     ResourceKey<GuideBookPage> BOOK_RECIPES = key("basic_cover_page"); //Book Recipes
-    ResourceKey<GuideBookPage> SPELL_BROKER = key("basic_cover_page"); //Spell Broker
+    ResourceKey<GuideBookPage> BROKER_SCRAPS = key("basic_cover_page"); //Spell Broker & Page Scraps
     ResourceKey<GuideBookPage> MORE_ITEMS = key("basic_cover_page"); //Shards, Armors & Staves
     ResourceKey<GuideBookPage> SPELLS = key("basic_cover_page"); //Spell Mastery, Tomes & Choices
     ResourceKey<GuideBookPage> SKILLS = key("basic_cover_page"); //Skills
@@ -515,6 +515,12 @@ public interface SBGuidePages {
                                         .ofTranslatable("guide." + path.getSerializedName() + ".cover_page")
                                         .position(PAGE_TWO_START_CENTER_X, 65)
                                         .centered()
+                                        .build(),
+                                PageBuilder.Text
+                                        .ofTranslatable("guide." + path.getSerializedName() + ".quote")
+                                        .position(PAGE_TWO_START_CENTER_X, 150)
+                                        .centered()
+                                        .italic()
                                         .build()
                         )
         );

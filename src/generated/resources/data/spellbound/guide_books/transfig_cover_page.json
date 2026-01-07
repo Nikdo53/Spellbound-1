@@ -46,6 +46,20 @@
       "translation": {
         "translate": "guide.transfiguration.cover_page"
       }
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "centered": true,
+        "italic": true
+      },
+      "position": {
+        "xOffset": 247,
+        "yOffset": 150
+      },
+      "translation": {
+        "translate": "guide.transfiguration.quote"
+      }
     }
   ],
   "id": "spellbound:architects_lexicon"
