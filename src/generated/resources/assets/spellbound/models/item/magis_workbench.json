@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "spellbound:item/unnamed_workbench"
+    "layer0": "spellbound:item/magis_workbench"
   }
 }

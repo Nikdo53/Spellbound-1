@@ -41,7 +41,7 @@ public class SpellTomeItem extends Item {
                 return InteractionResultHolder.fail(itemStack);
             }
 
-            player.displayClientMessage(Component.translatable("chat.spelltome.spellunlocked", spell.createSpell().getNameId()), true);
+            player.displayClientMessage(Component.translatable("chat.spelltome.spellunlocked").append(spell.createSpell().getNameId()), true);
             handler.learnSpell(spell);
             if (!player.getAbilities().instabuild)
                 itemStack.shrink(1);

@@ -137,13 +137,13 @@
       "extras": {
         "enableCorners": false
       },
-      "height": 32,
+      "height": 64,
       "image": "minecraft:textures/block/sweet_berry_bush_stage3.png",
       "position": {
         "xOffset": 112,
         "yOffset": 89
       },
-      "width": 32
+      "width": 64
     },
     {
       "type": "spellbound:text",
@@ -210,7 +210,7 @@
     {
       "type": "spellbound:text_list",
       "extras": {
-        "bulletPoint": "",
+        "bullet_point": "",
         "maxRows": 3,
         "rowGap": 55
       },
@@ -220,25 +220,28 @@
             "translate": "healing_blossom.decorate_shrine.lore"
           },
           "extraOffset": 0,
-          "scrap": "spellbound:decorate_shrine_lore"
+          "scrap": "spellbound:decorate_shrine_lore",
+          "target_page": "spellbound:default"
         },
         {
           "component": {
             "translate": "healing_blossom.grow_ambrosia_bush.lore"
           },
           "extraOffset": 15,
-          "scrap": "spellbound:grow_ambrosia_bush_lore"
+          "scrap": "spellbound:grow_ambrosia_bush_lore",
+          "target_page": "spellbound:default"
         },
         {
           "component": {
             "translate": "healing_blossom.purify_wither_rose.lore"
           },
           "extraOffset": 35,
-          "scrap": "spellbound:purify_wither_rose_lore"
+          "scrap": "spellbound:purify_wither_rose_lore",
+          "target_page": "spellbound:default"
         }
       ],
       "position": {
-        "xOffset": 182,
+        "xOffset": 172,
         "yOffset": 5
       }
     }

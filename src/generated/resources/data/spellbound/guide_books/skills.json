@@ -1,0 +1,91 @@
+{
+  "elements": [
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "bold": true,
+        "centered": true
+      },
+      "position": {
+        "xOffset": 72,
+        "yOffset": 8
+      },
+      "translation": {
+        "translate": "guide.basic.skills"
+      }
+    },
+    {
+      "type": "spellbound:spell_border",
+      "colour": -65281,
+      "pathTexture": "spellbound:textures/gui/books/images/spellbound_logo.png"
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "yOffset": 35
+      },
+      "translation": {
+        "translate": "guide.basic.skills1"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "yOffset": 89
+      },
+      "translation": {
+        "translate": "guide.basic.skills2"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "yOffset": 157
+      },
+      "translation": {
+        "translate": "guide.basic.skills3"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "xOffset": 172
+      },
+      "translation": {
+        "translate": "guide.basic.modifier_skills"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "xOffset": 172,
+        "yOffset": 49
+      },
+      "translation": {
+        "translate": "guide.basic.conditional_skills"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "xOffset": 172,
+        "yOffset": 79
+      },
+      "translation": {
+        "translate": "guide.basic.choice_skills"
+      }
+    },
+    {
+      "type": "spellbound:image",
+      "height": 75,
+      "image": "spellbound:textures/gui/books/images/choice_spell.png",
+      "position": {
+        "xOffset": 206,
+        "yOffset": 127
+      },
+      "width": 75
+    }
+  ],
+  "id": "spellbound:studies_in_the_arcane",
+  "insertAfter": "spellbound:spells"
+}

@@ -3,8 +3,8 @@
  	"render_type": "cutout",
 	"texture_size": [128, 128],
 	"textures": {
-		"0": "spellbound:block/arcane_workbench",
-		"particle": "spellbound:block/arcane_workbench"
+		"0": "spellbound:block/magis_workbench",
+		"particle": "spellbound:block/magis_workbench"
 	},
 	"elements": [
 		{

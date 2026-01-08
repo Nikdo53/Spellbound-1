@@ -1,0 +1,114 @@
+{
+  "elements": [
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "bold": true,
+        "centered": true
+      },
+      "position": {
+        "xOffset": 72,
+        "yOffset": 4
+      },
+      "translation": {
+        "translate": "entity.spellbound.spell_broker"
+      }
+    },
+    {
+      "type": "spellbound:spell_border",
+      "colour": -65281,
+      "pathTexture": "spellbound:textures/gui/books/images/spellbound_logo.png"
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "bold": true,
+        "centered": true
+      },
+      "position": {
+        "xOffset": 247,
+        "yOffset": 4
+      },
+      "translation": {
+        "translate": "guide.basic.page_scraps"
+      }
+    },
+    {
+      "type": "spellbound:spell_border",
+      "colour": -65281,
+      "pathTexture": "spellbound:textures/gui/books/images/spellbound_logo.png",
+      "position": {
+        "xOffset": 172
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "yOffset": 35
+      },
+      "translation": {
+        "translate": "guide.basic.spell_broker"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "maxLineLength": 75
+      },
+      "position": {
+        "yOffset": 85
+      },
+      "translation": {
+        "translate": "guide.basic.spell_broker1"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "xOffset": 172,
+        "yOffset": 30
+      },
+      "translation": {
+        "translate": "guide.basic.page_scraps1"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "maxLineLength": 130
+      },
+      "position": {
+        "xOffset": 197,
+        "yOffset": 90
+      },
+      "translation": {
+        "translate": "guide.basic.page_scraps2"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "maxLineLength": 130
+      },
+      "position": {
+        "xOffset": 172,
+        "yOffset": 143
+      },
+      "translation": {
+        "translate": "guide.basic.page_scraps3"
+      }
+    },
+    {
+      "type": "spellbound:image",
+      "height": 75,
+      "image": "spellbound:textures/gui/books/images/spell_broker.png",
+      "position": {
+        "xOffset": 75,
+        "yOffset": 75
+      },
+      "width": 75
+    }
+  ],
+  "id": "spellbound:studies_in_the_arcane",
+  "insertAfter": "spellbound:book_recipes_cont"
+}

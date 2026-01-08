@@ -23,22 +23,24 @@
     },
     {
       "type": "spellbound:image",
-      "corner_texture": "spellbound:textures/gui/books/image_borders/architects_lexicon.png",
-      "height": 74,
+      "extras": {
+        "enableCorners": false
+      },
+      "height": 79,
       "image": "spellbound:textures/gui/books/images/spells/stride.png",
       "position": {
         "xOffset": 3,
-        "yOffset": 40
+        "yOffset": 30
       },
       "width": 140
     },
     {
       "type": "spellbound:text",
       "position": {
-        "yOffset": 125
+        "yOffset": 115
       },
       "translation": {
-        "translate": "guide.TRANSFIGURATION.stride.description"
+        "translate": "skill.description.spellbound.stride"
       }
     },
     {
@@ -74,5 +76,5 @@
     }
   ],
   "id": "spellbound:architects_lexicon",
-  "insertAfter": "spellbound:transfig_cover_page"
+  "insertAfter": "spellbound:transfig_talisman_chalk"
 }

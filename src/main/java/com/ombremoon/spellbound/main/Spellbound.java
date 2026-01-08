@@ -30,6 +30,7 @@ import net.neoforged.neoforge.registries.NewRegistryEvent;
 
 //Add judgement requirement for divine spell acquisition
 //Add recent action cooldown for divine spell acquisition
+//Change rituals to check one display per tick (startup time min depends on tier {tier 1  = min(4)})
 
 //Catalysts
 //Ruin - Doubles Status Build Up
@@ -120,5 +121,6 @@ public class Spellbound {
         ElementRenderDispatcher.register(GuideTooltipElement.class, new GuideTooltipRenderer());
         ElementRenderDispatcher.register(GuideSpellBorderElement.class, new GuideSpellBorderRenderer());
         ElementRenderDispatcher.register(TransfigurationRitualElement.class, new GuideRitualRenderer());
+        ElementRenderDispatcher.register(GuideEquipmentElement.class, new GuideEquipmentRenderer());
     }
 }

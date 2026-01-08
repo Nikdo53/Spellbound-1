@@ -23,8 +23,8 @@ import java.util.function.Supplier;
 public class SBBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Constants.MOD_ID);
 
-    public static final Supplier<Block> ARCANE_WORKBENCH = registerBlock(
-            "unnamed_workbench", () -> new UnnamedWorkbenchBlock(
+    public static final Supplier<Block> MAGI_WORKBENCH = registerBlock(
+            "magis_workbench", () -> new UnnamedWorkbenchBlock(
                     blockProperties()
                             .noOcclusion()
             )

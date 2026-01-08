@@ -1,10 +1,7 @@
 package com.ombremoon.spellbound.datagen;
 
 import com.google.common.collect.ImmutableMap;
-import com.ombremoon.spellbound.common.init.SBBlocks;
-import com.ombremoon.spellbound.common.init.SBItems;
-import com.ombremoon.spellbound.common.init.SBSkills;
-import com.ombremoon.spellbound.common.init.SBSpells;
+import com.ombremoon.spellbound.common.init.*;
 import com.ombremoon.spellbound.common.magic.SpellPath;
 import com.ombremoon.spellbound.common.magic.api.SpellType;
 import com.ombremoon.spellbound.common.magic.skills.Skill;
@@ -13,6 +10,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
@@ -29,7 +27,10 @@ public class ModLangProvider extends LanguageProvider {
 
     protected static final Map<String, String> REPLACE_LIST = ImmutableMap.of(
             "tnt", "TNT",
-            "sus", ""
+            "sus", "",
+            "magis", "Magi's",
+            "architects", "Architect's",
+            "swindlers", "Swindler's"
     );
 
     public ModLangProvider(PackOutput gen) {
@@ -42,8 +43,9 @@ public class ModLangProvider extends LanguageProvider {
         SBSpells.SPELL_TYPES.getEntries().forEach(this::spellLang);
         SBSkills.SKILLS.getEntries().forEach(this::skillLang);
         SBBlocks.BLOCKS.getEntries().forEach(this::blockLang);
-//        EntityInit.ENTITIES.getEntries().forEach(this::entityLang);
-//        StatusEffectInit.STATUS_EFFECTS.getEntries().forEach(this::effectLang);
+        SBEntities.ENTITIES.getEntries().forEach(this::entityLang);
+        SBEffects.EFFECTS.getEntries().forEach(this::effectLang);
+        SBAttributes.ATTRIBUTES.getEntries().forEach(this::attributeLang);
 
         pathLang();
         manualEntries();
@@ -69,6 +71,10 @@ public class ModLangProvider extends LanguageProvider {
         add(entry.get().getNameId(), checkReplace(entry));
     }
 
+    protected void attributeLang(DeferredHolder<Attribute,? extends Attribute> entry) {
+        add(entry.get().getDescriptionId(), checkReplace(entry));
+    }
+
     protected void blockLang(DeferredHolder<Block, ? extends Block> entry) {
         addBlock(entry, checkReplace(entry));
     }
@@ -89,7 +95,7 @@ public class ModLangProvider extends LanguageProvider {
 
         add("chat.spelltome.awardxp", "Spell already known. +10 spells XP.");
         add("chat.spelltome.nospell", "This spells tome is blank.");
-        add("chat.spelltome.spellunlocked", "Spell unlocked: %1$s");
+        add("chat.spelltome.spellunlocked", "Spell unlocked: ");
         add("tooltip.spellbound.holdshift", "Hold shift for more information.");
 
         add("spellbound.path.level", "Lvl");
@@ -119,19 +125,17 @@ public class ModLangProvider extends LanguageProvider {
         //Summon Acq
         //Transfig
         add("guide.basic.acquisition", "Spell Acquisition");
+        add("guide.general.table_contents", "Table of Content:");
 
         basicContents();
         ruinContents();
         transfigContents();
         summonContents();
         divineGuideContents();
-
-        //Deception
-        add("guide.deception.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can utilize the shadows to my advantage with the art of deception.");
+        deceptionGuideContents();
     }
 
-    private void addSpellContents(SpellPath path, SpellType<?> spell, String description, String lore, String bossLore) {
-        add("guide." + path.name() + "." + spell.location().getPath() + ".description", description);
+    private void addSpellContents(SpellPath path, SpellType<?> spell, String lore, String bossLore) {
         add("guide." + path.name() + "." + spell.location().getPath() + ".lore", lore);
         add("guide." + path.name() + "." + spell.location().getPath() + ".boss_lore", bossLore);
     }
@@ -140,16 +144,108 @@ public class ModLangProvider extends LanguageProvider {
         add("guide.basic.ruin.cover_page", "The Ruin Path focuses on destructive spells that can destroy both living creatures and the environment utilising different elemental powers.");
         add("guide.basic.discord", "Discord");
         add("guide.basic.bugs", "Bug Reports");
-        add("guide.basic.blurb", "Welcome fellow Magi! I present to you the first in many books documenting my exploration into the arcane. This book will act as a guideline introducing you to the different paths of magic I have discovered and how they can be used.");
-        add("guide.basic.ruin.description", "Ruin spells are split up into Sub-Paths each with a different effect allowing you to use §lFire§r, §lFrost§r, §lShock§r or a mix of all three.");
-        add("guide.basic.ruin.description1", "Each Sub-path has special effects they cause on your target allowing you to either deal more damage or crowd control targets.");
-        add("guide.basic.ruin.acquisition1", "Ruin spells are acquired by defeating powerful enemies that use different Ruin Path spells to deal damage.");
-        add("guide.basic.ruin.acquisition2", "These enemies reside in their own arenas that require keystones to access. The recipes for these have been long forgotten however, leaving ruin spells to be known only to Spell Brokers");
+        add("guide.basic.blurb", "Welcome fellow Magi, to the world of Spellbound! I present to you the first in many books documenting the arcane. Let this book act as your guide, introducing you to the different paths of magics to take and plethora of mysteries to be discovered.");
+        add("guide.basic.spellbound", "What is Spellbound?");
+        add("guide.basic.description1", "The magical world of Spellbound puts an emphasis on your choices to craft your experience, rather than relying on RNG.");
+        add("guide.basic.description2", "Unlock powerful spells, each with their own set of unique upgrades. Fight dangerous foes in otherworldly dimensions. Explore the dark arts or become a peaceful saint. Choose your path.");
+        add("guide.basic.spell_paths", "Spell Paths");
+        add("guide.basic.spell_paths1", "All spells are broken up into 5 spell paths: §4Ruin§r, §2Transfiguration§r, §1Summons§r, §eDivine§r, and §9Deception§r");
+        add("guide.basic.spell_paths_cont", "Spell Paths Cont.");
+        add("guide.basic.ruin", "Ruin is the path of elemental energy, destruction and chaos. The Ruin path can be broken down into addition sub-paths: §lFire§r, §lFrost§r, and §lShock§r. Each path has a unique effect that is applied to targets after taking enough damage.");
+        add("guide.basic.transfiguration", "Transfiguration is the path of alchemy and change. Offering a variety of utility and protection, Transfiguration spells are essential in almost all Magi's arsenal. Learn how to perform spells on an even grander scale through rituals.");
+        add("guide.basic.summons", "Summons is the path creation. As a Summoner, bring forth allies from beyond the grave or other dimension to fight in your stead by defeating them in combat. Befriend familiars to aid you in your journey as a");
+        add("guide.basic.summons_fix", "Magi.");
+        add("guide.basic.divine", "Divine is the path of light and darkness. Aid your allies and smite the undead, or curse your enemies and steal their life force, the Divine forces fuel your power. But beware, for every action taken, judgement will be passed.");
+        add("guide.basic.deception", "Deception is the path of illusions and trickery. Masters of the art of Deception make their moves from the shadows, striking when you least expect. It is said that there is a place beyond mortal reach, housing secrets for those determined enough to uncover them.");
+        add("guide.basic.general_items", "General Items");
+        add("guide.basic.arcanthus", "A magical flower found in small patches in flower fields, Arcanthus is the easiest way for a Magi to introduce oneself to the world of magic. Can be crafted into magic essence.");
+        add("guide.basic.magic_essence", "Magic Essence is the core of all magic items in this world, utilizing the magical properties of Arcanthus to enhance its host object.");
+        add("guide.basic.mana_tear", "As you and your spells grow stronger, the mana needed to cast them is increased. Mana Tears can be used to permanently increase mana reserves.");
+        add("guide.basic.workbench1", "A Magi's Workbench is a Magi's most important tool for spell growth. This is where you can view, swap out, and upgrade your spells as you progress through the world.");
+        add("guide.basic.book_recipes", "Book Recipes");
+        add("guide.basic.book_recipes_cont", "Book Recipes Cont.");
+        add("guide.basic.guide_books", "Guide Books are essential for any Magi, new or old. Within them contains all information relevant to its corresponding path. Some content includes: ");
+        add("guide.basic.guide_books1", "▪ Path Overview");
+        add("guide.basic.guide_books2", "▪ Unique Path Mechanic");
+        add("guide.basic.guide_books3", "▪ Path Lore");
+        add("guide.basic.guide_books4", "▪ Path Specific Items");
+        add("guide.basic.guide_books5", "▪ Spell Info & Acquisition");
+        add("guide.basic.guide_books6", "Note: Not all content has been added yet");
+        add("guide.basic.spell_broker", "Located in a secluded tower in the forest and sometimes seen roaming the lands is a shady fellow, the Spell Broker.");
+        add("guide.basic.spell_broker1", "Carrying spells he could only have obtained through suspicious means, the Broker seeks to trade things of magical value.");
+        add("guide.basic.page_scraps", "Magic Research &\nPage Scraps");
+        add("guide.basic.page_scraps1", "Path books hold key information about spell acquisition and path mechanics, but are encrypted in a magical language and need a cipher to read.");
+        add("guide.basic.page_scraps2", "Page scraps can be obtained around the world through various actions, deciphering certain entries in a book.");
+        add("guide.basic.page_scraps3", "Explore the lands, interact with mobs, and be on the look out for clues to unlock every book entry.");
+        add("guide.basic.path_items", "Path Items");
+        add("guide.basic.path_items1", "Every path has a set of specific items that will help Magi's on their path: §lShards§r, §lStaves§r, and §lArmor§r");
+        add("guide.basic.shards", "Shards are special magic catalyst items that can be found underground, dropped from certain mobs, or earned from specific tasks.");
+        add("guide.basic.armor", "Enchanted regalia that buffs the certain spell stats from the corresponding path.");
+        add("guide.basic.staves", "A Magi's Staff allows its user to better control the flow of magic, bestowing a special buff to spells of the corresponding path.");
+        add("guide.basic.spells", "Spells");
+        add("guide.basic.spell_tomes", "To learn a spell, you must first obtain its Spell Tome. Spell Tomes cannot be found in dungeons or as common mob loot, but are instead acquired through certain tasks corresponding to its path.");
+        add("guide.basic.spell_mastery", "All spells are locked under a Mastery Level. Path Mastery Level is increased by levelling up spell, which can be done through spell casting and harming/healing entities with your spells.");
+        add("guide.basic.choice_spells", "As spells level up, they can be upgraded to become even stronger and more unique to your playstyle. Certain upgrades changes how spells work entirely—these are called §lChoice Spells§r.");
+        add("guide.basic.skills", "Skills");
+        add("guide.basic.skills1", "Skills are upgrades unique to each spell that adds additional functionality to it. All spells have a total of 10 skill upgrades.");
+        add("guide.basic.skills2", "Skills are unlocked via Skill Points, which are earned every time you level up a spell. Spells can level up to a max level of 5, meaning only 5 of the 10 upgrades can be unlocked.");
+        add("guide.basic.skills3", "There are 3 special types of skills: §lModifier§r, §lConditional§r, and §lChoice§r skills.");
+        add("guide.basic.modifier_skills", "▪ Modifier skills give permanent buffs/debuffs to certain spell stats, such as duration, potency, or mana cost.");
+        add("guide.basic.conditional_skills", "▪ Conditional skills require specific conditions to be met to either unlock or use.");
+        add("guide.basic.choice_skills", "▪ Choice skills almost entirely change how a spell functions, giving Magi's the option to swap between different implementations of the same spell.");
+    }
+
+    protected void transfigContents() {
+        add("guide.transfiguration.description", "Transfiguration & Rituals");
+        add("guide.transfiguration.blocks", "Ritual Blocks");
+        add("guide.transfiguration.items", "Ritual Items");
+
+        add("spellbound.ritual.tier_one", "Tier: 1");
+        add("spellbound.ritual.tier_two", "Tier: 2");
+        add("spellbound.ritual.tier_three", "Tier: 3");
+        add("spellbound.ritual.activation_time", "Activation Time: %s seconds");
+        add("spellbound.ritual.duration", "Duration: %s seconds");
+        add("spellbound.ritual.duration_not_applicable", "Duration: N/A");
+
+        add("guide.transfiguration.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can manipulate the world around me through the study of transfiguration.");
+        add("guide.transfiguration.quote", "Reality is not a rule. It is a suggestion");
+        add("guide.transfiguration.description1", "Matter, equivalent exchange, logic—the Transfiguration Path requires great understanding of these concepts. It's more than magic—it's a science.");
+        add("guide.transfiguration.description2", "To truly master this path is to reject the world as it appears. Stone can become water, iron can become gold, and a formidable enemy can become a harmless sheep. But to rewrite the laws of physics, you must understand them first.");
+        add("guide.transfiguration.rituals", "Alchemy Rituals");
+        add("guide.transfiguration.rituals1", "Alchemy, the foundation of everything I do. Whether I am extracting a new spell formula or manipulating my environment, the process is the same: arrange the geometry, balance the components, and force the transmutation.");
+        add("guide.transfiguration.rituals2", "The apparatus appears to consists of a central pedestal surrounded by display stands, with each tier increasing the displays and height needed.");
+        add("guide.transfiguration.rituals_cont", "Alchemy Rituals Cont.");
+        add("guide.transfiguration.pedestal_legend", "- Pedestal");
+        add("guide.transfiguration.display_legend", "- Display");
+        add("guide.transfiguration.rune_circuit", "If I connect the displays in a ring with these runic symbols I found, the structure acts as a circuit, with the items on displays defining the properties of the ritual.");
+        add("guide.transfiguration.pedestal", "I infused a little bit of my magic into an rickety table I had lying around in preparation for my studies. And now I have it—the heart of the altar, where the magic happens.");
+        add("guide.transfiguration.display", "I've been chiseling away at these old magic stones for hours. My body aches, but at least I have a way to store my collection of materials");
+        add("guide.transfiguration.chalk", "I discovered some runic marking on the walls in the caves. I don't understand what they mean, but it's almost as if I felt magic flowing through the text. I'll write some down for later.");
+        add("guide.transfiguration.ritual_talisman", "I have everything in place to begin my experiment, but nothing is happening. Maybe I need a catalyst? I should be wary—if it isn't strong enough, it could be a waste.");
+        add("ritual.spellbound.create_stride", "Create Spell Tome:\nStride");
+        add("ritual.spellbound.create_stride.description", "Creates a Stride spell tome");
+        add("ritual.spellbound.create_shadow_gate", "Create Spell Tome:\nShadow Gate");
+        add("ritual.spellbound.create_shadow_gate.description", "Creates a Shadow Gate spell tome");
+        add("ritual.spellbound.create_mystic_armor", "Create Spell Tome:\nMystic Armor");
+        add("ritual.spellbound.create_mystic_armor.description", "Creates a Mystic Armor spell tome");
+        add("spellbound.ritual.materials", "Ritual Materials");
+        addSpellContents(SpellPath.TRANSFIGURATION, SBSpells.STRIDE.get(),
+                "I have been trying to gather ingredients for all of my transfigurations but its taking me too long to find everything. I need a faster way.",
+                "Well I solved my problem with transfiguration. You wont believe it but by mixing the right ingredients I can supercharge my body allowing my legs to work even faster!");
+        addSpellContents(SpellPath.TRANSFIGURATION, SBSpells.SHADOW_GATE.get(),
+                "As my studies have advanced I am finding myself needing to explore more biomes and found that teleportation could be quite useful.",
+                "I think I got it! After experimenting with ender pearls I found they rip open gateways temporarily. I have created a spell to keep these open for longer.");
+        addSpellContents(SpellPath.TRANSFIGURATION, SBSpells.MYSTIC_ARMOR.get(),
+                "Uh oh seems like I have angered a few too many Magi. Im trying to throw together what ever I can hoping i can protect my self a little more consistantly.",
+                "Well i was trying to make myself absorb their mana and while that didn't completely work I have managed to reduce the impact of their spells.");
+
     }
 
     protected void ruinContents() {
-        add("guide.ruin.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can bend it to my will to destroy my enemies by harnessing the powers of ruin.");
+        add("guide.ruin.contents.description", "Ruin & Sub-Paths");
 
+        add("guide.ruin.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can bend it to my will to destroy my enemies by harnessing the powers of ruin.");
+        add("guide.ruin.quote", "Peace is a lie. There is only energy.");
         add("guide.ruin.subpaths", "Sub-Paths");
         add("guide.ruin.description1", "The destructive Path of Ruin, channelling the forces gripping the world together and twisting them to tear the world apart.");
         add("guide.ruin.description2", "To use this path to its fullest is to channel all your mana into pure elemental power ripping through anyone who stands in your path or doubts your true power, disregarding what ever damage you may do to the world around you.");
@@ -161,22 +257,46 @@ public class ModLangProvider extends LanguageProvider {
         add("guide.ruin.frost", "§lFrost§r\nThe fire elements opposite, Frost, this one seems to affect living creatures ability to perform actions massively slowing any thing affected by it.");
         add("guide.ruin.shock", "§lShock§r\nThe final of the three elements seems to be linked directly to the weather as it allows me to create storm clouds to destroy my foes. The shock seems to disrupt some enemies thoughts stunning them.");
 
+        add("guide.ruin.build_up", "Elemental Overload");
+        add("guide.ruin.effects", "Elemental Effects");
+        add("guide.ruin.build_up1", "It seems that a single creatures body can only take so much of each element. When my targets body is unable to absorb more of the element their body seems to react in a different way depending on the element. Il keep experimenting and try to understand what exactly is happening");
+        add("guide.ruin.fire_status", "§lFire§r\nFire energy explodes out the target dealing damage and setting fire in a radius around the target.");
+        add("guide.ruin.frost_status", "§lFrost§r\nFreezes foe solid stopping them from performing any actions temporarily.");
+        add("guide.ruin.shock_status", "§lShock§r\nTargets access to the arcane is blocked, silencing them temporarily. Additionally, drains 20% mana.");
+
         add("guide.ruin.portals", "Ruin Portals");
         add("guide.ruin.keystones", "Keystones");
         add("guide.ruin.portals1", "When I draw from this source of magic I can feel others tug at it. I believe there are some ancient beings residing in their own realms that have learnt to bend these elements to their will.");
         add("guide.ruin.portals2", "I aim to find the gateways to these ancient beings realms so I can find how they are twisting the elements to create new ways of expressing their magic.");
-        add("guide.ruin.portals3", "While exploring I have found a few gateways but they seem to all be locked. Until a way to create keystones to open the portals is found I'l have to learn what I can from Spell Brokers.");
+        add("guide.ruin.portals3", "While exploring I have found a few gateways but they seem to all be locked. Seems the way to make keystones has been long forgotten. I'l have to buy my ruin spells from Spell Brokers.");
 
         addSpellContents(SpellPath.RUIN, SBSpells.SOLAR_RAY.get(),
-                "Channel the power of the sun forward creating a powerful beam setting fire to targets in its path.",
                 "I have purchased this spell tome from a Spell Broker as I have been unable to decipher its origin but I believe its siphoning energy from the sun.",
                 "I was mistaken... This spell isn't channelling energy from the sun, but a Sun God! That's definitely a being to avoid");
+
+        addSpellContents(SpellPath.RUIN, SBSpells.SHATTERING_CRYSTAL.get(),
+                "My attacks are becoming too predictable. I wonder if I can make a spell with a delayed attack. No one will see it coming!",
+                "All it came down to was the right element. Using the Frost elements innate power to slow processes I can delay the burst for as long as I want");
+
+        addSpellContents(SpellPath.RUIN, SBSpells.STORMSTRIKE.get(),
+                "Everytime I try to tap into the Shock element I can feel a storm form around me, is it possible to use this in an attack?",
+                "AHAHAHA I DID IT! By focusing my energy in front of me I can use the storm being formed to fire out a lightning bolt");
+
+        addSpellContents(SpellPath.RUIN, SBSpells.ELECTRIC_CHARGE.get(),
+                "I don't think I'm powerful enought to take people head on right now. I need to give my self an advantage before the fight starts.",
+                "I think this should work... This spell should be able to start building up shock charge on my target without their knowledge.");
+
+        addSpellContents(SpellPath.RUIN, SBSpells.STORM_RIFT.get(),
+                "I started exploring Shock based spells by forming small storms infront of me. With all my new found knowledge how powerful can I make that?",
+                "Well I'm glad to say that's an improvement! No one will want to challenge me when I can conjure storms like this.");
 
     }
 
     protected void summonContents() {
-        add("guide.summons.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can increase my strength through numbers with the rites of summoning.");
+        add("guide.summon.description", "Hidden Dimensions");
 
+        add("guide.summons.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can increase my strength through numbers with the rites of summoning.");
+        add("guide.summons.quote", "Death is not the end. It's the beginning of recruitment.");
         add("guide.summon.dimensions", "Dimensions");
         add("guide.summon.description1", "Summoning magic... dragging creatures from the darkest of realms and forcing them to fight on your behalf. Only the strong willed can use this power.");
         add("guide.summon.description2", "To harness this source of magic a creature must first be battled to understand its power. But that requires first reaching into these twisted realms where they reside and hunting these powerful entities.");
@@ -185,8 +305,8 @@ public class ModLangProvider extends LanguageProvider {
 
         add("guide.summon.summoning_stone", "Summoning Stones");
         add("guide.summon.summoning_portal", "Portal Construction");
-        add("guide.summon.summoning_stone1", "After speaking to a few Spell Brokers they have told me of these summoning stones that can be crafted to create a gateway.");
-        add("guide.summon.summoning_portal1", "Ah-ha! Mimicking an End portal seems to allow these stones to be activated with Magic Essence. Now I just need to find how to access a specific dimension.");
+        add("guide.summon.summoning_stone1", "Within the nether I have found some abandoned forges. Within the rubble was this recipe for a summoning stone.");
+        add("guide.summon.summoning_portal1", "I have come across a crumbling structure with these summoning stones arranged like an End portal. They seem to be activated with Magic Essence.");
 
         add("guide.summon.portal_activation", "Portal Activation");
         add("guide.summon.portal_activation1", "After focusing more of my studies on End portals I have realised that these types of portals need a block to focus on, to locate their destination.");
@@ -198,49 +318,20 @@ public class ModLangProvider extends LanguageProvider {
         add("summon.acquisition.boss_rewards", "Boss Rewards");
         add("summon.acquisition.wild_mushroom.lore", "Come to think of it, it's rare to see a single mushroom on its own...");
         addSpellContents(SpellPath.SUMMONS, SBSpells.WILD_MUSHROOM.get(),
-                "Grows a mushroom out of the ground at the target location, periodically emitting a damaging poison cloud.",
                 "Fungi are some of the most resilient living organisms, if I can find a mushroom infested realm think of the power it could be hiding.",
                 "Why did I think going to the home of a notably durable fungi would be a good idea. It always knows where I am it must be these damn spores."
         );
     }
 
-    protected void transfigContents() {
-        add("spellbound.ritual.tier_one", "Tier: 1");
-        add("spellbound.ritual.tier_two", "Tier: 2");
-        add("spellbound.ritual.tier_three", "Tier: 3");
-        add("spellbound.ritual.activation_time", "Activation Time: %s seconds");
-        add("spellbound.ritual.duration", "Duration: %s seconds");
-        add("spellbound.ritual.duration_not_applicable", "Duration: N/A");
-
-        add("ritual.spellbound.create_stride", "Create Spell Tome:\nStride");
-        add("ritual.spellbound.create_stride.description", "Creates a Stride spell tome");
-        add("ritual.spellbound.create_shadow_gate", "Create Spell Tome:\nShadow Gate");
-        add("ritual.spellbound.create_shadow_gate.description", "Creates a Shadow Gate spell tome");
-        add("ritual.spellbound.create_mystic_armor", "Create Spell Tome:\nMystic Armor");
-        add("ritual.spellbound.create_mystic_armor.description", "Creates a Mystic Armor spell tome");
-        add("spellbound.ritual.materials", "Ritual Materials");
-        add("guide.transfiguration.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can manipulate the world around me through the study of transfiguration.");
-        addSpellContents(SpellPath.TRANSFIGURATION, SBSpells.STRIDE.get(),
-                "Revamps the way your body conserves energy granting an increase in the casters movement speed.",
-                "I have been trying to gather ingredients for all of my transfigurations but its taking me too long to find everything. I need a faster way.",
-                "Well I solved my problem with transfiguration. You wont believe it but by mixing the right ingredients I can supercharge my body allowing my legs to work even faster!");
-        addSpellContents(SpellPath.TRANSFIGURATION, SBSpells.SHADOW_GATE.get(),
-                "Rips open a portal through the darkness linking two points for transportation",
-                "As my studies have advanced I am finding myself needing to explore more biomes and found that teleportation could be quite useful.",
-                "I think I got it! After experimenting with ender pearls I found they rip open gateways temporarily. I have created a spell to keep these open for longer.");
-        addSpellContents(SpellPath.TRANSFIGURATION, SBSpells.MYSTIC_ARMOR.get(),
-                "Grants the caster a magically charged shield, reducing incoming spell damage based on level.",
-                "Uh oh seems like I have angered a few too many Magi. Im trying to throw together what ever I can hoping i can protect my self a little more consistantly.",
-                "Well i was trying to make myself absorb their mana and while that didn't completely work I have managed to reduce the impact of their spells.");
-
-    }
-
     protected void divineGuideContents() {
+        add("guide.divine.divine_judgement", "Divine Judgement");
+
         add("divine_action.judgement", "Judgement: ");
         add("divine_action.judgement_required", "Judgement Required: ");
         add("divine_action.cooldown", "Cooldown: %s ticks");
 
         add("guide.divine.cover_page", "This book shall document my discoveries throughout my adventures into the arcane and how I can call upon divine forces to aid myself and allies and harm foes.");
+        add("guide.divine.quote", "Faith is not spoken. It is proven.");
         add("guide.divine.description1", "The Divine Path is the discipline of miracles, drawing power from the absolute forces of not only Light, but Darkness. This magic is not learned—it is bestowed.");
         add("guide.divine.description2", "To walk this path is to become a conduit for higher powers. Whether you seek to be a Saint of Mercy who shields the weak, or a Paladin of Darkness who has fallen to the forces of evil, this path demands action.");
         add("guide.divine.judgement", "Judgement");
@@ -279,6 +370,32 @@ public class ModLangProvider extends LanguageProvider {
         add("healing_blossom.decorate_shrine.lore", "As I grow in tune with the divine, I can feel a strong presence of magic emanating from Overworld flora. I should collect as much as I can to study.");
         add("healing_blossom.grow_ambrosia_bush.lore", "It seems bees fail to see me as an enemy after I've eaten this Ambrosia dish. While helpful, it's not really my taste. I'll just give some to the bees since they seem to like it.");
         add("healing_blossom.purify_wither_rose.lore", "I can sense a sinister aura coming from this black flower. As a servant of the Divine, it is my duty to cleanse it!");
+
+        addSpellContents(SpellPath.DIVINE, SBSpells.HEALING_TOUCH.get(),
+                "The power of the Divines is one in which harm to living creatures is seen as a sin. Does that mean I can use this power for the opposite?",
+                "It work's perfectly. After sustaining an attack, self inflicted or otherwise, I can channel the Divine energy to heal myself.");
+
+        addSpellContents(SpellPath.DIVINE, SBSpells.HEALING_BLOSSOM.get(),
+                "The Divines didn't just make sentient creatures but also plants. I wonder if my borrowed power can be used for flora.",
+                "I managed to grow this plant that by imbuing it with a fraction of my energy is able to emit a healing aura periodically.");
+    }
+
+    protected void deceptionGuideContents() {
+        add("guide.deception.quote", "Honor is a shackle. Break it.");
+
+        add("guide.deception.acquisition", "Spell Acquisition");
+        add("guide.deception.description1", "Deceit, trickery, fraud... All words for creating deceptions to fool those who would doubt you. Using this path of magic I will twist what people see, controlling what they understand as truth.");
+        add("guide.deception.description2", "Through this path I will enhance my sight, seeing through the worlds lies and creating falsities of my own.");
+        add("guide.deception.acquisition1", "How am I to learn this damn path when I can't even begin to find these books. I could ask around but what if they lie? they manipulate?");
+        add("guide.deception.acquisition2", "FINE! I caved in I bought some spells from a Spell Broker. But you can bet I'm going to try these on someone else first!");
+
+        addSpellContents(SpellPath.DECEPTION, SBSpells.SHADOWBOND.get(),
+                "Someone has requested my help turning them invisible so they can sneak into a jungle temples vault. If only I could reverse our roles...",
+                "Well that has done the trick! as soon as they passed the traps i swapped places with them. Lets just hope they don't track me down.");
+
+        addSpellContents(SpellPath.DECEPTION, SBSpells.PURGE_MAGIC.get(),
+                "I may excel in sneaking but when im caught im finding my self too vulnerable. I need to find a way to silence my foes.",
+                "Well I made progress. They may not be silenced but I have found a way to dispel my enemies protective auras and effects.");
     }
 
     protected void skillDescriptions() {

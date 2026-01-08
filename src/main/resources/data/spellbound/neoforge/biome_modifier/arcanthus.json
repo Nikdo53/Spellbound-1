@@ -1,6 +1,6 @@
 {
   "type": "neoforge:add_features",
-  "biomes": "#minecraft:is_overworld",
+  "biomes": "#c:is_flower_forest",
   "features": "spellbound:arcanthus",
   "step": "vegetal_decoration"
 }

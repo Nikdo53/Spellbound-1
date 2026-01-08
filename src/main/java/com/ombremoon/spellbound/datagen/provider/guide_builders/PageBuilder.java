@@ -10,27 +10,18 @@ import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookPage;
 import com.ombremoon.spellbound.common.magic.acquisition.transfiguration.TransfigurationRitual;
 import com.ombremoon.spellbound.common.magic.api.SpellType;
 import com.ombremoon.spellbound.main.CommonClass;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.component.DataComponentPredicate;
-import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.minecraft.world.level.ItemLike;
-import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -374,7 +365,8 @@ public class PageBuilder {
         /**
          * Adds a new entry to the item list
          * @param ingredient The ingredient to add to the list
-         * @param count the number of the item to add
+         * @param minCount the minimum number to display
+         * @param maxCount the maximum number to display
          * @return this
          */
         public ItemList addEntry(ItemStack ingredient, int minCount, int maxCount) {
@@ -386,7 +378,8 @@ public class PageBuilder {
         /**
          * Adds a new entry to the item list
          * @param ingredient The ingredient to add to the list
-         * @param count the number of the item to add
+         * @param minCount the minimum number to display
+         * @param maxCount the maximum number to display
          * @return this
          */
         public ItemList addEntry(List<ItemStack> ingredient, int minCount, int maxCount) {
@@ -703,7 +696,7 @@ public class PageBuilder {
 
     //Builder for SpellBorder
     public static class SpellBorder implements PageBuilderType {
-        private final SpellPath path;
+        private final Optional<SpellPath> path;
         private final Optional<SpellMastery> mastery;
         private int colour;
         private ElementPosition position;
@@ -715,19 +708,19 @@ public class PageBuilder {
             this(spellType.getPath(), spellType.getMastery());
         }
 
-        private SpellBorder(SpellPath path, @Nullable SpellMastery mastery) {
-            this.path = path;
+        private SpellBorder(@Nullable SpellPath path, @Nullable SpellMastery mastery) {
+            this.path = Optional.ofNullable(path);
             this.mastery = Optional.ofNullable(mastery);
             this.position = ElementPosition.getDefault();
-            this.pathTexture = CommonClass.customLocation("textures/gui/paths/" + path.name().toLowerCase() + ".png");
-            this.colour = switch (path) {
+            this.pathTexture = path != null ? CommonClass.customLocation("textures/gui/paths/" + path.name().toLowerCase() + ".png") : CommonClass.customLocation("textures/gui/books/images/spellbound_logo.png");
+            this.colour = path != null ? switch (path) {
                 case RUIN -> -10678496;
                 case TRANSFIGURATION -> -14396391;
                 case SUMMONS -> -13490312;
                 case DIVINE -> -3510773;
                 case DECEPTION -> -13357984;
-                default -> 0;
-            };
+                default -> 0xFFFF00FF;
+            } : 0xFFFF00FF;
             this.topText = Optional.empty();
             this.bottomText = Optional.empty();
         }
@@ -822,6 +815,7 @@ public class PageBuilder {
         private ResourceLocation pageScrap;
         private boolean enableCorners;
         private ResourceLocation cornerTexture;
+        int color;
 
         private Image(ResourceLocation image) {
             this.image = image;
@@ -928,43 +922,6 @@ public class PageBuilder {
             this.ingredients.add(item);
             return this;
         }
-
-/*        public StaticItem addItem(ItemLike item, TypedDataComponent<?>... data) {
-            this.ingredients.add(createIngredient(Arrays.asList(data), item));
-            return this;
-        }
-
-        public StaticItem addItem(HolderSet<Item> items, TypedDataComponent<?>... data) {
-            this.ingredients.add(createIngredient(Arrays.asList(data), items));
-            return this;
-        }
-
-        public StaticItem addItem(Item item, TypedDataComponent<?>... data) {
-            this.ingredients.add(createIngredient(Arrays.asList(data), item));
-            return this;
-        }
-
-        public StaticItem addItem(HolderSet<Item> items) {
-            this.ingredients.add(createIngredient(List.of(), items));
-            return this;
-        }
-
-        public StaticItem addItem(Item item) {
-            this.ingredients.add(createIngredient(List.of(), item));
-            return this;
-        }
-
-        private DataComponentIngredient createIngredient(List<TypedDataComponent<?>> data, ItemLike... items) {
-            return createIngredient(data,HolderSet.direct(Arrays.stream(items).map(ItemLike::asItem).map(Item::builtInRegistryHolder).toList()));
-        }
-
-        private <S> DataComponentIngredient createIngredient(List<TypedDataComponent<?>> data, HolderSet<Item> items) {
-            var builder = DataComponentPredicate.builder();
-            for (var components : data) {
-                builder.expect((DataComponentType<? super S>) components.type(), (S) components.value());
-            }
-            return new DataComponentIngredient(items, builder.build(), false);
-        }*/
 
         /**
          * The grid texture to use, defaults to "basic"
@@ -1321,6 +1278,7 @@ public class PageBuilder {
         private String bulletPoint;
         private boolean dropShadow;
         private int textColour;
+        private boolean underlineClickable;
 
         private TextList() {
             this.entries = new ArrayList<>();
@@ -1333,6 +1291,7 @@ public class PageBuilder {
             this.bulletPoint = "▪";
             this.dropShadow = false;
             this.textColour = 0;
+            this.underlineClickable = true;
         }
 
         /**
@@ -1349,7 +1308,12 @@ public class PageBuilder {
          * @return this
          */
         public TextList addEntry(Component text, ResourceLocation scrap, int extraOffset) {
-            this.entries.add(new GuideTextListElement.ScrapComponent(text, scrap, extraOffset));
+            this.entries.add(new GuideTextListElement.ScrapComponent(text, scrap, extraOffset, CommonClass.customLocation("default")));
+            return this;
+        }
+
+        public TextList addEntry(Component text, ResourceLocation scrap, int extraOffset, ResourceLocation targetPage) {
+            this.entries.add(new GuideTextListElement.ScrapComponent(text, scrap, extraOffset, targetPage));
             return this;
         }
 
@@ -1368,6 +1332,11 @@ public class PageBuilder {
             return this;
         }
 
+        public TextList addEntry(Component text,ResourceLocation scrap, ResourceLocation targetPage) {
+            this.entries.add(new GuideTextListElement.ScrapComponent(text, scrap, targetPage));
+            return this;
+        }
+
         /**
          * Sets the position the element appears on the page
          * @param x the x offset from left of the book
@@ -1376,6 +1345,15 @@ public class PageBuilder {
          */
         public TextList position(int x, int y) {
             this.position = new ElementPosition(x, y);
+            return this;
+        }
+
+        /**
+         * Makes it so an entry isn't underlined when it is clickable
+         * @return this
+         */
+        public TextList doNothingOnHover() {
+            this.underlineClickable = false;
             return this;
         }
 
@@ -1458,7 +1436,8 @@ public class PageBuilder {
                             lineLength,
                             dropShadow,
                             textColour,
-                            bulletPoint
+                            bulletPoint,
+                            underlineClickable
                     ), position
             );
         }
@@ -1569,6 +1548,133 @@ public class PageBuilder {
         public TransfigurationRitualElement build() {
             return new TransfigurationRitualElement(this.ritual, this.leftPage);
         }
+    }
+
+    public static class EquipmentRenderer implements PageBuilderType {
+        private ItemStack helmet;
+        private ItemStack chestplate;
+        private ItemStack leggings;
+        private ItemStack boots;
+        private ItemStack offHand;
+        private ItemStack mainHand;
+        private ElementPosition position;
+        EquipmentExtras.Rotation standRot;
+        EquipmentExtras.Rotation headRot;
+        EquipmentExtras.Rotation bodyRot;
+        EquipmentExtras.Rotation leftArmRot;
+        EquipmentExtras.Rotation rightArmRot;
+        EquipmentExtras.Rotation leftLegRot;
+        EquipmentExtras.Rotation rightLegRot;
+        float scale;
+
+        private EquipmentRenderer() {
+            this.helmet = ItemStack.EMPTY;
+            this.chestplate = ItemStack.EMPTY;
+            this.leggings = ItemStack.EMPTY;
+            this.boots = ItemStack.EMPTY;
+            this.offHand = ItemStack.EMPTY;
+            this.mainHand = ItemStack.EMPTY;
+            this.position = ElementPosition.getDefault();
+            this.standRot = EquipmentExtras.Rotation.defaultBodyRot();
+            this.headRot = EquipmentExtras.Rotation.defaultHeadRot();
+            this.bodyRot = EquipmentExtras.Rotation.defaultBodyRot();
+            this.leftArmRot = EquipmentExtras.Rotation.defaultLeftArmRot();
+            this.rightArmRot = EquipmentExtras.Rotation.defaultRightArmRot();
+            this.leftLegRot = EquipmentExtras.Rotation.defaultLeftLegRot();
+            this.rightLegRot = EquipmentExtras.Rotation.defaultRightLegRot();
+            this.scale = 25f;
+        }
+
+        public static EquipmentRenderer of() {
+            return new EquipmentRenderer();
+        }
+
+        public EquipmentRenderer setScale(float scale) {
+            this.scale = scale;
+            return this;
+        }
+
+        public EquipmentRenderer setStandRot(float x, float y, float z) {
+            this.standRot = new EquipmentExtras.Rotation(x, y, z);
+            return this;
+        }
+
+        public EquipmentRenderer setHeadRot(float x, float y, float z) {
+            this.headRot = new EquipmentExtras.Rotation(x, y, z);
+            return this;
+        }
+
+        public EquipmentRenderer setBodyRot(float x, float y, float z) {
+            this.bodyRot = new EquipmentExtras.Rotation(x, y, z);
+            return this;
+        }
+
+        public EquipmentRenderer setLeftArmRot(float x, float y, float z) {
+            this.leftArmRot = new EquipmentExtras.Rotation(x, y, z);
+            return this;
+        }
+
+        public EquipmentRenderer setRightArmRot(float x, float y, float z) {
+            this.rightArmRot = new EquipmentExtras.Rotation(x, y, z);
+            return this;
+        }
+
+        public EquipmentRenderer setLeftLegRot(float x, float y, float z) {
+            this.leftLegRot = new EquipmentExtras.Rotation(x, y, z);
+            return this;
+        }
+
+        public EquipmentRenderer setRightLegRot(float x, float y, float z) {
+            this.rightLegRot = new EquipmentExtras.Rotation(x, y, z);
+            return this;
+        }
+
+        public EquipmentRenderer setHelmet(ItemStack helmet) {
+            this.helmet = helmet;
+            return this;
+        }
+
+        public EquipmentRenderer setChestplate(ItemStack chestplate) {
+            this.chestplate = chestplate;
+            return this;
+        }
+
+        public EquipmentRenderer setLeggings(ItemStack leggings) {
+            this.leggings = leggings;
+            return this;
+        }
+
+        public EquipmentRenderer setBoots(ItemStack boots) {
+            this.boots = boots;
+            return this;
+        }
+
+        public EquipmentRenderer setOffHand(ItemStack offHand) {
+            this.offHand = offHand;
+            return this;
+        }
+
+        public EquipmentRenderer setMainHand(ItemStack mainHand) {
+            this.mainHand = mainHand;
+            return this;
+        }
+
+        public EquipmentRenderer setPosition(int x, int y) {
+            this.position = new ElementPosition(x, y);
+            return this;
+        }
+
+        public GuideEquipmentElement build() {
+            return new GuideEquipmentElement(
+                    helmet, chestplate, leggings, boots,
+                    offHand, mainHand,
+                    position,
+                    new EquipmentExtras(
+                            standRot, headRot, bodyRot, leftArmRot, rightArmRot, leftLegRot, rightLegRot, scale
+                    )
+            );
+        }
+
     }
 
     public interface PageBuilderType {}
