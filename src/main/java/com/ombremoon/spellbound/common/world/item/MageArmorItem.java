@@ -113,11 +113,16 @@ public class MageArmorItem extends ArmorItem implements GeoItem {
         if (!hasSetBonus) return;
         if (!(entity instanceof LivingEntity livingEntity)) return;
         for (ItemStack armorItem : livingEntity.getArmorSlots()) {
-            if (!(armorItem.getItem() instanceof MageArmorItem mageArmor) || !mageArmor.getMaterial().is(this.getMaterial())) return;
+            if (!(armorItem.getItem() instanceof MageArmorItem mageArmor) || !mageArmor.getMaterial().is(this.getMaterial())) {
+                if (livingEntity.hasEffect(SET_BONUS.get(this.material)))
+                    livingEntity.removeEffect(SET_BONUS.get(this.material));
+
+                return;
+            }
         }
 
-        if (livingEntity.tickCount % 20 == 0)
-            livingEntity.addEffect(new MobEffectInstance(SET_BONUS.get(this.material), 200));
+        if (!livingEntity.hasEffect(SET_BONUS.get(this.material)))
+            livingEntity.addEffect(new MobEffectInstance(SET_BONUS.get(this.material), -1));
     }
 
     @Override
