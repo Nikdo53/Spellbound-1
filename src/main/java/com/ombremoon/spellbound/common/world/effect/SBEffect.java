@@ -21,12 +21,6 @@ public class SBEffect extends MobEffect {
     }
 
     @Override
-    public int getBlendDurationTicks() {
-        Constants.LOG.info("{}", super.getBlendDurationTicks());
-        return super.getBlendDurationTicks();
-    }
-
-    @Override
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
         return true;
     }
