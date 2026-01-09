@@ -11,7 +11,7 @@
         "yOffset": 8
       },
       "translation": {
-        "translate": "guide.ruin.drip"
+        "translate": "guide.ruin.elemental_equipment"
       }
     },
     {
@@ -23,20 +23,93 @@
     {
       "type": "spellbound:text",
       "position": {
-        "yOffset": 110
+        "yOffset": 35
       },
       "translation": {
-        "translate": "guide.ruin.portals2"
+        "translate": "guide.ruin.elemental_equipment1"
       }
     },
     {
       "type": "spellbound:text",
+      "extras": {
+        "maxLineLength": 120
+      },
       "position": {
-        "xOffset": 172,
-        "yOffset": 35
+        "xOffset": 212
       },
       "translation": {
-        "translate": "guide.ruin.portals3"
+        "translate": "guide.ruin.stormweaver_robes"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "maxLineLength": 120
+      },
+      "position": {
+        "xOffset": 167,
+        "yOffset": 80
+      },
+      "translation": {
+        "translate": "guide.ruin.pyromancer_robes"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "maxLineLength": 120
+      },
+      "position": {
+        "xOffset": 212,
+        "yOffset": 140
+      },
+      "translation": {
+        "translate": "guide.ruin.cryomancer_robes"
+      }
+    },
+    {
+      "type": "spellbound:item",
+      "extras": {
+        "disableBackground": true
+      },
+      "item": [
+        {
+          "item": "spellbound:fire_staff"
+        }
+      ],
+      "position": {
+        "xOffset": -15,
+        "yOffset": 140
+      }
+    },
+    {
+      "type": "spellbound:item",
+      "extras": {
+        "disableBackground": true
+      },
+      "item": [
+        {
+          "item": "spellbound:shock_staff"
+        }
+      ],
+      "position": {
+        "xOffset": 52,
+        "yOffset": 140
+      }
+    },
+    {
+      "type": "spellbound:item",
+      "extras": {
+        "disableBackground": true
+      },
+      "item": [
+        {
+          "item": "spellbound:ice_staff"
+        }
+      ],
+      "position": {
+        "xOffset": 110,
+        "yOffset": 140
       }
     },
     {
@@ -49,6 +122,12 @@
         "count": 1,
         "id": "spellbound:stormweaver_chestplate"
       },
+      "extras": {
+        "stand_rot": {
+          "x": -22.5,
+          "y": 45.0
+        }
+      },
       "helmet": {
         "count": 1,
         "id": "spellbound:stormweaver_helmet"
@@ -57,12 +136,67 @@
         "count": 1,
         "id": "spellbound:stormweaver_leggings"
       },
-      "main_hand": {
+      "position": {
+        "xOffset": 187,
+        "yOffset": 60
+      }
+    },
+    {
+      "type": "spellbound:equipment",
+      "boots": {
         "count": 1,
-        "id": "spellbound:shock_staff"
+        "id": "spellbound:pyromancer_boots"
+      },
+      "chestplate": {
+        "count": 1,
+        "id": "spellbound:pyromancer_chestplate"
+      },
+      "extras": {
+        "stand_rot": {
+          "x": -22.5,
+          "y": -45.0
+        }
+      },
+      "helmet": {
+        "count": 1,
+        "id": "spellbound:pyromancer_helmet"
+      },
+      "leggings": {
+        "count": 1,
+        "id": "spellbound:pyromancer_leggings"
       },
       "position": {
-        "yOffset": 35
+        "xOffset": 307,
+        "yOffset": 125
+      }
+    },
+    {
+      "type": "spellbound:equipment",
+      "boots": {
+        "count": 1,
+        "id": "spellbound:cryomancer_boots"
+      },
+      "chestplate": {
+        "count": 1,
+        "id": "spellbound:cryomancer_chestplate"
+      },
+      "extras": {
+        "stand_rot": {
+          "x": -22.5,
+          "y": 45.0
+        }
+      },
+      "helmet": {
+        "count": 1,
+        "id": "spellbound:cryomancer_helmet"
+      },
+      "leggings": {
+        "count": 1,
+        "id": "spellbound:cryomancer_leggings"
+      },
+      "position": {
+        "xOffset": 187,
+        "yOffset": 190
       }
     }
   ],

@@ -53,7 +53,7 @@ public class MageArmorItem extends ArmorItem implements GeoItem {
         SET_BONUS.put(SBArmorMaterials.PYROMANCER, SBEffects.PYROMANCER);
         SET_BONUS.put(SBArmorMaterials.STORMWEAVER, SBEffects.STORMWEAVER);
         SET_BONUS.put(SBArmorMaterials.CRYOMANCER, SBEffects.CRYOMANCER);
-        SET_BONUS.put(SBArmorMaterials.TRANSFIGURER, SBEffects.TRANSFIG);
+        SET_BONUS.put(SBArmorMaterials.CREATIONIST, SBEffects.TRANSFIG);
     }
 
     public MageArmorItem(Holder<ArmorMaterial> material, Type type, Properties properties) {
@@ -129,7 +129,7 @@ public class MageArmorItem extends ArmorItem implements GeoItem {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
-        if (this.material.is(SBArmorMaterials.TRANSFIGURER)) {
+        if (this.material.is(SBArmorMaterials.CREATIONIST)) {
             tooltipComponents.add(Component.translatable("spellbound.transfiguration_armor.buff").withStyle(ChatFormatting.BLUE));
         }
     }

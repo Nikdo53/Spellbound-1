@@ -32,15 +32,15 @@ public class SBItems {
     public static final Supplier<Item> HOLY_SHARD = registerSimpleItem("holy_shard");
     public static final Supplier<Item> FOOL_SHARD = registerSimpleItem("fool_shard");
 
-    public static final Supplier<Item> TRANSFIGURATION_STAFF = registerItem("transfiguration_staff", () -> new CatalystItem(SpellPath.TRANSFIGURATION, getItemProperties().stacksTo(1).attributes(CatalystItem.createTransfigurationAttributes())), true);
+    public static final Supplier<Item> CREATIONIST_STAFF = registerItem("creationist_staff", () -> new CatalystItem(SpellPath.TRANSFIGURATION, getItemProperties().stacksTo(1).attributes(CatalystItem.createTransfigurationAttributes())), true);
     public static final Supplier<Item> FIRE_STAFF = registerCatalystItem("fire_staff", SpellPath.FIRE);
     public static final Supplier<Item> ICE_STAFF = registerCatalystItem("ice_staff", SpellPath.FROST);
     public static final Supplier<Item> SHOCK_STAFF = registerCatalystItem("shock_staff", SpellPath.SHOCK);
 
-    public static final Supplier<Item> TRANSFIGURER_HELMET = registerArmorItem("transfigurer_helmet", SBArmorMaterials.TRANSFIGURER, ArmorItem.Type.HELMET);
-    public static final Supplier<Item> TRANSFIGURER_CHESTPLATE = registerArmorItem("transfigurer_chestplate", SBArmorMaterials.TRANSFIGURER, ArmorItem.Type.CHESTPLATE);
-    public static final Supplier<Item> TRANSFIGURER_LEGGINGS = registerArmorItem("transfigurer_leggings", SBArmorMaterials.TRANSFIGURER, ArmorItem.Type.LEGGINGS);
-    public static final Supplier<Item> TRANSFIGURER_BOOTS = registerArmorItem("transfigurer_boots", SBArmorMaterials.TRANSFIGURER, ArmorItem.Type.BOOTS);
+    public static final Supplier<Item> CREATIONIST_HELMET = registerArmorItem("creationist_helmet", SBArmorMaterials.CREATIONIST, ArmorItem.Type.HELMET);
+    public static final Supplier<Item> CREATIONIST_CHESTPLATE = registerArmorItem("creationist_chestplate", SBArmorMaterials.CREATIONIST, ArmorItem.Type.CHESTPLATE);
+    public static final Supplier<Item> CREATIONIST_LEGGINGS = registerArmorItem("creationist_leggings", SBArmorMaterials.CREATIONIST, ArmorItem.Type.LEGGINGS);
+    public static final Supplier<Item> CREATIONIST_BOOTS = registerArmorItem("creationist_boots", SBArmorMaterials.CREATIONIST, ArmorItem.Type.BOOTS);
     public static final Supplier<Item> PYROMANCER_HELMET = registerArmorItem("pyromancer_helmet", SBArmorMaterials.PYROMANCER, ArmorItem.Type.HELMET);
     public static final Supplier<Item> PYROMANCER_CHESTPLATE = registerArmorItem("pyromancer_chestplate", SBArmorMaterials.PYROMANCER, ArmorItem.Type.CHESTPLATE);
     public static final Supplier<Item> PYROMANCER_LEGGINGS = registerArmorItem("pyromancer_leggings", SBArmorMaterials.PYROMANCER, ArmorItem.Type.LEGGINGS);

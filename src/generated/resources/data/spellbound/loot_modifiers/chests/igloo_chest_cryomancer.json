@@ -1,0 +1,34 @@
+{
+  "type": "spellbound:add_item",
+  "chance": {
+    "chance": 0.2
+  },
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/igloo_chest"
+    }
+  ],
+  "items": [
+    {
+      "count": 1,
+      "id": "spellbound:cryomancer_helmet"
+    },
+    {
+      "count": 1,
+      "id": "spellbound:cryomancer_chestplate"
+    },
+    {
+      "count": 1,
+      "id": "spellbound:cryomancer_leggings"
+    },
+    {
+      "count": 1,
+      "id": "spellbound:cryomancer_boots"
+    },
+    {
+      "count": 1,
+      "id": "spellbound:ice_staff"
+    }
+  ]
+}

@@ -164,8 +164,10 @@ public class ClientEvents {
                     player.displayClientMessage(Component.literal("Switched to " + (handler.inCastMode() ? "Cast mode" : "Normal mode")), true);
                     PayloadHandler.switchMode();
                 }
+                boolean spellBindingDown = KeyBinds.SELECT_SPELL_BINDING.consumeClick();
+                boolean cycleSpellDown = KeyBinds.CYCLE_SPELL_BINDING.consumeClick();
                 if (handler.inCastMode()) {
-                    if (KeyBinds.SELECT_SPELL_BINDING.consumeClick()) {
+                    if (spellBindingDown) {
                         if (handler.isChargingOrChannelling())
                             return;
 
@@ -176,7 +178,7 @@ public class ClientEvents {
                             minecraft.setScreen(screen);
                         }
                     }
-                    if (KeyBinds.CYCLE_SPELL_BINDING.consumeClick()) {
+                    if (cycleSpellDown) {
                         if (handler.castTick > 0) {
                             AbstractSpell spell = handler.getCurrentlyCastSpell();
                             spell.resetCast(handler);

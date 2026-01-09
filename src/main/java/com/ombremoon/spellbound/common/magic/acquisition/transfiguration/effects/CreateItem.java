@@ -26,6 +26,10 @@ public record CreateItem(Item item, Optional<DataComponentStorage> data) impleme
             ).apply(instance, CreateItem::new)
     );
 
+    public CreateItem(Item item) {
+        this(item, Optional.empty());
+    }
+
     public static CreateItem withData(Item item, TypedDataComponent<?>... data) {
         DataComponentStorage storage = new DataComponentStorage(Arrays.asList(data));
         return new CreateItem(item, Optional.of(storage));

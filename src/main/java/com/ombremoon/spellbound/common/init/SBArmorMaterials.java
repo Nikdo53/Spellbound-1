@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 public class SBArmorMaterials {
     public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS = DeferredRegister.create(Registries.ARMOR_MATERIAL, Constants.MOD_ID);
 
-    public static final Holder<ArmorMaterial> TRANSFIGURER = register("transfigurer", Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+    public static final Holder<ArmorMaterial> CREATIONIST = register("creationist", Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
         map.put(ArmorItem.Type.BOOTS, 1);
         map.put(ArmorItem.Type.LEGGINGS, 1);
         map.put(ArmorItem.Type.CHESTPLATE, 1);

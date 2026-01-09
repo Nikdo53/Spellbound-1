@@ -10,11 +10,9 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
@@ -37,7 +35,7 @@ public class ModTagProvider {
         protected void addTags(HolderLookup.Provider pProvider) {
             populateTag(ItemTags.DYEABLE, SBItems.CHALK);
             populateTag(SBTags.Items.MAGIC_SHARD, SBItems.SMOLDERING_SHARD, SBItems.FROZEN_SHARD, SBItems.STORM_SHARD, SBItems.HOLY_SHARD, SBItems.FOOL_SHARD, SBItems.SOUL_SHARD);
-            populateTag(SBTags.Items.STAFF, SBItems.FIRE_STAFF, SBItems.ICE_STAFF, SBItems.SHOCK_STAFF, SBItems.TRANSFIGURATION_STAFF);
+            populateTag(SBTags.Items.STAFF, SBItems.FIRE_STAFF, SBItems.ICE_STAFF, SBItems.SHOCK_STAFF, SBItems.CREATIONIST_STAFF);
             populateTagFromBlocks(SBTags.Items.DIVINE_SHRINE, SBBlocks.JUNGLE_DIVINE_SHRINE, SBBlocks.PLAINS_DIVINE_SHRINE, SBBlocks.SANDSTONE_DIVINE_SHRINE);
             populateTagFromBlocks(Tags.Items.MUSHROOMS, SBBlocks.WILD_MUSHROOM);
         }

@@ -20,22 +20,26 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class SBTrades {
     public static final Map<SBMerchantType, Int2ObjectMap<MerchantOffer[]>> TRADES = Util.make(Maps.newHashMap(), map -> {
         map.put(SBMerchantType.SPELL_BROKER, toIntMap(ImmutableMap.of(1, new MerchantOffer[]{
-                spellTrade(8, Items.COPPER_INGOT, 16, SBSpells.ELECTRIC_CHARGE.get()),
-                spellTrade(32, Items.AMETHYST_SHARD, 8, SBSpells.SHATTERING_CRYSTAL.get()),
-                spellTrade(32, Items.WET_SPONGE, 1, SBSpells.PURGE_MAGIC.get()),
-                spellTrade(64, Items.GOLD_BLOCK, 2, SBSpells.SOLAR_RAY.get()),
-                spellTrade(32, Items.ECHO_SHARD, 16, SBSpells.SHADOWBOND.get()),
-                spellTrade(64, Items.TRIDENT, 32, SBSpells.STORM_RIFT.get())
+                spellTrade(8, Items.LIGHTNING_ROD, 4, SBSpells.STORMSTRIKE.get()),
+                spellTrade(8, Items.COPPER_TRAPDOOR, 4, SBSpells.ELECTRIC_CHARGE.get()),
+                spellTrade(48, Items.ICE, 16, SBSpells.SHATTERING_CRYSTAL.get()),
+                spellTrade(48, Items.MAGMA_CREAM, 32, SBSpells.SOLAR_RAY.get()),
+                spellTrade(64, Items.LIGHTNING_ROD, 32, SBSpells.STORM_RIFT.get()),
+                spellTrade(32, Items.LEAD, 2, SBSpells.SHADOWBOND.get()),
+                spellTrade(32, Items.MILK_BUCKET, 1, SBSpells.PURGE_MAGIC.get())
         }, 2, new MerchantOffer[]{
-                spellTrade(20, Items.GOLDEN_APPLE, 10, SBSpells.HEALING_TOUCH.get()),
-                spellTrade(20, Items.GOLDEN_APPLE, 10, SBSpells.HEALING_TOUCH.get()),
-                spellTrade(20, Items.GOLDEN_APPLE, 10, SBSpells.HEALING_TOUCH.get()),
-                spellTrade(20, Items.GOLDEN_APPLE, 10, SBSpells.HEALING_TOUCH.get()),
-                spellTrade(20, Items.GOLDEN_APPLE, 10, SBSpells.HEALING_TOUCH.get()),
+                spellTrade(8, Items.LIGHTNING_ROD, 4, SBSpells.STORMSTRIKE.get()),
+                spellTrade(8, Items.COPPER_TRAPDOOR, 4, SBSpells.ELECTRIC_CHARGE.get()),
+                spellTrade(48, Items.ICE, 16, SBSpells.SHATTERING_CRYSTAL.get()),
+                spellTrade(48, Items.MAGMA_CREAM, 32, SBSpells.SOLAR_RAY.get()),
+                spellTrade(64, Items.LIGHTNING_ROD, 32, SBSpells.STORM_RIFT.get()),
+                spellTrade(32, Items.LEAD, 2, SBSpells.SHADOWBOND.get()),
+                spellTrade(32, Items.MILK_BUCKET, 1, SBSpells.PURGE_MAGIC.get())
         })));
     });
 

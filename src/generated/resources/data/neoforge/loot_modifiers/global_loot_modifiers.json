@@ -1,4 +1,15 @@
 {
-  "entries": [],
+  "entries": [
+    "spellbound:chests/nether_bridge_pyromancer",
+    "spellbound:chests/ruined_portal_pyromancer",
+    "spellbound:chests/bastion_treasure_pyromancer",
+    "spellbound:chests/igloo_chest_cryomancer",
+    "spellbound:chests/shipwreck_treasure_cryomancer",
+    "spellbound:chests/village/village_snowy_house_cryomancer_village",
+    "spellbound:chests/trial_chamber/reward_rare_stormweaver",
+    "spellbound:chests/trial_chamber/reward_common_stormweaver",
+    "spellbound:chests/trial_chamber/intersection_stormweaver",
+    "spellbound:chests/trial_chamber/corridor_stormweaver"
+  ],
   "replace": false
 }

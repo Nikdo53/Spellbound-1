@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "spellbound:item/transfigurer_leggings"
+    "layer0": "spellbound:item/creationist_helmet"
   }
 }

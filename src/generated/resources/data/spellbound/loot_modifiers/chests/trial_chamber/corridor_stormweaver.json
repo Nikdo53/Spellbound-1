@@ -1,0 +1,34 @@
+{
+  "type": "spellbound:add_item",
+  "chance": {
+    "chance": 0.05
+  },
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/trial_chamber/corridor"
+    }
+  ],
+  "items": [
+    {
+      "count": 1,
+      "id": "spellbound:stormweaver_helmet"
+    },
+    {
+      "count": 1,
+      "id": "spellbound:stormweaver_chestplate"
+    },
+    {
+      "count": 1,
+      "id": "spellbound:stormweaver_leggings"
+    },
+    {
+      "count": 1,
+      "id": "spellbound:stormweaver_boots"
+    },
+    {
+      "count": 1,
+      "id": "spellbound:shock_staff"
+    }
+  ]
+}

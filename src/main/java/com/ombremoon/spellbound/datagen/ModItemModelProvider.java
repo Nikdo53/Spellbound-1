@@ -35,10 +35,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleGeneratedModel(SBItems.HOLY_SHARD.get());
 
         simpleGeneratedModel(SBBlocks.MAGI_WORKBENCH.get().asItem());
-        simpleGeneratedModel(SBItems.TRANSFIGURER_BOOTS.get());
-        simpleGeneratedModel(SBItems.TRANSFIGURER_CHESTPLATE.get());
-        simpleGeneratedModel(SBItems.TRANSFIGURER_LEGGINGS.get());
-        simpleGeneratedModel(SBItems.TRANSFIGURER_HELMET.get());
+        simpleGeneratedModel(SBItems.CREATIONIST_BOOTS.get());
+        simpleGeneratedModel(SBItems.CREATIONIST_CHESTPLATE.get());
+        simpleGeneratedModel(SBItems.CREATIONIST_LEGGINGS.get());
+        simpleGeneratedModel(SBItems.CREATIONIST_HELMET.get());
         simpleGeneratedModel(SBItems.CHALK.get());
 
 

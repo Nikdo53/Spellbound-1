@@ -224,6 +224,12 @@ public class ModLangProvider extends LanguageProvider {
         add("guide.ruin.portals2", "I aim to find the gateways to these ancient beings' realms so I can find how they are twisting the elements and create new ways of expressing my own magic.");
         add("guide.ruin.portals3", "While exploring I have found a few gateways, but they seem to all be locked. Unfortunately, the way to make keystones has been long forgotten. I'l have to buy my ruin spells from Spell Brokers for now.");
 
+        add("guide.ruin.elemental_equipment", "Elemental Equipment");
+        add("guide.ruin.elemental_equipment1", "I have discovered Elementally attuned robes and staves throughout the world. I suppose elements can also be used for protection. As far as I can tell these staves act as a catalyst causing my foes to reach Elemental Overload faster while the robes grant a bonus to my potency when I wear the full set.");
+        add("guide.ruin.stormweaver_robes", "Within a trial chamber I have found these robes belonging to a long forgotten Stormweaver. These robes resist Shock damage to a degree.");
+        add("guide.ruin.pyromancer_robes", "Exploring the nether I spotted these robes hot to the touch. At this temp I imagine Fire spells wont get through very well.");
+        add("guide.ruin.cryomancer_robes", "My collection is complete, I found Frost robes! They were spread between igloos and abandoned shipwrecks.");
+
         addSpellContents(SpellPath.RUIN, SBSpells.SOLAR_RAY.get(),
                 "I have purchased this spell tome from a Spell Broker as I have been unable to decipher its origin but I believe its siphoning energy from the sun.",
                 "I was mistaken... This spell isn't channelling energy from the sun, but a Sun God! That's definitely a being I never want to run into again.");
@@ -250,6 +256,8 @@ public class ModLangProvider extends LanguageProvider {
         add("guide.transfiguration.description", "Transfiguration & Rituals");
         add("guide.transfiguration.blocks", "Ritual Blocks");
         add("guide.transfiguration.items", "Ritual Items");
+        add("guide.transfiguration.armor_recipe", "Apparel Ritual");
+        add("guide.transfiguration.staff_recipe", "Staff Ritual");
 
         add("spellbound.ritual.tier_one", "Tier: 1");
         add("spellbound.ritual.tier_two", "Tier: 2");
@@ -273,23 +281,47 @@ public class ModLangProvider extends LanguageProvider {
         add("guide.transfiguration.display", "I've been chiseling away at these old magic stones for hours. My body aches, but at least I have a way to store my collection of materials");
         add("guide.transfiguration.chalk", "I discovered some runic marking on the walls in the caves. I don't understand what they mean, but it's almost as if I felt magic flowing through the text. I'll write some down for later.");
         add("guide.transfiguration.ritual_talisman", "I have everything in place to begin my experiment, but nothing is happening. Maybe I need a catalyst? I should be wary—if it isn't strong enough, it could be a waste.");
-        add("ritual.spellbound.create_stride", "Create Spell Tome:\nStride");
-        add("ritual.spellbound.create_stride.description", "Creates a Stride spell tome");
-        add("ritual.spellbound.create_shadow_gate", "Create Spell Tome:\nShadow Gate");
-        add("ritual.spellbound.create_shadow_gate.description", "Creates a Shadow Gate spell tome");
-        add("ritual.spellbound.create_mystic_armor", "Create Spell Tome:\nMystic Armor");
-        add("ritual.spellbound.create_mystic_armor.description", "Creates a Mystic Armor spell tome");
         add("spellbound.ritual.materials", "Ritual Materials");
-        addSpellContents(SpellPath.TRANSFIGURATION, SBSpells.STRIDE.get(),
+
+        add("guide.transfiguration.equipment", "Equipment Creation");
+        add("guide.transfiguration.stave", "I have heard of catalysts enhancing a paths power. I am determined to create one to boost my spells, allowing me to cast further away. To do this I am going to need to create a fresh ritual. If I'm successful I'l be sure to document it.");
+        add("guide.transfiguration.robes", "Continuing on with my experimentation of creating equipment I have succeeded in creating a set of robes that allows the energy from my spells to cling on to me longer causing the duration of my spells to increase.");
+
+        addTransfigSpellContents(SBSpells.STRIDE.get(),
                 "I have been trying to gather ingredients for all of my alchemy rituals, but it's taking me too long to find everything. I need a faster way...",
                 "Well, I solved my problem with Transfiguration. You won't believe it, but by mixing the right ingredients, I can supercharge my body. Allowing my legs to work even faster!");
-        addSpellContents(SpellPath.TRANSFIGURATION, SBSpells.SHADOW_GATE.get(),
+        addTransfigSpellContents(SBSpells.SHADOW_GATE.get(),
                 "As my studies have advanced, I am finding myself needing to explore more biomes. I've found that teleportation could be quite useful.",
                 "I think I got it! After experimenting with ender pearls, I found I can use them to rip open gateways temporarily. I have created a spell to keep these open for longer.");
-        addSpellContents(SpellPath.TRANSFIGURATION, SBSpells.MYSTIC_ARMOR.get(),
+        addTransfigSpellContents(SBSpells.MYSTIC_ARMOR.get(),
                 "Uh oh, seems like I have angered a few too many Magi. I'm trying to throw together whatever I can, hoping I can protect my self a little more consistently.",
                 "Well, I was trying to make myself absorb their mana. While that didn't completely work, I have managed to reduce the impact of their spells.");
 
+        add("ritual.spellbound.create_transfig_helmet", "Create Item:\nCreationist Helmet");
+        add("ritual.spellbound.create_transfig_chestplate", "Create Item:\nCreationist Chestplate");
+        add("ritual.spellbound.create_transfig_leggings", "Create Item:\nCreationist Leggings");
+        add("ritual.spellbound.create_transfig_boots", "Create Item:\nCreationist Boots");
+        add("ritual.spellbound.create_transfig_stave", "Create Item:\nCreationist Staff");
+
+        add("ritual.spellbound.create_transfig_helmet.description", "Creates a Creationist Helmet");
+        add("ritual.spellbound.create_transfig_chestplate.description", "Creates a Creationist Chestplate");
+        add("ritual.spellbound.create_transfig_leggings.description", "Creates Creationist Leggings");
+        add("ritual.spellbound.create_transfig_boots.description", "Creates Creationist Boots");
+        add("ritual.spellbound.create_transfig_stave.description", "Creates a Creationist Staff");
+    }
+
+    protected void addTransfigSpellContents(SpellType<?> spellType, String lore, String bossLore) {
+        addSpellContents(SpellPath.TRANSFIGURATION, spellType, lore, bossLore);
+        add("ritual.spellbound.create_" + spellType.location().getPath() + ".description", "Creates a " + checkReplace(spellType) + " spell tome");
+        add("ritual.spellbound.create_" + spellType.location().getPath(), "Create Spell Tome:\n" + checkReplace(spellType));
+    }
+
+    private String checkReplace(SpellType<?> spellType) {
+        return Arrays.stream(spellType.location().getPath().split("_"))
+                .map(this::checkReplace)
+                .filter(s -> !s.isBlank())
+                .collect(Collectors.joining(" "))
+                .trim();
     }
 
     protected void summonContents() {

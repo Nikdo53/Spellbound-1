@@ -26,7 +26,9 @@ import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 
 //TODO: General - Discuss with Duck about bobHurt in GameRenderer
+// bobHurt stuff?
 //TODO: General - Discuss with Duck about Followers
+// Like familiars? or what
 
 //Add judgement requirement for divine spell acquisition
 //Add recent action cooldown for divine spell acquisition
@@ -34,9 +36,8 @@ import net.neoforged.neoforge.registries.NewRegistryEvent;
 
 //Alpha Bugs to Fix
 //Ritual Lag
-//Stave/armor pages
-//Adjust build up amounts
-//Add mob effect icons for ruin
+//Stave/armor pages - go back over transfig one, my minds blanking
+//Structure loot pools - done for vanilla structures, might wanna add some to our structures
 
 //Catalysts
 //Ruin - Doubles Status Build Up

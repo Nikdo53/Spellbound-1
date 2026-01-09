@@ -1,6 +1,7 @@
 package com.ombremoon.spellbound.common.events;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.logging.LogUtils;
 import com.ombremoon.sentinellib.common.event.RegisterPlayerSentinelBoxEvent;
 import com.ombremoon.spellbound.client.event.SpellCastEvents;
 import com.ombremoon.spellbound.common.magic.SpellHandler;
@@ -269,6 +270,9 @@ public class NeoForgeEvents {
 
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {
+        if (event.getEntity().getType() == EntityType.PIGLIN_BRUTE) {
+            LogUtils.getLogger().debug(String.valueOf(SpellUtil.getSpellEffects(event.getEntity()).getBuildUp(EffectManager.Effect.FIRE)));
+        }
         LivingEntity livingEntity = event.getEntity();
         if (livingEntity.level().isClientSide)
             return;

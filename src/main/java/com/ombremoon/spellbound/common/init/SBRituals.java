@@ -6,7 +6,6 @@ import com.ombremoon.spellbound.common.magic.acquisition.transfiguration.effects
 import com.ombremoon.spellbound.main.CommonClass;
 import com.ombremoon.spellbound.main.Constants;
 import com.ombremoon.spellbound.main.Keys;
-import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Items;
@@ -16,6 +15,11 @@ public interface SBRituals {
     ResourceKey<TransfigurationRitual> CREATE_STRIDE = key("create_stride");
     ResourceKey<TransfigurationRitual> CREATE_SHADOW_GATE = key("create_shadow_gate");
     ResourceKey<TransfigurationRitual> CREATE_MYSTIC_ARMOR = key("create_mystic_armor");
+    ResourceKey<TransfigurationRitual> CREATE_TRANSFIG_HELM = key("create_transfig_helmet");
+    ResourceKey<TransfigurationRitual> CREATE_TRANSFIG_CHEST = key("create_transfig_chestplate");
+    ResourceKey<TransfigurationRitual> CREATE_TRANSFIG_LEGS = key("create_transfig_leggings");
+    ResourceKey<TransfigurationRitual> CREATE_TRANSFIG_BOOTS = key("create_transfig_boots");
+    ResourceKey<TransfigurationRitual> CREATE_TRANSFIG_STAVE = key("create_transfig_stave");
     ResourceKey<TransfigurationRitual> TEST = key("test");
 
     static void bootstrap(BootstrapContext<TransfigurationRitual> context) {
@@ -57,20 +61,46 @@ public interface SBRituals {
 
         );
 
-        register(
-                context,
-                TEST,
-                TransfigurationRitual.ritual(2)
-                        .requires(Ingredient.of(Items.WATER_BUCKET))
-                        .requires(Ingredient.of(Items.GOLD_INGOT))
-                        .requires(Ingredient.of(Items.IRON_INGOT))
-                        .requires(Ingredient.of(SBBlocks.ARCANTHUS.get()))
-                        .withEffect(CreateItem.withData(
-                                SBItems.CHALK.get(),
-                                new TypedDataComponent<>(SBData.RUNE_INDEX.get(), 3)
-                        ))
-
-        );
+        register(context,
+                CREATE_TRANSFIG_HELM,
+                TransfigurationRitual.ritual(1)
+                        .requires(Ingredient.of(Items.LEATHER_HELMET))
+                        .requires(Ingredient.of(Items.FLOWERING_AZALEA_LEAVES))
+                        .requires(Ingredient.of(Items.EMERALD))
+                        .requires(Ingredient.of(SBItems.MAGIC_ESSENCE.get()))
+                        .withEffect(new CreateItem(SBItems.CREATIONIST_HELMET.get())));
+        register(context,
+                CREATE_TRANSFIG_CHEST,
+                TransfigurationRitual.ritual(1)
+                        .requires(Ingredient.of(Items.LEATHER_CHESTPLATE))
+                        .requires(Ingredient.of(Items.FLOWERING_AZALEA_LEAVES))
+                        .requires(Ingredient.of(Items.EMERALD))
+                        .requires(Ingredient.of(SBItems.MAGIC_ESSENCE.get()))
+                        .withEffect(new CreateItem(SBItems.CREATIONIST_CHESTPLATE.get())));
+        register(context,
+                CREATE_TRANSFIG_LEGS,
+                TransfigurationRitual.ritual(1)
+                        .requires(Ingredient.of(Items.LEATHER_LEGGINGS))
+                        .requires(Ingredient.of(Items.FLOWERING_AZALEA_LEAVES))
+                        .requires(Ingredient.of(Items.EMERALD))
+                        .requires(Ingredient.of(SBItems.MAGIC_ESSENCE.get()))
+                        .withEffect(new CreateItem(SBItems.CREATIONIST_LEGGINGS.get())));
+        register(context,
+                CREATE_TRANSFIG_BOOTS,
+                TransfigurationRitual.ritual(1)
+                        .requires(Ingredient.of(Items.LEATHER_BOOTS))
+                        .requires(Ingredient.of(Items.FLOWERING_AZALEA_LEAVES))
+                        .requires(Ingredient.of(Items.EMERALD))
+                        .requires(Ingredient.of(SBItems.MAGIC_ESSENCE.get()))
+                        .withEffect(new CreateItem(SBItems.CREATIONIST_BOOTS.get())));
+        register(context,
+                CREATE_TRANSFIG_STAVE,
+                TransfigurationRitual.ritual(1)
+                        .requires(Ingredient.of(Items.STICK))
+                        .requires(Ingredient.of(Items.FLOWERING_AZALEA_LEAVES))
+                        .requires(Ingredient.of(Items.EMERALD))
+                        .requires(Ingredient.of(SBItems.MAGIC_ESSENCE.get()))
+                        .withEffect(new CreateItem(SBItems.CREATIONIST_STAFF.get())));
     }
 
     private static void register(BootstrapContext<TransfigurationRitual> context, ResourceKey<TransfigurationRitual> key, TransfigurationRitual.Builder builder) {

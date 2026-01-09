@@ -70,7 +70,12 @@ public interface SBGuidePages {
     ResourceKey<GuideBookPage> TRANSFIG_RITUALS = key("transfig_rituals");
     ResourceKey<GuideBookPage> TRANSFIG_RITUAL_ITEMS_1 = key("transfig_display_pedestal");
     ResourceKey<GuideBookPage> TRANSFIG_RITUAL_ITEMS_2 = key("transfig_talisman_chalk");
-//    ResourceKey<GuideBookPage> TRANSFIG_ARMOR_STAFF = key("divine_description"); //Armor & Staff
+    ResourceKey<GuideBookPage> TRANSFIG_ARMOR_STAFF = key("transfig_armor_staff"); //Armor & Staff
+    ResourceKey<GuideBookPage> TRANSFIG_HELM_RITUAL = key("transfig_helmet_ritual");
+    ResourceKey<GuideBookPage> TRANSFIG_CHEST_RITUAL = key("transfig_chestplate_ritual");
+    ResourceKey<GuideBookPage> TRANSFIG_LEGS_RITUAL = key("transfig_leggings_ritual");
+    ResourceKey<GuideBookPage> TRANSFIG_BOOTS_RITUAL = key("transfig_boots_ritual");
+    ResourceKey<GuideBookPage> TRANSFIG_STAFF_RITUAL = key("transfig_staff_ritual");
 //    ResourceKey<GuideBookPage> FLUX_SHARD = key("flux_shard"); //Flux Shard
     ResourceKey<GuideBookPage> STRIDE = key("stride");
     ResourceKey<GuideBookPage> STRIDE_RITUAL = key("stride_ritual");
@@ -337,7 +342,7 @@ public interface SBGuidePages {
                 List.of(
                         new ItemEntry(Ingredient.of(SBTags.Items.MAGIC_SHARD), - 25, 85, false),
                         new ItemEntry(Ingredient.of(SBTags.Items.STAFF), PAGE_TWO_START_X - 28, 10, false),
-                        new ItemEntry(Ingredient.of(SBItems.TRANSFIGURER_HELMET.get(), SBItems.PYROMANCER_HELMET.get(), SBItems.STORMWEAVER_HELMET.get(), SBItems.CRYOMANCER_HELMET.get()), 239, 105, false)
+                        new ItemEntry(Ingredient.of(SBItems.CREATIONIST_HELMET.get(), SBItems.PYROMANCER_HELMET.get(), SBItems.STORMWEAVER_HELMET.get(), SBItems.CRYOMANCER_HELMET.get()), 239, 105, false)
                 ),
                 new TextEntry(translatable("guide.basic.path_items1"), 35),
                 new TextEntry(translatable("guide.basic.shards"), 55, 90, 100),
@@ -384,7 +389,7 @@ public interface SBGuidePages {
                 new ContentsEntry(translatable("guide.ruin.subpaths_cnt"), RUIN_SUB_PATHS),
                 new ContentsEntry(translatable("guide.ruin.build_up"), RUIN_BUILD_UP),
                 new ContentsEntry(translatable("guide.ruin.portals"), RUIN_PORTALS),
-                new ContentsEntry(translatable("guide.ruin.armor"), RUIN_ARMOR_STAFF),
+                new ContentsEntry(translatable("guide.ruin.elemental_equipment"), RUIN_ARMOR_STAFF),
                 new ContentsEntry(spellName(SBSpells.STORMSTRIKE.get()), STORM_STRIKE),
                 new ContentsEntry(spellName(SBSpells.ELECTRIC_CHARGE.get()), ELECTRIC_CHARGE),
                 new ContentsEntry(spellName(SBSpells.SHATTERING_CRYSTAL.get()), SHATTERING_CRYSTAL),
@@ -433,12 +438,11 @@ public interface SBGuidePages {
                 new TextEntry(translatable("guide.ruin.portals1"), 35),
                 new TextEntry(translatable("guide.ruin.portals2"), 110),
                 new TextEntry(translatable("guide.ruin.portals3"), PAGE_TWO_START_X, 35));
-        createArmorDescription(context,
+        createEquipmentDescription(context,
                 RUIN_ARMOR_STAFF,
                 RUIN_PORTALS,
                 Book.RUIN,
-                SpellPath.RUIN,
-                translatable("guide.ruin.drip"),
+                translatable("guide.ruin.elemental_equipment"),
                 null,
                 false,
                 List.of(
@@ -447,11 +451,32 @@ public interface SBGuidePages {
                                 SBItems.STORMWEAVER_CHESTPLATE,
                                 SBItems.STORMWEAVER_LEGGINGS,
                                 SBItems.STORMWEAVER_BOOTS,
-                                SBItems.SHOCK_STAFF,
-                                0, 35)
+                                PAGE_TWO_START_X + 15, 60,
+                                -22.5f, 45f, 0f),
+                        new EquipmentEntry(
+                                SBItems.PYROMANCER_HELMET,
+                                SBItems.PYROMANCER_CHESTPLATE,
+                                SBItems.PYROMANCER_LEGGINGS,
+                                SBItems.PYROMANCER_BOOTS,
+                                PAGE_TWO_START_X + 135, 125,
+                                -22.5f, -45f, 0f),
+                        new EquipmentEntry(
+                                SBItems.CRYOMANCER_HELMET,
+                                SBItems.CRYOMANCER_CHESTPLATE,
+                                SBItems.CRYOMANCER_LEGGINGS,
+                                SBItems.CRYOMANCER_BOOTS,
+                                PAGE_TWO_START_X + 15, 190,
+                                -22.5f, 45f, 0f)
                 ),
-                new TextEntry(translatable("guide.ruin.portals2"), 110),
-                new TextEntry(translatable("guide.ruin.portals3"), PAGE_TWO_START_X, 35));
+                List.of(
+                        new ItemEntry(Ingredient.of(SBItems.FIRE_STAFF.get()), -15, 140, false),
+                        new ItemEntry(Ingredient.of(SBItems.SHOCK_STAFF.get()), PAGE_START_CENTER_X - 20, 140, false),
+                        new ItemEntry(Ingredient.of(SBItems.ICE_STAFF.get()), PAGE_TWO_START_X - 62, 140, false)
+                ),
+                new TextEntry(translatable("guide.ruin.elemental_equipment1"),35),
+                new TextEntry(translatable("guide.ruin.stormweaver_robes"), PAGE_TWO_START_X + 40, 0, 120),
+                new TextEntry(translatable("guide.ruin.pyromancer_robes"), PAGE_TWO_START_X-5, 80, 120),
+                new TextEntry(translatable("guide.ruin.cryomancer_robes"), PAGE_TWO_START_X + 40, 140, 120));
 
         createSpellPage(context, STORM_STRIKE, RUIN_PORTALS, Book.RUIN, SBSpells.STORMSTRIKE);
         createSpellPage(context, ELECTRIC_CHARGE, STORM_STRIKE, Book.RUIN, SBSpells.ELECTRIC_CHARGE);
@@ -465,6 +490,9 @@ public interface SBGuidePages {
                 new ContentsEntry(translatable("guide.transfiguration.rituals_cont"), TRANSFIG_RITUALS),
                 new ContentsEntry(translatable("guide.transfiguration.blocks"), TRANSFIG_RITUAL_ITEMS_1),
                 new ContentsEntry(translatable("guide.transfiguration.items"), TRANSFIG_RITUAL_ITEMS_2),
+                new ContentsEntry(translatable("guide.transfiguration.equipment"), TRANSFIG_ARMOR_STAFF),
+                new ContentsEntry(translatable("guide.transfiguration.armor_recipe"), TRANSFIG_HELM_RITUAL),
+                new ContentsEntry(translatable("guide.transfiguration.staff_recipe"), TRANSFIG_STAFF_RITUAL),
                 new ContentsEntry(spellName(SBSpells.STRIDE.get()), STRIDE),
                 new ContentsEntry(spellName(SBSpells.SHADOW_GATE.get()), SHADOW_GATE),
                 new ContentsEntry(spellName(SBSpells.MYSTIC_ARMOR.get()), MYSTIC_ARMOR));
@@ -549,7 +577,33 @@ public interface SBGuidePages {
                 new TextEntry(translatable("guide.transfiguration.chalk"), 0, 35),
                 new TextEntry(translatable("guide.transfiguration.ritual_talisman"), PAGE_TWO_START_X, 125)
         );
-        createSpellPage(context, STRIDE, TRANSFIG_RITUAL_ITEMS_2, Book.TRANSFIG, SBSpells.STRIDE);
+        createEquipmentDescription(context,
+                TRANSFIG_ARMOR_STAFF,
+                TRANSFIG_RITUAL_ITEMS_2,
+                Book.TRANSFIG,
+                translatable("guide.transfiguration.equipment"),
+                null,
+                false,
+                List.of(
+                        new EquipmentEntry(
+                                SBItems.CREATIONIST_HELMET,
+                                SBItems.CREATIONIST_CHESTPLATE,
+                                SBItems.CREATIONIST_LEGGINGS,
+                                SBItems.CREATIONIST_BOOTS,
+                                PAGE_TWO_START_CENTER_X, 80,
+                                -22.5f, 45f, 0f)
+                ),
+                List.of(
+                        new ItemEntry(Ingredient.of(SBItems.CREATIONIST_STAFF.get()), PAGE_START_CENTER_X - 20, 120, false)
+                ),
+                new TextEntry(translatable("guide.transfiguration.stave"), 35),
+                new TextEntry(translatable("guide.transfiguration.robes"), PAGE_TWO_START_X, 90));
+        createRitualPage(context, TRANSFIG_HELM_RITUAL, TRANSFIG_ARMOR_STAFF, SBRituals.CREATE_TRANSFIG_HELM, 5, 0, RitualTier.ONE);
+        createRitualPage(context, TRANSFIG_CHEST_RITUAL, TRANSFIG_HELM_RITUAL, SBRituals.CREATE_TRANSFIG_CHEST, 5, 0, RitualTier.ONE);
+        createRitualPage(context, TRANSFIG_LEGS_RITUAL, TRANSFIG_CHEST_RITUAL, SBRituals.CREATE_TRANSFIG_LEGS, 5, 0, RitualTier.ONE);
+        createRitualPage(context, TRANSFIG_BOOTS_RITUAL, TRANSFIG_LEGS_RITUAL, SBRituals.CREATE_TRANSFIG_BOOTS, 5, 0, RitualTier.ONE);
+        createRitualPage(context, TRANSFIG_STAFF_RITUAL, TRANSFIG_BOOTS_RITUAL, SBRituals.CREATE_TRANSFIG_STAVE, 5, 0, RitualTier.ONE);
+        createSpellPage(context, STRIDE, TRANSFIG_STAFF_RITUAL, Book.TRANSFIG, SBSpells.STRIDE);
         createRitualPage(context, STRIDE_RITUAL, STRIDE, SBRituals.CREATE_STRIDE, 5, 0, RitualTier.ONE);
         createSpellPage(context, SHADOW_GATE, STRIDE_RITUAL, Book.TRANSFIG, SBSpells.SHADOW_GATE);
         createRitualPage(context, SHADOW_GATE_RITUAL, SHADOW_GATE, SBRituals.CREATE_SHADOW_GATE, 10, 0, RitualTier.TWO);
@@ -835,7 +889,7 @@ public interface SBGuidePages {
         register(context, currentPage, builder);
     }
 
-    private static void createArmorDescription(
+    private static void createEquipmentDescription(
             BootstrapContext<GuideBookPage> context,
             ResourceKey<GuideBookPage> currentPage,
             ResourceKey<GuideBookPage> prevPage,
@@ -844,9 +898,10 @@ public interface SBGuidePages {
             @Nullable MutableComponent secondTitle,
             boolean doubleTitle,
             List<EquipmentEntry> equipment,
+            List<ItemEntry> staves,
             TextEntry... texts
     ) {
-        createArmorDescription(context,
+        createEquipmentDescription(context,
                 currentPage,
                 prevPage,
                 book,
@@ -855,10 +910,11 @@ public interface SBGuidePages {
                 secondTitle,
                 doubleTitle,
                 equipment,
+                staves,
                 texts);
     }
 
-    private static void createArmorDescription(
+    private static void createEquipmentDescription(
             BootstrapContext<GuideBookPage> context,
             ResourceKey<GuideBookPage> currentPage,
             ResourceKey<GuideBookPage> prevPage,
@@ -868,6 +924,7 @@ public interface SBGuidePages {
             @Nullable MutableComponent secondTitle,
             boolean doubleTitle,
             List<EquipmentEntry> equipment,
+            List<ItemEntry> staves,
             TextEntry... texts
     ) {
         var builder = PageBuilder.forBook(book.getLocation()).setPreviousPage(prevPage).addElements(
@@ -902,8 +959,18 @@ public interface SBGuidePages {
                     PageBuilder.Text
                             .of(text.text)
                             .position(text.xPos, text.yPos)
+                            .maxLineLength(text.lineLength)
                             .build()
             );
+        }
+
+        for (var item : staves) {
+            var staticItem = PageBuilder.StaticItem
+                    .of()
+                    .addItem(item.item())
+                    .position(item.xPos(), item.yPos());
+            if (!item.withBackground) staticItem.disableBackground();
+            builder.addElements(staticItem.build());
         }
 
         for (var stand : equipment) {
@@ -917,6 +984,7 @@ public interface SBGuidePages {
                             .setOffHand(stand.offHand())
                             .setMainHand(stand.mainHand())
                             .setPosition(stand.x(), stand.y())
+                            .setStandRot(stand.xRot(), stand.yRot(), stand.zRot())
                             .build()
 
             );
@@ -1721,10 +1789,10 @@ public interface SBGuidePages {
         }
     }
 
-    record EquipmentEntry(ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots, ItemStack offHand, ItemStack mainHand, int x, int y) {
+    record EquipmentEntry(ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots, ItemStack offHand, ItemStack mainHand, int x, int y, float xRot, float yRot, float zRot) {
 
         EquipmentEntry(ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots, int x, int y) {
-            this(helmet, chestplate, leggings, boots, ItemStack.EMPTY, ItemStack.EMPTY, x, y);
+            this(helmet, chestplate, leggings, boots, ItemStack.EMPTY, ItemStack.EMPTY, x, y, 0f, 0f, 0f);
         }
 
         EquipmentEntry(Supplier<Item> helmet, Supplier<Item> chestplate, Supplier<Item> leggings, Supplier<Item> boots, int x, int y) {
@@ -1734,7 +1802,17 @@ public interface SBGuidePages {
                     boots.get().getDefaultInstance(),
                     ItemStack.EMPTY,
                     ItemStack.EMPTY,
-                    x, y);
+                    x, y, 0f, 0f, 0f);
+        }
+
+        EquipmentEntry(Supplier<Item> helmet, Supplier<Item> chestplate, Supplier<Item> leggings, Supplier<Item> boots, int x, int y, float xRot, float yRot, float zRot) {
+            this(helmet.get().getDefaultInstance(),
+                    chestplate.get().getDefaultInstance(),
+                    leggings.get().getDefaultInstance(),
+                    boots.get().getDefaultInstance(),
+                    ItemStack.EMPTY,
+                    ItemStack.EMPTY,
+                    x, y, xRot, yRot, zRot);
         }
 
         EquipmentEntry(Supplier<Item> helmet, Supplier<Item> chestplate, Supplier<Item> leggings, Supplier<Item> boots, Supplier<Item> mainHand, int x, int y) {
@@ -1744,7 +1822,7 @@ public interface SBGuidePages {
                     boots.get().getDefaultInstance(),
                     ItemStack.EMPTY,
                     mainHand.get().getDefaultInstance(),
-                    x, y);
+                    x, y, 0f, 0f, 0f);
         }
     }
 

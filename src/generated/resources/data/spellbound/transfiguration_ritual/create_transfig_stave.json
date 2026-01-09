@@ -1,0 +1,39 @@
+{
+  "definition": {
+    "duration": 1,
+    "startupTime": 100,
+    "tier": 1
+  },
+  "effects": [
+    {
+      "type": "spellbound:create_item",
+      "item": "spellbound:creationist_staff"
+    }
+  ],
+  "values": [
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:stick"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:flowering_azalea_leaves"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:emerald"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "spellbound:magic_essence"
+      }
+    }
+  ]
+}

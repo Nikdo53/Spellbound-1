@@ -101,6 +101,30 @@
         },
         {
           "component": {
+            "translate": "guide.transfiguration.equipment"
+          },
+          "extraOffset": 0,
+          "scrap": "spellbound:default",
+          "target_page": "spellbound:transfig_armor_staff"
+        },
+        {
+          "component": {
+            "translate": "guide.transfiguration.armor_recipe"
+          },
+          "extraOffset": 0,
+          "scrap": "spellbound:default",
+          "target_page": "spellbound:transfig_helmet_ritual"
+        },
+        {
+          "component": {
+            "translate": "guide.transfiguration.staff_recipe"
+          },
+          "extraOffset": 0,
+          "scrap": "spellbound:default",
+          "target_page": "spellbound:transfig_staff_ritual"
+        },
+        {
+          "component": {
             "translate": "spells.spellbound.stride"
           },
           "extraOffset": 0,

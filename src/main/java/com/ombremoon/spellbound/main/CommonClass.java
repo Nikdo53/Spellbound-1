@@ -32,6 +32,7 @@ public class CommonClass {
         SBSpells.register(modEventBus);
         SBStats.register(modEventBus);
         SBTriggers.register(modEventBus);
+        SBLootModifiers.register(modEventBus);
 
         MageArmorItem.armorAttributeInit();
 //        fixAttributes();

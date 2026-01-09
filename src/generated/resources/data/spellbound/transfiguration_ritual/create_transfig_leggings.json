@@ -2,40 +2,37 @@
   "definition": {
     "duration": 1,
     "startupTime": 100,
-    "tier": 2
+    "tier": 1
   },
   "effects": [
     {
       "type": "spellbound:create_item",
-      "data": {
-        "spellbound:rune_type": 3
-      },
-      "item": "spellbound:chalk"
+      "item": "spellbound:creationist_leggings"
     }
   ],
   "values": [
     {
       "count": 1,
       "ingredient": {
-        "item": "minecraft:water_bucket"
+        "item": "minecraft:leather_leggings"
       }
     },
     {
       "count": 1,
       "ingredient": {
-        "item": "minecraft:gold_ingot"
+        "item": "minecraft:flowering_azalea_leaves"
       }
     },
     {
       "count": 1,
       "ingredient": {
-        "item": "minecraft:iron_ingot"
+        "item": "minecraft:emerald"
       }
     },
     {
       "count": 1,
       "ingredient": {
-        "item": "spellbound:arcanthus"
+        "item": "spellbound:magic_essence"
       }
     }
   ]

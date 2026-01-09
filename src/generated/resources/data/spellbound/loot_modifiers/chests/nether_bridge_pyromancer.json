@@ -1,0 +1,34 @@
+{
+  "type": "spellbound:add_item",
+  "chance": {
+    "chance": 0.1
+  },
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/nether_bridge"
+    }
+  ],
+  "items": [
+    {
+      "count": 1,
+      "id": "spellbound:pyromancer_boots"
+    },
+    {
+      "count": 1,
+      "id": "spellbound:pyromancer_chestplate"
+    },
+    {
+      "count": 1,
+      "id": "spellbound:pyromancer_leggings"
+    },
+    {
+      "count": 1,
+      "id": "spellbound:pyromancer_helmet"
+    },
+    {
+      "count": 1,
+      "id": "spellbound:fire_staff"
+    }
+  ]
+}

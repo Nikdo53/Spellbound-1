@@ -783,7 +783,7 @@ public abstract class AbstractSpell implements GeoAnimatable, SpellDataHolder, F
     }
 
     protected boolean hasTransfigurationStaffBuff(SpellContext context) {
-        ItemStack staff = context.getCatalyst(SBItems.TRANSFIGURATION_STAFF.get());
+        ItemStack staff = context.getCatalyst(SBItems.CREATIONIST_STAFF.get());
         return this.getPath() == SpellPath.TRANSFIGURATION && !staff.isEmpty();
     }
 
@@ -799,7 +799,7 @@ public abstract class AbstractSpell implements GeoAnimatable, SpellDataHolder, F
 
         LivingEntity caster = context.getCaster();
         for (ItemStack stack : caster.getArmorSlots()) {
-            if (stack.getItem() instanceof MageArmorItem item && item.getMaterial() == SBArmorMaterials.TRANSFIGURER) {
+            if (stack.getItem() instanceof MageArmorItem item && item.getMaterial() == SBArmorMaterials.CREATIONIST) {
                 i += 0.125F;
             }
         }

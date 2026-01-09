@@ -1,0 +1,89 @@
+{
+  "elements": [
+    {
+      "type": "spellbound:text",
+      "extras": {
+        "bold": true,
+        "centered": true
+      },
+      "position": {
+        "xOffset": 72,
+        "yOffset": 8
+      },
+      "translation": {
+        "translate": "guide.transfiguration.equipment"
+      }
+    },
+    {
+      "type": "spellbound:spell_border",
+      "colour": -14396391,
+      "path": "transfiguration",
+      "pathTexture": "spellbound:textures/gui/paths/transfiguration.png"
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "yOffset": 35
+      },
+      "translation": {
+        "translate": "guide.transfiguration.stave"
+      }
+    },
+    {
+      "type": "spellbound:text",
+      "position": {
+        "xOffset": 172,
+        "yOffset": 90
+      },
+      "translation": {
+        "translate": "guide.transfiguration.robes"
+      }
+    },
+    {
+      "type": "spellbound:item",
+      "extras": {
+        "disableBackground": true
+      },
+      "item": [
+        {
+          "item": "spellbound:creationist_staff"
+        }
+      ],
+      "position": {
+        "xOffset": 52,
+        "yOffset": 120
+      }
+    },
+    {
+      "type": "spellbound:equipment",
+      "boots": {
+        "count": 1,
+        "id": "spellbound:creationist_boots"
+      },
+      "chestplate": {
+        "count": 1,
+        "id": "spellbound:creationist_chestplate"
+      },
+      "extras": {
+        "stand_rot": {
+          "x": -22.5,
+          "y": 45.0
+        }
+      },
+      "helmet": {
+        "count": 1,
+        "id": "spellbound:creationist_helmet"
+      },
+      "leggings": {
+        "count": 1,
+        "id": "spellbound:creationist_leggings"
+      },
+      "position": {
+        "xOffset": 247,
+        "yOffset": 80
+      }
+    }
+  ],
+  "id": "spellbound:architects_lexicon",
+  "insertAfter": "spellbound:transfig_talisman_chalk"
+}
