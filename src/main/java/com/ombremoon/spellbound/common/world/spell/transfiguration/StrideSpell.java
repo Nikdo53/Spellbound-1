@@ -46,7 +46,6 @@ public class StrideSpell extends AnimatedSpell {
     private int movementTicks;
     private Entity mount;
     private float moveDist;
-    private boolean movementDirty;
 
     public StrideSpell() {
         super(SBSpells.STRIDE.get(), createStrideBuilder());
@@ -75,7 +74,6 @@ public class StrideSpell extends AnimatedSpell {
         super.onSpellTick(context);
         LivingEntity caster = context.getCaster();
         Level level = context.getLevel();
-        var handler = context.getSpellHandler();
         var skills = context.getSkills();
 
         if (skills.hasSkill(SBSkills.AQUA_TREAD)) {
@@ -93,17 +91,6 @@ public class StrideSpell extends AnimatedSpell {
         }
 
         if (!level.isClientSide) {
-            /*if (caster instanceof Player player) {
-                boolean isMoving = this.isMoving(player);
-                if (this.tickCount > 5 && handler.forwardImpulse != 0 && !this.movementDirty) {
-                    this.movementDirty = true;
-                    playAnimation(player, "base");
-                } else if (handler.forwardImpulse == 0) {
-                    this.movementDirty = false;
-                    stopAnimation(player, "base");
-                }
-            }*/
-
             if (skills.hasSkill(SBSkills.QUICK_SPRINT) && this.tickCount >= 200) {
                 if (hasAttributeModifier(caster, Attributes.MOVEMENT_SPEED, QUICK_SPRINT)) {
                     removeSkillBuff(caster, SBSkills.QUICK_SPRINT);
@@ -177,20 +164,9 @@ public class StrideSpell extends AnimatedSpell {
         LivingEntity caster = context.getCaster();
         removeMovementBenefits(caster);
         removeSkillBuff(caster, SBSkills.MOMENTUM);
-        if (caster instanceof Player player)
-            stopAnimation(player, "base");
 
         if (this.mount != null)
             removeMovementBenefits(this.mount);
-    }
-
-    private boolean isMoving(LivingEntity caster) {
-        if (caster.moveDist != this.moveDist) {
-            this.moveDist = caster.moveDist;
-            return true;
-        }
-
-        return false;
     }
 
     private void applyMovementBenefits(Entity entity, SkillHolder skills) {
@@ -200,7 +176,7 @@ public class StrideSpell extends AnimatedSpell {
                     SBSkills.STRIDE,
                     BuffCategory.BENEFICIAL,
                     SkillBuff.ATTRIBUTE_MODIFIER,
-                    new ModifierData(Attributes.MOVEMENT_SPEED, new AttributeModifier(THUNDEROUS_HOOVES, skills.hasSkill(SBSkills.GALLOPING_STRIDE) ? 1.5 : 1.25, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)));
+                    new ModifierData(Attributes.MOVEMENT_SPEED, new AttributeModifier(THUNDEROUS_HOOVES, potency(skills.hasSkill(SBSkills.GALLOPING_STRIDE) ? 1.5F : 1.25F), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)));
             if (skills.hasSkill(SBSkills.QUICK_SPRINT))
                 addSkillBuff(
                         livingEntity,

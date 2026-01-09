@@ -1,7 +1,5 @@
 package com.ombremoon.spellbound.common.world.spell.transfiguration;
 
-import com.ombremoon.spellbound.common.magic.SpellMastery;
-import com.ombremoon.spellbound.main.CommonClass;
 import com.ombremoon.spellbound.common.init.SBItems;
 import com.ombremoon.spellbound.common.init.SBSkills;
 import com.ombremoon.spellbound.common.init.SBSpells;
@@ -12,6 +10,7 @@ import com.ombremoon.spellbound.common.magic.api.buff.BuffCategory;
 import com.ombremoon.spellbound.common.magic.api.buff.ModifierData;
 import com.ombremoon.spellbound.common.magic.api.buff.SkillBuff;
 import com.ombremoon.spellbound.common.magic.api.buff.SpellEventListener;
+import com.ombremoon.spellbound.main.CommonClass;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -52,7 +51,7 @@ public class MysticArmorSpell extends AnimatedSpell {
                 pre -> {
                     if (isSpellDamage(pre.getSource())) {
                         float f = 0.15F + 0.03F * Math.min(10, context.getSkills().getPathLevel(SpellPath.TRANSFIGURATION)) + (0.05F * context.getSpellLevel());
-                        pre.setNewDamage(pre.getOriginalDamage() * f);
+                        pre.setNewDamage(pre.getOriginalDamage() * potency(f));
                     }
 
                     if (skills.hasSkill(SBSkills.COMBAT_PERCEPTION) && isPhysicalDamage(pre.getSource()) && RandomUtil.percentChance(0.1))

@@ -5,6 +5,7 @@ import com.ombremoon.spellbound.common.init.SBArmorMaterials;
 import com.ombremoon.spellbound.common.init.SBAttributes;
 import com.ombremoon.spellbound.common.init.SBEffects;
 import com.ombremoon.spellbound.main.CommonClass;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -129,7 +130,7 @@ public class MageArmorItem extends ArmorItem implements GeoItem {
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
         if (this.material.is(SBArmorMaterials.TRANSFIGURER)) {
-            tooltipComponents.add(Component.translatable("spellbound.transfiguration_armor.buff"));
+            tooltipComponents.add(Component.translatable("spellbound.transfiguration_armor.buff").withStyle(ChatFormatting.BLUE));
         }
     }
 
