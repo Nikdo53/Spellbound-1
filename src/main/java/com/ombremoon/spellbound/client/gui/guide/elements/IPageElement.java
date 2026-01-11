@@ -3,6 +3,8 @@ package com.ombremoon.spellbound.client.gui.guide.elements;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.ombremoon.spellbound.common.init.SBPageElements;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
@@ -20,4 +22,6 @@ public interface IPageElement {
      * @return MapCodec for this element
      */
     @NotNull MapCodec<? extends IPageElement> codec();
+
+    @NotNull StreamCodec<RegistryFriendlyByteBuf, ? extends IPageElement> streamCodec();
 }
