@@ -180,6 +180,7 @@ public class ClientEvents {
                         }
                     }
                     if (cycleSpellDown) {
+                        if (handler.getSpellList().isEmpty()) return;
                         if (handler.castTick > 0) {
                             AbstractSpell spell = handler.getCurrentlyCastSpell();
                             spell.resetCast(handler);
