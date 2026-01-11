@@ -34,6 +34,7 @@ import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public interface SBGuidePages {
@@ -1793,41 +1794,28 @@ public interface SBGuidePages {
         }
     }
 
-    record EquipmentEntry(ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots, ItemStack offHand, ItemStack mainHand, int x, int y, float xRot, float yRot, float zRot) {
-
-        EquipmentEntry(ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots, int x, int y) {
-            this(helmet, chestplate, leggings, boots, ItemStack.EMPTY, ItemStack.EMPTY, x, y, 0f, 0f, 0f);
-        }
+    record EquipmentEntry(Optional<ItemStack> helmet, Optional<ItemStack> chestplate, Optional<ItemStack> leggings, Optional<ItemStack> boots, Optional<ItemStack> offHand, Optional<ItemStack> mainHand, int x, int y, float xRot, float yRot, float zRot) {
 
         EquipmentEntry(Supplier<Item> helmet, Supplier<Item> chestplate, Supplier<Item> leggings, Supplier<Item> boots, int x, int y) {
-            this(helmet.get().getDefaultInstance(),
-                    chestplate.get().getDefaultInstance(),
-                    leggings.get().getDefaultInstance(),
-                    boots.get().getDefaultInstance(),
-                    ItemStack.EMPTY,
-                    ItemStack.EMPTY,
+            this(Optional.of(helmet.get().getDefaultInstance()),
+                    Optional.of(chestplate.get().getDefaultInstance()),
+                    Optional.of(leggings.get().getDefaultInstance()),
+                    Optional.of(boots.get().getDefaultInstance()),
+                    Optional.empty(),
+                    Optional.empty(),
                     x, y, 0f, 0f, 0f);
         }
 
         EquipmentEntry(Supplier<Item> helmet, Supplier<Item> chestplate, Supplier<Item> leggings, Supplier<Item> boots, int x, int y, float xRot, float yRot, float zRot) {
-            this(helmet.get().getDefaultInstance(),
-                    chestplate.get().getDefaultInstance(),
-                    leggings.get().getDefaultInstance(),
-                    boots.get().getDefaultInstance(),
-                    ItemStack.EMPTY,
-                    ItemStack.EMPTY,
+            this(Optional.of(helmet.get().getDefaultInstance()),
+                    Optional.of(chestplate.get().getDefaultInstance()),
+                    Optional.of(leggings.get().getDefaultInstance()),
+                    Optional.of(boots.get().getDefaultInstance()),
+                    Optional.empty(),
+                    Optional.empty(),
                     x, y, xRot, yRot, zRot);
         }
 
-        EquipmentEntry(Supplier<Item> helmet, Supplier<Item> chestplate, Supplier<Item> leggings, Supplier<Item> boots, Supplier<Item> mainHand, int x, int y) {
-            this(helmet.get().getDefaultInstance(),
-                    chestplate.get().getDefaultInstance(),
-                    leggings.get().getDefaultInstance(),
-                    boots.get().getDefaultInstance(),
-                    ItemStack.EMPTY,
-                    mainHand.get().getDefaultInstance(),
-                    x, y, 0f, 0f, 0f);
-        }
     }
 
     record TextEntry(Component text, int xPos, int yPos, int lineLength, boolean centered, ResourceLocation scrap) {

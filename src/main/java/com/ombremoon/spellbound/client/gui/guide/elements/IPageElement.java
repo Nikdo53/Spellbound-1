@@ -23,5 +23,4 @@ public interface IPageElement {
      */
     @NotNull MapCodec<? extends IPageElement> codec();
 
-    @NotNull StreamCodec<RegistryFriendlyByteBuf, ? extends IPageElement> streamCodec();
 }

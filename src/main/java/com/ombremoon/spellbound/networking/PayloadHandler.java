@@ -1,6 +1,7 @@
 package com.ombremoon.spellbound.networking;
 
 import com.ombremoon.spellbound.client.gui.toasts.SpellboundToasts;
+import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookManager;
 import com.ombremoon.spellbound.common.world.multiblock.MultiblockHolder;
 import com.ombremoon.spellbound.common.init.SBData;
 import com.ombremoon.spellbound.common.magic.SpellContext;
@@ -37,6 +38,10 @@ import java.util.Set;
 
 @EventBusSubscriber(modid = Constants.MOD_ID)
 public class PayloadHandler {
+
+    public static void sendGuideBooks(ServerPlayer player) {
+        PacketDistributor.sendToPlayer(player, GuideBookManager.getClientboundPayload());
+    }
 
     public static void sendPathLevelUp(ServerPlayer player, int level, SpellboundToasts toast) {
         PacketDistributor.sendToPlayer(player, new PathLevelUpToastPayload(level, toast.ordinal()));
@@ -354,6 +359,12 @@ public class PayloadHandler {
                 SpellLevelUpToastPayload.TYPE,
                 SpellLevelUpToastPayload.STREAM_CODEC,
                 ClientPayloadHandler::handleSpellLevelUpToast
+        );
+
+        registrar.playToClient(
+                SendGuideBooksPayload.TYPE,
+                SendGuideBooksPayload.STREAM_CODEC,
+                ClientPayloadHandler::handGuideBooks
         );
     }
 }

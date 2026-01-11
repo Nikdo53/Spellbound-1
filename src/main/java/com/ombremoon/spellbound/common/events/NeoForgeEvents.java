@@ -106,6 +106,10 @@ public class NeoForgeEvents {
 
                     ArenaSavedData data = ArenaSavedData.get((ServerLevel) level);
                     data.closeCachedArenas(player);
+
+                    if (player instanceof ServerPlayer serverPlayer) {
+                        PayloadHandler.sendGuideBooks(serverPlayer);
+                    }
                 }
             }
         }

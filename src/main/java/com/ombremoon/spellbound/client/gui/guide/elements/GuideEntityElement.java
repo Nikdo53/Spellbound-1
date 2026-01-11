@@ -4,11 +4,15 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ombremoon.spellbound.client.gui.guide.elements.extras.ElementPosition;
 import com.ombremoon.spellbound.client.gui.guide.elements.extras.EntityRendererExtras;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record GuideEntityElement(List<ResourceLocation> entityLoc, EntityRendererExtras extras, ElementPosition position) implements IPageElement {
@@ -18,25 +22,10 @@ public record GuideEntityElement(List<ResourceLocation> entityLoc, EntityRendere
             ElementPosition.CODEC.optionalFieldOf("position", ElementPosition.getDefault()).forGetter(GuideEntityElement::position)
     ).apply(inst, GuideEntityElement::new));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, GuideEntityElement> STREAM_CODEC = StreamCodec.of(
-            (buf, element) -> {
-                for (var entity : element.entityLoc()) {
-                    ResourceLocation.STREAM_CODEC.encode(buf, entity);
-                }
-
-            },
-            (buf) -> {
-                return null;
-            }
-    );
+    public static final StreamCodec<ByteBuf, GuideEntityElement> STREAM_CODEC = ByteBufCodecs.fromCodec(CODEC.codec());
 
     @Override
     public @NotNull MapCodec<? extends IPageElement> codec() {
         return CODEC;
-    }
-
-    @Override
-    public @NotNull StreamCodec<RegistryFriendlyByteBuf, ? extends IPageElement> streamCodec() {
-        return STREAM_CODEC;
     }
 }

@@ -20,8 +20,6 @@ public record EntityRendererExtras(ResourceLocation pageScrap, boolean followMou
             Codec.BOOL.optionalFieldOf("animated", false).forGetter(EntityRendererExtras::animated)
     ).apply(inst, EntityRendererExtras::new));
 
-
-
     public static EntityRendererExtras getDefault() {
         return new EntityRendererExtras(CommonClass.customLocation("default"), false, 25, 0, 0,0, false);
     }

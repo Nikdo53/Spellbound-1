@@ -4,6 +4,7 @@ import com.ombremoon.spellbound.client.AnimationHelper;
 import com.ombremoon.spellbound.client.gui.toasts.SpellboundToasts;
 import com.ombremoon.spellbound.common.init.SBData;
 import com.ombremoon.spellbound.common.magic.SpellHandler;
+import com.ombremoon.spellbound.common.magic.acquisition.guides.GuideBookManager;
 import com.ombremoon.spellbound.common.magic.api.AbstractSpell;
 import com.ombremoon.spellbound.common.world.multiblock.MultiblockManager;
 import com.ombremoon.spellbound.common.world.weather.HailstormData;
@@ -234,6 +235,12 @@ public class ClientPayloadHandler {
                 Consumer<ResourceKey<Level>> keyConsumer = payload.add() ? dimensionList::add : dimensionList::remove;
                 payload.keys().forEach(keyConsumer);
             }
+        });
+    }
+
+    public static void handGuideBooks(SendGuideBooksPayload payload, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            GuideBookManager.registerGuideBooks(payload.pages(), payload.pageIndex());
         });
     }
 }

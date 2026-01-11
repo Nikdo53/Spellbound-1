@@ -7,6 +7,7 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ombremoon.spellbound.main.CommonClass;
 import com.ombremoon.spellbound.main.Constants;
+import com.ombremoon.spellbound.networking.clientbound.SendGuideBooksPayload;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -32,6 +33,15 @@ public class GuideBookManager extends SimpleJsonResourceReloadListener {
     public GuideBookManager(RegistryAccess registries) {
         super(GSON, "guide_books");
         this.registries = registries;
+    }
+
+    public static void registerGuideBooks(Map<ResourceLocation, List<GuideBookPage>> books, Map<ResourceLocation, Integer> indexxing) {
+        BOOKS = books;
+        PAGE_INDEX = indexxing;
+    }
+
+    public static SendGuideBooksPayload getClientboundPayload() {
+        return new SendGuideBooksPayload(BOOKS, PAGE_INDEX);
     }
 
     public static int getPageIndex(ResourceLocation page) {
