@@ -574,8 +574,8 @@ public interface SBGuidePages {
                         new RecipeEntry(loc("ritual_talisman"), PAGE_TWO_START_X + 65, 35)
                 ),
                 List.of(
-                        new ItemEntry(CompoundIngredient.of(chalk1, chalk2, chalk3, chalk4, chalk5, chalk6, chalk7, chalk8, chalk9, chalk10, chalk11, chalk12, chalk13, chalk14, chalk15, chalk16), 67, 100, false),
-                        new ItemEntry(CompoundIngredient.of(talisman1, talisman2, talisman3), PAGE_TWO_START_X - 20, 35, false)
+                        new ItemEntry(Ingredient.of(SBItems.CHALK.get()), 67, 100, false),
+                        new ItemEntry(Ingredient.of(SBItems.RITUAL_TALISMAN.get()), PAGE_TWO_START_X - 20, 35, false)
                 ),
                 new TextEntry(translatable("guide.transfiguration.chalk"), 0, 35),
                 new TextEntry(translatable("guide.transfiguration.ritual_talisman"), PAGE_TWO_START_X, 125)
@@ -740,7 +740,7 @@ public interface SBGuidePages {
                 false,
                 new ItemActionEntry(SBDivineActions.HEAL_MOB_TO_FULL, null, null, 5, 24000, 0, Ingredient.of(Items.SHEEP_SPAWN_EGG)),
                 new ItemActionEntry(SBDivineActions.USE_BLESSED_BANDAGES, SBPageScraps.USE_BLESSED_BANDAGES, SBPageScraps.USE_BLESSED_BANDAGES_LORE, 5, 24000, 0, Ingredient.of(Items.GOLDEN_APPLE)),
-                new ItemActionEntry(SBDivineActions.BLESS_SHRINE, SBPageScraps.BLESS_SHRINE, SBPageScraps.BLESS_SHRINE_LORE, 5, 24000, 10, talisman2)
+                new ItemActionEntry(SBDivineActions.BLESS_SHRINE, SBPageScraps.BLESS_SHRINE, SBPageScraps.BLESS_SHRINE_LORE, 5, 24000, 10, Ingredient.of(SBItems.RITUAL_TALISMAN.get()))
         );
         createDivineSpellPage(context, HEALING_BLOSSOM, HEALING_TOUCH_ACTIONS, DIVINE_BOOK, SBSpells.HEALING_BLOSSOM, 50);
         createDivineActionPage(
