@@ -86,161 +86,9 @@
         "scale": 2.0
       },
       "item": [
-        [
-          {
-            "item": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -6447721,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -12103854,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -14869215,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -8170446,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -5231066,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -425955,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -75715,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -8337633,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -10585066,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -15295332,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -12930086,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -12827478,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -7785800,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -3715395,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "minecraft:dyed_color": {
-                "rgb": -816214,
-                "show_in_tooltip": false
-              }
-            },
-            "items": "spellbound:chalk"
-          }
-        ]
+        {
+          "item": "spellbound:chalk"
+        }
       ],
       "position": {
         "xOffset": 67,
@@ -254,29 +102,9 @@
         "scale": 2.0
       },
       "item": [
-        [
-          {
-            "type": "neoforge:components",
-            "components": {
-              "spellbound:talisman_rings": 1
-            },
-            "items": "spellbound:ritual_talisman"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "spellbound:talisman_rings": 2
-            },
-            "items": "spellbound:ritual_talisman"
-          },
-          {
-            "type": "neoforge:components",
-            "components": {
-              "spellbound:talisman_rings": 3
-            },
-            "items": "spellbound:ritual_talisman"
-          }
-        ]
+        {
+          "item": "spellbound:ritual_talisman"
+        }
       ],
       "position": {
         "xOffset": 152,
